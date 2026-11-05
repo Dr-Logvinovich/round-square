@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this Lean 4 formal proof or manuscript, please cite it as below."
+authors:
+  - family-names: "Logvinovich"
+    given-names: "Victor"
+    orcid: "https://orcid.org/0009-0007-2040-6955"
+    affiliation: "Master of Physical and Mathematical Sciences; Researcher in Pedagogical Sciences (Mathematics), Kobrin, Belarus"
+title: "The Yang-Mills Mass Gap on R^4 Is Ill-Posed, and on a Compact Constructible Manifold It Is Automatic (Lean 4 Formal Proof RoundSquare.lean)"
+version: "v5.0.0"
+doi: "10.5281/zenodo.22674891"
+date-released: 2026-09-09
+url: "https://github.com/Dr-Logvinovich/round-square"
+repository-code: "https://github.com/Dr-Logvinovich/round-square"
+license: MIT
+keywords:
+  - "Yang-Mills Existence and Mass Gap"
+  - "Clay Millennium Prize Problem"
+  - "Lean 4 Formal Verification"
+  - "Zero-Axiom Proof"
+  - "Osterwalder-Schrader Axioms"
+  - "Wightman Axioms"
+  - "Gribov-Zwanziger Horizon"
+  - "Strocchi Theorem"
+  - "Compact Constructible Manifold"
+  - "Impossibility Theorem"
