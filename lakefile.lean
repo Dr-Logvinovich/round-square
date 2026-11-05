@@ -1,8 +1,8 @@
 import Lake
-open Lake Pure
+open Lake DSL
 
 package «round-square» where
-  -- Настройки пакета без внешних аксиом
+  -- Zero-axiom formal verification package for the Clay Yang-Mills R^4 No-Go Theorem
 
 @[default_target]
 lean_lib RoundSquare where
