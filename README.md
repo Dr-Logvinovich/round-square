@@ -11,7 +11,7 @@
 > * **Author:** Victor Logvinovich (Master of Physical and Mathematical Sciences; Researcher in Pedagogical Sciences (Mathematics), Kobrin, Belarus)
 > * **ORCID:** [0009-0007-2040-6955](https://orcid.org/0009-0007-2040-6955)
 > * **Formal Verification Artifact:** [`RoundSquare.lean`](RoundSquare.lean) (31 Sections, 74 `#print axioms` checks, **0 `sorry`**, **0 `axiom`**, **0 `Classical.choice`**, **0 `propext`**)
-> * **Full Manuscript Included:** [`YM_V5.pdf`](YM_V5.pdf) (*"The Yang-Mills Mass Gap on $\mathbb{R}^4$ Is Ill-Posed, and on a Compact Constructible Manifold It Is Automatic"*, 38 pages, 14 figures)
+> * **Full Manuscript Included:** [`YM_V5.pdf`](YM_V5.pdf) (*"The Yang-Mills Mass Gap on R⁴ Is Ill-Posed, and on a Compact Constructible Manifold It Is Automatic"*, 38 pages, 14 figures)
 
 ---
 
