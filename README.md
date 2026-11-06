@@ -35,9 +35,9 @@ $$\mathrm{CanonicalPhysics}(\mathbb{R}^4) \;\land\; \mathrm{OS} \;\land\; (\Delt
 
 ## Official Clay Mathematics Institute (CMI) Specification & Resolution Status
 
-* **Official CMI Problem Page:** [Yang–Mills and Mass Gap — Clay Mathematics Institute](https://www.claymath.org/millennium/yang-mills-the-millennium-prize-problem/)
-* **Official Jaffe–Witten (2000) Problem Statement PDF:** [*Quantum Yang–Mills Theory* by Arthur Jaffe and Edward Witten](https://www.claymath.org/wp-content/uploads/2022/06/ym2.pdf)
-* **Official CMI Millennium Prize Rules:** [Rules for the Millennium Prizes](https://www.claymath.org/millennium-problems/rules-for-the-millennium-prizes/)
+* **Official CMI Problem Page:** [Yang–Mills and Mass Gap — Clay Mathematics Institute](https://www.claymath.org/millennium/yang-mills-the-maths-gap/)
+* **Official Jaffe–Witten (2000) Problem Statement PDF:** [*Quantum Yang–Mills Theory* by Arthur Jaffe and Edward Witten](https://www.claymath.org/wp-content/uploads/2022/06/yangmills.pdf)
+* **Official CMI Millennium Prize Rules:** [Rules for the Millennium Prizes](https://www.claymath.org/millennium-problems/rules/)
 
 In Section 6 (p. 6) of the official problem description, Jaffe and Witten state the requirement:
 > *"Prove that for any compact simple gauge group $G$, a non-trivial quantum Yang–Mills theory exists on $\mathbb{R}^4$ and has a mass gap $\Delta > 0$. Existence includes establishing axiomatic properties at least as strong as those cited in [45, 38] [Wightman (1956/1964) and Osterwalder–Schrader (1973/1975)]."*
