@@ -37,7 +37,7 @@ $$\mathrm{CanonicalPhysics}(\mathbb{R}^4) \;\land\; \mathrm{OS} \;\land\; (\Delt
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Julia_Robinson_1975_%28re-scanned%29.jpg" width="170" align="right" alt="Julia Robinson (1975)" />
 
-> *"It is particularly ironic to watch superficial reviewers confuse the foundational 1949 arithmetic logic of Julia Robinson—whose paper laid the historical cornerstone for the negative resolution of Hilbert's 10th Problem—with 'machine-generated text.' Dismissing elementary Peano arithmetic and Diophantine order definability without reading the two-line inequality $\neg(q+2 \le q+1)$ is the ultimate proof that gatekeepers have stopped reading mathematics itself."*
+> *"It is particularly ironic to watch superficial reviewers confuse the foundational 1949 arithmetic logic of Julia Robinson-whose paper laid the historical cornerstone for the negative resolution of Hilbert's 10th Problem-with 'machine-generated text.' Dismissing elementary Peano arithmetic and Diophantine order definability without reading the two-line inequality $\neg(q+2 \le q+1)$ is the ultimate proof that gatekeepers have stopped reading mathematics itself."*
 
 To understand why the Yang–Mills Mass Gap problem on $\mathbb{R}^4$ is resolved by **Peano arithmetization** in [`RoundSquare.lean`](RoundSquare.lean) rather than by infinite-dimensional real-analysis hand-waving, one must trace the direct mathematical chain connecting **Hilbert's 10th Problem** to **quantum spectral gaps**:
 
@@ -54,7 +54,7 @@ In December 2015, **Toby S. Cubitt, David Perez-Garcia, and Michael M. Wolf** pu
 ### 3. How `RoundSquare.lean` Completes this Chain for Continuum 4D Yang–Mills on $\mathbb{R}^4$
 While Cubitt, Perez-Garcia, and Wolf (2015) established **undecidability** of the spectral gap across general infinite-volume lattice Hamiltonians, the Clay Millennium Problem fixes a specific continuum target: non-abelian $SU(N)$ Yang–Mills theory on infinite-volume non-compact $\mathbb{R}^4$ subject to the strict **Osterwalder–Schrader (OS0–OS4)** and **Wightman (W0–W4)** axioms.
 
-In **Section 18** (`universal_continuum_no_rational_gap`) and **Section 29** (`unconditional_prize_level_physical_no_go`) of [`RoundSquare.lean`](RoundSquare.lean), we apply Julia Robinson's exact 1949 method—**reducing rational order inequalities on $\mathbb{Q}_{>0}$ to bare Peano arithmetic on $\mathbb{N}$**:
+In **Section 18** (`universal_continuum_no_rational_gap`) and **Section 29** (`unconditional_prize_level_physical_no_go`) of [`RoundSquare.lean`](RoundSquare.lean), we apply Julia Robinson's exact 1949 method-**reducing rational order inequalities on $\mathbb{Q}_{>0}$ to bare Peano arithmetic on $\mathbb{N}$**:
 1. **Peano Arithmetization of the Infinite-Volume Infrared Tail:** On non-compact $\mathbb{R}^4$, infinite spatial volume ($V = \infty$) supplies an untruncated sequence of long-wavelength infrared modes indexed by $\lambda \in \mathbb{N}$ with positive rational energies $E(\lambda) = \frac{1}{\lambda+1} \in \mathbb{Q}_{>0}$. Clearing denominators reduces the spectral lower-bound inequality $\Delta = \frac{p+1}{q+1} \le E(\lambda) = \frac{1}{\lambda+1}$ to the pure Peano relation `LeScale` on `Nat`:
    $$(p+1)(\lambda+1) \le q+1.$$
 2. **The Elementary Peano Contradiction (`not_succ_leScale_self`):** Evaluating at the infrared mode $\lambda = q+1 \in \mathbb{N}$ yields $(p+1)(q+2) \le q+1 \implies q+2 \le q+1$, which collides unconditionally with the structural induction theorem $\forall m \in \mathbb{N},\; \neg(m+1 \le m)$. Because $\mathbb{Q}_{>0}$ is dense in $\mathbb{R}_{>0}$ (the Archimedean property), any putative real lower bound $\Delta_{\mathbb{R}} > 0$ sits above some rational $\frac{p+1}{q+1} > 0$ and is refuted by the exact same Peano step!
@@ -64,7 +64,7 @@ In **Section 18** (`universal_continuum_no_rational_gap`) and **Section 29** (`u
 
 ## Official Clay Mathematics Institute (CMI) Specification & Resolution Status
 
-* **Official CMI Problem Page:** [Yang–Mills and Mass Gap — Clay Mathematics Institute](https://www.claymath.org/millennium/yang-mills-the-millennium-prize-problem/)
+* **Official CMI Problem Page:** [Yang–Mills and Mass Gap - Clay Mathematics Institute](https://www.claymath.org/millennium/yang-mills-the-millennium-prize-problem/)
 * **Official Jaffe–Witten (2000) Problem Statement PDF:** [*Quantum Yang–Mills Theory* by Arthur Jaffe and Edward Witten](https://www.claymath.org/wp-content/uploads/2022/06/ym2.pdf)
 * **Official CMI Millennium Prize Rules:** [Rules for the Millennium Prizes](https://www.claymath.org/millennium-problems/rules-for-the-millennium-prizes/)
 
@@ -104,8 +104,8 @@ Before auditing [`RoundSquare.lean`](RoundSquare.lean), any reviewer must accoun
 
 ### 1. Negative-Result Resolution vs. Positive Construction (Category-Error Shield)
 In mathematical logic (Section 12, Remark 12.1 & Proposition 12.2 of [`YM_V5.pdf`](YM_V5.pdf)), a problem asking for an object $x$ in a class $\mathrm{Framework}(x)$ satisfying $\mathrm{ReqRound}(x) \land \mathrm{ReqSquare}(x)$ admits two mutually exclusive types of resolution:
-* **Sense (i) — Literal Positive Solution (`HasLiteralPositiveSolution P`):** Constructing a witness $\exists x,\; \mathrm{Framework}(x) \land \mathrm{ReqRound}(x) \land \mathrm{ReqSquare}(x)$.
-* **Sense (ii) — Negative-Result Resolution (`IsNegativeResultResolution P`):** Proving universally that the requirements are incompatible across the entire declared class: $\forall x,\; \mathrm{Framework}(x) \to \neg (\mathrm{ReqRound}(x) \land \mathrm{ReqSquare}(x))$, paired with non-vacuity and separation certificates.
+* **Sense (i) - Literal Positive Solution (`HasLiteralPositiveSolution P`):** Constructing a witness $\exists x,\; \mathrm{Framework}(x) \land \mathrm{ReqRound}(x) \land \mathrm{ReqSquare}(x)$.
+* **Sense (ii) - Negative-Result Resolution (`IsNegativeResultResolution P`):** Proving universally that the requirements are incompatible across the entire declared class: $\forall x,\; \mathrm{Framework}(x) \to \neg (\mathrm{ReqRound}(x) \land \mathrm{ReqSquare}(x))$, paired with non-vacuity and separation certificates.
 
 In **Section 0** of [`RoundSquare.lean`](RoundSquare.lean), the Lean 4 kernel proves:
 * `negative_resolution_excludes_positive_solution`: Whenever `IsNegativeResultResolution P` holds, `¬ HasLiteralPositiveSolution P` follows necessarily.
@@ -133,7 +133,7 @@ In **Section 29**, we formalize **Conservation of Infrared Degrees of Freedom on
 
 ## Why OpenAI Stopped at "Bare Existence" (October 26, 2026)
 
-On October 26, 2026, OpenAI announced a claimed *bare existence* proof within Tadeusz Balaban's multiscale renormalization group (RG) programme on $\mathbb{R}^4$—stopping conspicuously short of claiming the mass gap $\Delta > 0$.
+On October 26, 2026, OpenAI announced a claimed *bare existence* proof within Tadeusz Balaban's multiscale renormalization group (RG) programme on $\mathbb{R}^4$-stopping conspicuously short of claiming the mass gap $\Delta > 0$.
 
 Sections 10, 18, and 21 of [`RoundSquare.lean`](RoundSquare.lean) (`no_prize_bridge_from_bare_existence`, `bare_existence_does_not_imply_clay`, `continuum_has_no_exact_rational_gap`) provide the exact machine-verified explanation:
 * Bare existence without a mass gap ($\Delta = 0$, formalized as `RoundWithoutSquare` and `R4CanonicalModel .gaplessContinuum`) is **100% compatible** with the Osterwalder–Schrader and Wightman axioms on $\mathbb{R}^4$ precisely because its gap antecedent is `False`, leaving the infrared continuum $E(\lambda) = 1/(\lambda+1)$ uncut.
@@ -178,7 +178,7 @@ lean RoundSquare.lean
 
 ---
 
-## Architecture of the Proof (`RoundSquare.lean` — 31 Sections, 3,705 Lines)
+## Architecture of the Proof (`RoundSquare.lean` - 31 Sections, 3,705 Lines)
 
 ### Part I: Epistemological Shield & Propositional Obstruction Spine (Sections 0–12)
 * **Section 0 (`IsNegativeResultResolution` & Category-Error Shield):** Formalizes the 5-part Wantzel–Beltrami–Gödel–Turing–Robinson criterion (`abstractCompatibility`, `frameworkConsistent`, `roundWithoutSquare`, `squareWithoutRound`, `mutualExclusion`) and proves `demanding_positive_witness_under_negative_resolution_is_absurd`.
@@ -254,4 +254,4 @@ If you reference this formal proof or manuscript in your research, please cite:
 
 ## License
 
-This project is licensed under the **MIT License** (code) and **CC BY 4.0** (manuscript) — see the [`LICENSE`](LICENSE) file for details.
+This project is licensed under the **MIT License** (code) and **CC BY 4.0** (manuscript) - see the [`LICENSE`](LICENSE) file for details.
