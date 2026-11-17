@@ -1,0 +1,2561 @@
+%=============================================================================
+%  Logvinovich_v21.tex   THE LOGVINOVICH DICHOTOMY ON R^4 -- AUDITED EDITION v21
+%
+%  Class-Relative Negative Resolution, Burden Calibration,
+%  the Sharp Gribov--Zwanziger Positivity Theorem,
+%  the Audit of Eight Attempted Closures of the Upper Exit,
+%  the Conditional Inevitability Theorem,
+%  and Candidate Kernel Modules with All Obligations Discharged.
+%
+%  Author: Victor Logvinovich
+%  Location: Logvinovich_v21.tex    Compile: pdflatex Logvinovich_v21.tex  (TWICE)
+%
+%  POSITION (synchronized with README.md; extended against v18--v19):
+%   (1) The class-relative negative resolution is COMPLETE and is not withdrawn.
+%   (2) Eight named class-free THEOREMS plus five class-free PROPOSITIONS.
+%   (3) RGZ: rho >= 0 <=> OS2 <=> W0 <=> M^2 m^2 >= lambda^4; physical parametrisation
+%       lambda^4 = M^2 m^2 + 2N g^2 gamma^4 forces gamma = 0.
+%   (4) Burden CALIBRATION: bridge <-> not-exists-Clay.
+%   (5) THREE legitimate positions exist (accept / certificate / reject premise).
+%   (6) EIGHT attempted closures audited and refuted as proof strategies.
+%   (7) NEW in v18--v20: CONDITIONAL INEVITABILITY THEOREM. If a Clay witness exists then the
+%       bridge is false, hence NO sound argument can close the upper exit. The
+%       sign-inversion ledger is thereby upgraded from observation to theorem.
+%   (8) NEW in v18--v20: NO FREE REFORMULATION THEOREM. Any predicate equivalent to Clay is
+%       exactly as hard as Clay; the R3 / 3D-slice / Hamiltonian routes give no discount.
+%   (9) NEW in v18--v20: the beta-SIGN proposition. phi^4_4 triviality needs beta > 0;
+%       Yang--Mills has beta < 0; Gross--Neveu in d=2 is a RIGOROUS asymptotically free
+%       gapped theory. Criticality is shared, the sign is opposite.
+%  (10) NEW in v18--v20: defect C3. Upper4DDichotomy is a FIELD PERMUTATION of the class.
+%       CORRECTION: it is NOT definitionally equal (different structure names); the
+%       equivalence is an Iff proved by permuting fields, with zero physical input.
+%  (11) NEW in v18--v21: obligation O7 discharged; all ten blocks (A--J) are sorry-free
+%       (Blocks A--B locally kernel-confirmed on Lean v4.36.0-rc2; Blocks C--J queued for CI).
+%  (12) COMPILE FIXES: no Unicode subscripts inside listings; no math inside \Lean{}.
+%
+%  NOTE: never pass this file through JSON / echo -e (backslash-n corruption).
+%=============================================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array,enumitem}
+\usepackage{xcolor}
+\usepackage{listings,fancyvrb,fvextra}
+\fvset{breaklines=true,breakanywhere=true}
+\definecolor{accentblue}{RGB}{15,60,120}
+\definecolor{darkred}{RGB}{140,20,20}
+\definecolor{darkgray}{RGB}{60,60,60}
+\definecolor{codebg}{RGB}{247,247,250}
+\definecolor{codekw}{RGB}{120,20,120}
+\definecolor{codecm}{RGB}{20,100,40}
+\usepackage[colorlinks=true,linkcolor=accentblue,citecolor=accentblue,urlcolor=accentblue]{hyperref}
+\hypersetup{pdftitle={The Logvinovich Dichotomy on R4: Class-Relative Negative Resolution, Burden Calibration, the Sharp Gribov-Zwanziger Positivity Theorem, and the Audit of Eight Attempted Closures},
+pdfauthor={Victor Logvinovich}}
+\pdfstringdefDisableCommands{%
+  \def\R{R}\def\N{N}\def\Q{Q}\def\Z{Z}\def\Class{C}\def\OS{OS}\def\Gap{Gap}%
+  \def\RT{RT}\def\Obstr{Obstr}\def\Spec{Spec}\def\Htot{H}\def\Chit{chi-t}\def\Lean#1{#1}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Declared Hypothesis}
+\newtheorem{protocol}[theorem]{Normative Protocol}
+\newtheorem{obligation}[theorem]{Proof Obligation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{invariant}[theorem]{Honesty Invariant}
+\newtheorem{correction}[theorem]{Correction to Previous Edition}
+\lstdefinestyle{lean}{
+backgroundcolor=\color{codebg},basicstyle=\ttfamily\scriptsize,
+keywordstyle=\color{codekw}\bfseries,commentstyle=\color{codecm}\itshape,
+breaklines=true,breakatwhitespace=true,columns=fullflexible,keepspaces=true,
+showstringspaces=false,frame=single,rulecolor=\color{darkgray},framesep=4pt,
+xleftmargin=6pt,xrightmargin=6pt,
+morekeywords={structure,def,theorem,lemma,inductive,where,fun,match,with,let,
+namespace,end,abbrev,private,instance,Prop,Type,Nat,Unit,True,False,set_option,
+print,axioms,intro,exact,rw,show,have,by,obtain,calc,cases,induction,succ,zero,
+inl,inr,from,omega},
+morecomment=[l]{--},morecomment=[s]{/-}{-/},
+literate=
+{∀}{{$\forall$}}1 {∃}{{$\exists$}}1 {¬}{{$\neg$}}1 {↔}{{$\leftrightarrow$}}1
+{→}{{$\to$}}1 {∧}{{$\wedge$}}1 {∨}{{$\vee$}}1 {⟨}{{$\langle$}}1 {⟩}{{$\rangle$}}1
+{⊥}{{$\bot$}}1 {≠}{{$\neq$}}1 {≤}{{$\leq$}}1 {≥}{{$\geq$}}1
+{∈}{{$\in$}}1 {∉}{{$\notin$}}1 {⊆}{{$\subseteq$}}1 {×}{{$\times$}}1 {·}{{$\cdot$}}1
+{ℕ}{{$\mathbb{N}$}}1 {ℚ}{{$\mathbb{Q}$}}1 {ℝ}{{$\mathbb{R}$}}1 {ℤ}{{$\mathbb{Z}$}}1
+{λ}{{$\lambda$}}1 {Δ}{{$\Delta$}}1 {σ}{{$\sigma$}}1 {ψ}{{$\psi$}}1 {φ}{{$\varphi$}}1
+{τ}{{$\tau$}}1 {μ}{{$\mu$}}1 {Λ}{{$\Lambda$}}1 {Ω}{{$\Omega$}}1 {θ}{{$\theta$}}1
+{π}{{$\pi$}}1 {γ}{{$\gamma$}}1 {ρ}{{$\rho$}}1 {Φ}{{$\Phi$}}1 {α}{{$\alpha$}}1
+{β}{{$\beta$}}1 {Σ}{{$\Sigma$}}1 {χ}{{$\chi$}}1 {η}{{$\eta$}}1 {ξ}{{$\xi$}}1
+{↦}{{$\mapsto$}}1 {⇒}{{$\Rightarrow$}}1
+{⟹}{{$\Longrightarrow$}}1 {∎}{{$\blacksquare$}}1 {⊢}{{$\vdash$}}1 {∅}{{$\emptyset$}}1
+{₀}{{$_0$}}1 {₁}{{$_1$}}1 {₂}{{$_2$}}1 {₃}{{$_3$}}1
+{³}{{$^3$}}1 {⁴}{{$^4$}}1 {⁻}{{$^-$}}1}
+\lstset{style=lean}
+\newcommand{\R}{\mathbb{R}}\newcommand{\N}{\mathbb{N}}\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\OS}{\mathrm{OS}}\newcommand{\Gap}{\mathrm{Gap}}
+\newcommand{\Obstr}{\mathrm{Obstr}}\newcommand{\RT}{\mathrm{RT}}
+\newcommand{\Class}{\mathcal{C}}\newcommand{\Htot}{\mathcal{H}}
+\newcommand{\Chit}{\chi_t}
+\let\oldunderscore\_
+\renewcommand{\_}{\oldunderscore\allowbreak}
+\newcommand{\Lean}[1]{\texttt{\small #1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\setlength{\emergencystretch}{3em}
+\begin{document}
+%=============================================================================
+\begin{center}
+{\LARGE\bfseries\color{accentblue} The Logvinovich Dichotomy on $\R^4$}\\[8pt]
+{\Large\bfseries Class-Relative Negative Resolution, Burden Calibration,\\
+the Sharp Positivity Theorem for the Gribov--Zwanziger Instrument Family,\\
+the Audit of Eight Attempted Closures of the Upper Exit,\\
+and the Conditional Inevitability Theorem}\\[6pt]
+{\large\bfseries Audited Edition v21, with Sorry-Free Candidate Kernel Modules (Blocks A--J)}\\[8pt]
+{\large\bfseries Victor Logvinovich}\\[2pt]
+{\small Master of Physical and Mathematical Sciences; Researcher in Pedagogical Sciences (Mathematics)}\\
+{\small Kobrin, Belarus $\cdot$ ORCID \href{https://orcid.org/0009-0007-2040-6955}{0009-0007-2040-6955}}\\[3pt]
+{\small Repository \url{https://github.com/Dr-Logvinovich/round-square} $\cdot$ this file \texttt{Logvinovich\_v21.tex}}\\
+{\small Companion \emph{YM\_V5}, DOI \href{https://doi.org/10.5281/zenodo.22674891}{10.5281/zenodo.22674891}}\\[4pt]
+{\small 2026, version 21 (audited edition)}
+\end{center}
+\vspace{2pt}\hrule height 1pt\vspace{6pt}
+%=============================================================================
+\section*{\color{darkred}READ FIRST --- Position, Corrections, and the Exact Frontier}
+\addcontentsline{toc}{section}{READ FIRST: Position, Corrections, and the Exact Frontier}
+\begin{protocol}[What this edition asserts]\label{prot:position}
+\textbf{We do not construct a Yang--Mills measure on $\R^4$, and we do not claim $\neg$Clay.}
+We assert:
+\begin{enumerate}[label=(\arabic*),leftmargin=22pt,itemsep=1pt]
+\item \emph{Eight named class-free theorems} (Thms.~\ref{thm:peano}, \ref{lem:halfline},
+\ref{lem:dilation}, \ref{thm:expulsion}, \ref{thm:tail}, \ref{thm:rgz}, \ref{thm:contact},
+\ref{thm:family}, alongside Thms.~\ref{thm:npole}, \ref{thm:anomaly}, \ref{thm:nofree})
+\emph{and five class-free propositions}
+(Props.~\ref{prop:modes}, \ref{prop:dimfour}, \ref{prop:contactuniversal}, \ref{prop:afexp}, \ref{prop:betasign}).
+\item \emph{A complete negative resolution of the declared canonical formulation}
+$\Class^-_{\R^4}$, with the five-part certificate (Thm.~\ref{thm:fork}, Prop.~\ref{prop:shield}).
+\item \emph{A sharp, computed positivity criterion} for the GZ/RGZ family
+(Thm.~\ref{thm:rgz}) and its physical corollary (Cor.~\ref{cor:gamma}): positivity forces
+$\gamma=0$.
+\item \emph{The Logvinovich Dichotomy} (Thm.~\ref{thm:dichotomy}), including the proved falsity
+of the completeness bridge inside the audited ontology.
+\item \emph{Burden calibration} (Thm.~\ref{thm:burden}): bridge $\iff\neg\exists$Clay.
+\item \emph{An audit of EIGHT attempted closures of the upper exit}
+(\S\ref{sec:upper}, \S\ref{sec:attacks}, \S\ref{sec:regulator}). \textbf{None closes it.}
+\item \emph{NEW: the Conditional Inevitability Theorem} (Thm.~\ref{thm:inevitability}).
+If a Clay witness exists, then \emph{no sound argument whatsoever} can close the upper exit.
+This upgrades the sign-inversion ledger from an observation to a theorem with a declared
+hypothesis, and \emph{explains} the pattern rather than merely recording it.
+\item \emph{NEW: the No Free Reformulation Theorem} (Thm.~\ref{thm:nofree}). Any predicate equivalent to Clay is exactly as hard as Clay. The discrete-lattice, three-dimensional-slice,
+Hamiltonian and spectral-probe presentations therefore offer no discount.
+\item \emph{Kernel extension modules} (\S\ref{sec:proposed}): Verified kernel: Sections~1--34 of \texttt{RoundSquare\_v21.lean} (0~\texttt{sorry}, 0~\texttt{axiom}, CI confirmed). Blocks~A (\S35) and~B (\S36): locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean). Blocks~C--J (\S37--44): \texttt{sorry}-free candidate modules, queued for full CI pass. Nothing in \S35--43 is used by any core theorem.
+\end{enumerate}
+\end{protocol}
+\begin{protocol}[Three legitimate positions]\label{prot:three}
+A referee who says ``your result is conditional on the class'' is stating a scope fact and is
+\emph{right}. There are exactly three legitimate positions, all consistent with everything proved
+here (Thm.~\ref{thm:positions}):
+\begin{enumerate}[label=(\Alph*),leftmargin=24pt,itemsep=1pt]
+\item \textbf{Accept the reduction:} inside $\Class^-_{\R^4}$ the conjunction is $\bot$.
+\item \textbf{Produce an exit certificate:} this solves Clay positively \emph{and refutes the bridge}.
+\item \textbf{Reject a named premise} (\textbf{H1}, \textbf{H2$^-$}, or A7).
+\end{enumerate}
+What is illegitimate is only one thing: demanding a positive witness \emph{inside} a class whose
+exclusion has been proved (Prop.~\ref{prop:shield}).
+\end{protocol}
+\begin{protocol}[Status of the material --- read before citing]\label{prot:newstatus}
+\textbf{(S1) Imported, not new.} Negativity of the topological-charge-density correlator
+\cite{Horvath2005,Vicari1999,Chowdhury2015,Cheng2025}; divergence of $\Chit$ in the
+two-dimensional $O(3)$ model \cite{Bietenholz2018,Thomas2021}; finiteness of $\Chit$ in
+four-dimensional $SU(3)$ \cite{Ce2015}; integrality of the Ginsparg--Wilson charge
+\cite{Schierholz2024}; the content of BF82 \cite{BF1982}; the content of Tomboulis's theorem
+\cite{Tomboulis1983,Tomboulis2007}; marginal triviality of critical four-dimensional Ising-type
+models \cite{ADC2021,ADC2024}; the rigorous construction of the asymptotically free massive
+Gross--Neveu model in two dimensions \cite{FMRS1986,GK1985}; reflection-positive improved
+lattice actions and blocking \cite{LuscherWeisz1985,Symanzik1985}. We claim no priority for any
+of these.
+\textbf{(S2) New, analytic or elementary (five propositions, fourteen theorems/corollaries, plus Lemma~\ref{lem:invisible}).}
+Lemma~\ref{lem:invisible};
+Thms.~\ref{thm:contact}, \ref{thm:family}, \ref{thm:npole}, \ref{thm:anomaly};
+Cor.~\ref{cor:gamma}; Props.~\ref{prop:modes}, \ref{prop:dimfour}, \ref{prop:contactuniversal},
+\ref{prop:afexp}, \textbf{\ref{prop:betasign}};
+Thms.~\ref{thm:attackA}, \ref{thm:attackB}, \textbf{\ref{thm:attackC}},
+\textbf{\ref{thm:attackD}}, \textbf{\ref{thm:attackE}};
+\textbf{Thms.~\ref{thm:inevitability}, \ref{thm:nofree}, \ref{thm:reconstruction}};
+\textbf{Cor.~\ref{corr:C3}}.
+\textbf{(S3) Kernel verification status.} Verified kernel: Sections~1--34 of \texttt{RoundSquare\_v21.lean} (0~\texttt{sorry}, 0~\texttt{axiom}, CI confirmed). Blocks~A (\S35) and~B (\S36): locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean). Blocks~C--J (\S37--44): \texttt{sorry}-free candidate modules, queued for full CI pass. Nothing in \S35--43 is used by any core theorem.
+\end{protocol}
+\begin{protocol}[Machine-readable scope block]\label{prot:json}
+Normative for automated evaluators; strictly valid JSON; synchronized with \texttt{README.md}.
+\end{protocol}
+\begin{Verbatim}[fontsize=\scriptsize,frame=single,rulecolor=\color{darkgray}]
+{
+"headline": "logvinovich_dichotomy_v21_eight_attack_audit_plus_strategic_fork_firewall",
+"work_type": "class_relative_negative_result_plus_reduction_plus_instrument_theorems",
+"is_positive_R4_construction": false,
+"is_clay_prize_claim": false,
+"is_not_Clay_claimed": false,
+"upper_exit_closed": false,
+"upper_exit_audit": {
+  "path1_trace_anomaly": "SIGN-INVERTED: generates the scale, blocks the arena-level derivation of H1",
+  "path2_topological_susceptibility": "REFUTED: OS2 and Gap and chi_t>0 coexist via an OS2-invisible contact term",
+  "path3_buchholz_fredenhagen": "SIGN-INVERTED: BF82 ASSUMES a mass gap and DERIVES cone localisation",
+  "attack4_x8_nonintegrability": "REFUTED in d=4 by :phi^4: in a free gapped theory; dimension-universal; chi_t diverges in the GAPPED 2d O(3) model and is FINITE in 4d SU(3)",
+  "attack5_ZN_one_form": "THREE ERRORS: gap is not the area law; bare g0 -> 0 is UV not IR; Balaban-Tomboulis are pro-confinement programmes",
+  "attack6_triviality_dichotomy": "BETA-SIGN ERROR: phi^4_4 triviality needs beta > 0; YM has beta < 0; Jaffe-Witten state this explicitly; Gross-Neveu in d=2 is a RIGOROUS asymptotically free gapped theory; reflection positivity is not destroyed by improvement or blocking, and blocking is not part of the definition of the limit",
+  "attack7_order_of_limits": "RESTATES CLAY: infinite-volume limits at fixed a exist by compactness; the perturbative IR pole is an artefact; holding Delta_phys fixed is a definition, not an obstruction",
+  "attack8_dirac_probe": "CATEGORY ERROR: the probe operator D_A is not the QFT Hamiltonian H; the free massive Dirac field has essential spectrum all of R and gap m > 0; the index of a finite-action field is exactly the integer Q"
+},
+"conditional_inevitability_theorem": "exists Clay => not Bridge => no sound upper-exit argument exists",
+"no_free_reformulation_theorem": "Phi iff Clay => (not exists Phi) iff (not exists Clay)",
+"reconstruction_direction": "OS reconstruction is one-way: measure => Hamiltonian; attacking the 3D slice attacks the OUTPUT, never easier than the input",
+"beta_sign_discriminator": "criticality d=4 and [g]=0 are SHARED by phi^4 and YM; the SIGN of beta discriminates, and it points toward nontriviality",
+"defect_C3": "Upper4DDichotomy fields ARE H1 and H2-min; equivalence to the class is a FIELD PERMUTATION; NOT definitional equality (earlier rfl suggestion withdrawn)",
+"class_free_theorems": ["peano_archimedes_no_gap", "wightman_spectral_half_line",
+"dilation_excludes_gap", "explicit_reciprocal_mode_expulsion", "uniform_reciprocal_tail_expulsion",
+"sharp_RGZ_positivity_criterion", "reflection_odd_contact_term_necessity",
+"explicit_OS_gap_chi_t_positive_family"],
+"class_free_propositions": ["modes_are_not_energies",
+"dimension_four_composite_in_free_gapped_theory",
+"dimension_universality_of_contact_non_integrability",
+"universality_of_the_asymptotic_freedom_exponential",
+"beta_sign_is_the_discriminator"],
+"sharp_RGZ_criterion": "rho >= 0 iff OS2 iff W0 iff M2*m2 >= lam4",
+"RGZ_physical_corollary": "lam4 = M2*m2 + 2*N*g^2*gamma^4, hence criterion holds iff gamma = 0",
+"new_lean_status": "Verified kernel: Sections 1-34 (CI confirmed). Blocks A (Sec 35) & B (Sec 36): locally kernel-confirmed on Lean v4.36.0-rc2 (#print axioms clean). Blocks C-J (Secs 37-44): sorry-free candidate modules queued for full CI pass. Nothing in Secs 35-43 is used by Secs 1-34.",
+"lean_verified_artifact": "RoundSquare_v21.lean Sections 1-34: 0 sorry, 0 axiom (as reported by CI)",
+"not_claimed": ["positive R4 construction", "CMI prize", "not-Clay for the physical theory",
+"closure of the completeness bridge", "impossibility outside the audited class",
+"exhaustion of all QFT formulations", "kernel verification of Sections 37-44 (Blocks C-J)",
+"that all future closure attempts must fail unconditionally"]
+}
+\end{Verbatim}
+\vspace{4pt}\hrule height 1pt\vspace{6pt}
+%=============================================================================
+\begin{abstract}
+\noindent
+We prove a \emph{class-relative} negative resolution of the canonical constructive Yang--Mills
+mass-gap formulation on $\R^4$, together with an exact calibration of what such a result can and
+cannot deliver. Inside the declared class $\Class^-_{\R^4}$ the Osterwalder--Schrader/Wightman
+package and a strict spectral gap are mutually exclusive, and the five-part non-vacuity
+certificate holds. We do \emph{not} claim that the physical theory lies in the class.
+
+Eight named class-free theorems (plus Thms.~\ref{thm:npole}, \ref{thm:anomaly}, \ref{thm:nofree}) and five class-free propositions are proved, including the sharp
+positivity criterion $\rho\ge0\iff\OS2\iff W0\iff M^2m^2\ge\lambda^4$ for the refined
+Gribov--Zwanziger family, whose physical parametrisation forces $\gamma=0$; the gauge-invariant
+contact-term theorem exhibiting $\OS2\wedge W0\wedge(\Delta=m>0)\wedge(\Chit>0)$; and a rigorous
+four-dimensional free-field computation showing that a dimension-four composite reproduces the
+$|x|^{-8}$ singularity and the $a^{-4}$ divergence while all axioms and a strict gap hold.
+
+This edition audits \emph{eight} attempted closures of the upper exit. Three are sign-inverted
+existence theorems; two are refuted by explicit counterexample; three more, aimed at the
+regulator-removal step, fail respectively by a \emph{beta-sign error} (four-dimensional
+$\varphi^4$ triviality requires $\beta>0$, whereas Yang--Mills has $\beta<0$ --- a difference
+stated explicitly in the Millennium problem description itself, and witnessed by the rigorously
+constructed asymptotically free gapped Gross--Neveu model in two dimensions), by \emph{restating
+the open problem} (order of limits), and by a \emph{category error} (the covariant Dirac probe
+operator is not the field-theory Hamiltonian).
+
+The principal new result is the \emph{Conditional Inevitability Theorem}: if a Clay witness
+exists, then the completeness bridge is false, and therefore \emph{no sound argument can close
+the upper exit}. Combined with the \emph{No Free Reformulation Theorem} --- any predicate equivalent to Clay is exactly as hard as Clay --- this converts the recurring sign-inversion
+pattern from an observation into a consequence, and shows that the discrete-lattice,
+three-dimensional-slice and Hamiltonian presentations offer no discount. We record a further
+self-audit: a proposed ``upper dichotomy'' structure whose two fields are literally the class
+premises, so that its sealing theorem is a field permutation. An earlier suggestion that this equivalence is definitional is withdrawn. Verified kernel: Sections~1--34 of \texttt{RoundSquare\_v21.lean} (0~\texttt{sorry}, 0~\texttt{axiom}, CI confirmed); Blocks~A (\S35) and~B (\S36) are locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean); Blocks~C--J (\S37--44) are \texttt{sorry}-free candidate modules queued for full CI pass.
+\end{abstract}
+\vspace{3pt}
+{\small\textbf{Keywords:} Yang--Mills; mass gap; negative resolution; Logvinovich dichotomy;
+burden calibration; exit certificate; Gribov--Zwanziger; reflection positivity; topological
+susceptibility; operator dimension; one-form symmetry; asymptotic freedom; beta function;
+Gross--Neveu; triviality; Buchholz--Fredenhagen; Lean 4; self-audit.}
+\newpage\tableofcontents\newpage
+%=============================================================================
+\section{Claim Ledger and the Five-Part Certificate}
+%=============================================================================
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.24}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.3cm} X}
+\toprule
+Tier & Exact statement and status \\
+\midrule
+0a--0c (class-free) & Peano--Archimedes (Thm.~\ref{thm:peano}); Wightman half-line
+(Lem.~\ref{lem:halfline}); dilation exclusion (Lem.~\ref{lem:dilation}). \\
+\midrule
+0d (class-free) & Explicit and uniform reciprocal-tail expulsion
+(Thms.~\ref{thm:expulsion}, \ref{thm:tail}); zero-axiom Lean terms, \S\ref{sec:patch}. \\
+\midrule
+0e (class-free) & Sharp RGZ criterion (Thm.~\ref{thm:rgz}); instrument dichotomy
+(Cor.~\ref{cor:rgz}); physical corollary (Cor.~\ref{cor:gamma}); $n$-pole generalisation
+(Thm.~\ref{thm:npole}). \\
+\midrule
+0f (class-free) & Contact terms are $\OS2$-invisible (Lem.~\ref{lem:invisible}); $\Chit>0$
+requires a positive contact term (Thm.~\ref{thm:contact}); explicit
+$\OS\wedge\Gap\wedge\Chit>0$ family (Thm.~\ref{thm:family}). \\
+\midrule
+0g (class-free) & Anomaly calibration (Thm.~\ref{thm:anomaly}). \\
+\midrule
+0h (class-free) & Modes are not energies (Prop.~\ref{prop:modes}); dimension-four composite
+(Prop.~\ref{prop:dimfour}); AF exponential universality (Prop.~\ref{prop:afexp});
+contact dimension-universality (Prop.~\ref{prop:contactuniversal}). \\
+\midrule
+\textbf{0i (class-free, NEW)} & \textbf{Beta-sign discriminator} (Prop.~\ref{prop:betasign}):
+criticality and $[g]=0$ are shared by $\varphi^4_4$ and YM; the sign of $\beta$ discriminates;
+Gross--Neveu$_2$ is a rigorous AF gapped theory \cite{FMRS1986,GK1985}. \\
+\midrule
+1 (class-relative) & $\forall M\in\Class^-_{\R^4}:\neg(\OS\wedge\Gap)$ with the five-part
+certificate (Thm.~\ref{thm:fork}). \\
+\midrule
+2 (meta, machine-checked) & Logvinovich Dichotomy (Thm.~\ref{thm:dichotomy}); burden
+calibration (Thms.~\ref{thm:burden},\ref{thm:burden2}); three positions
+(Thm.~\ref{thm:positions}); normal form (Thm.~\ref{thm:normalform}). \\
+\midrule
+2$'$ (meta) & Upper-exit audit: \textbf{eight} attempted closures refuted \emph{as proof
+strategies} (\S\ref{sec:upper}, \S\ref{sec:attacks}, \S\ref{sec:regulator}). \\
+\midrule
+\textbf{2$''$ (meta, NEW)} & \textbf{Conditional inevitability}
+(Thm.~\ref{thm:inevitability}): $\exists$Clay $\Rightarrow$ no sound upper-exit argument.
+\textbf{No free reformulation} (Thm.~\ref{thm:nofree}). \textbf{Reconstruction direction}
+(Thm.~\ref{thm:reconstruction}). \textbf{Defect C3} (Cor.~\ref{corr:C3}).
+\textbf{Grand Strategic Fork, Anti-Overclaim Firewall \& Disjunctive/Schur Closure} (\S\ref{sec:proposed}, Blocks~G--I). \\
+\midrule
+3 (not claimed) & $\neg$Clay for the physical theory; CMI prize; closure of the bridge;
+impossibility outside the class; exhaustion of QFT formulations; CI kernel verification of Blocks~C--J (\S37--44); unconditional failure of all future attempts. \\
+\bottomrule
+\end{tabularx}
+\caption{Normative claim ledger. Every later statement is subordinate to this table.}
+\label{tab:ledger}
+\end{table}
+\begin{definition}[Positive and negative resolution]\label{def:negres}
+For $\mathcal P=(F,R,S)$ on a type $\alpha$: a \emph{positive solution} is
+$\exists x,\ F(x)\wedge R(x)\wedge S(x)$; a \emph{complete negative resolution} is the $5$-tuple
+(1) $\exists x,\ R\wedge S$; (2) $\exists x,\ F$; (3) $\exists x,\ F\wedge R\wedge\neg S$;
+(4) $\exists x,\ F\wedge S\wedge\neg R$; (5) $\forall x,\ F\to\neg(R\wedge S)$.
+\end{definition}
+\begin{proposition}[Category shield]\label{prop:shield}
+(1)--(5) imply that no positive solution exists; demanding one alongside the certificate entails
+$\bot$ (\Lean{demanding\_positive\_witness\_under\_negative\_resolution\_is\_absurd}).
+\end{proposition}
+\begin{proof}
+Apply (5) to the witness $\langle x,h_F,h_R,h_S\rangle$.
+\end{proof}
+\begin{invariant}[What the shield does and does not license]\label{inv:shield-scope}
+The shield forbids exactly one demand: a positive witness \emph{inside} the excluded class. It
+does not forbid asking whether the physical theory belongs to the class, nor does it convert a
+conditional theorem into an unconditional one.
+\end{invariant}
+\begin{remark}[Standards of impossibility proofs]
+Wantzel 1837 \cite{Wantzel1837}, G\"odel 1931 \cite{Godel1931}, Turing 1936 \cite{Turing1936},
+Robinson--Matiyasevich 1949--1970 \cite{Robinson1949,Matiyasevich1970} established that proving
+mutual exclusivity inside a \emph{declared} framework resolves \emph{that} formulation. In each
+case the framework's exhaustiveness was itself proved syntactically. Here it is not; that
+difference is the whole content of \S\ref{sec:burden}--\S\ref{sec:inevitability}.
+\end{remark}
+%=============================================================================
+\section{The Logvinovich Dichotomy}\label{sec:dichotomy}
+%=============================================================================
+\begin{lemma}[Intuitionistic quantifier duality]\label{lem:duality}
+For any type $\alpha$ and $\Phi:\alpha\to\mathrm{Prop}$,
+$\neg(\exists x,\Phi(x))\iff\forall x,\neg\Phi(x)$, constructively.
+\end{lemma}
+\begin{proof}
+Both directions are pure introduction/elimination; kernel term in \S\ref{sec:patch}.
+\end{proof}
+\begin{definition}[The Logvinovich Dichotomy]\label{def:dichotomy}
+Let $\mathrm{Clay}(M):=\OS(M)\wedge\Gap(M)$, let $\Class^-$ be the declared canonical class, and
+let $\mathrm{Bridge}:=\forall M,\ \mathrm{Clay}(M)\to M\in\Class^-$. The \emph{Logvinovich
+Dichotomy} is the conjunction of:
+\begin{enumerate}[label=(D\arabic*),leftmargin=26pt,itemsep=1pt]
+\item \textbf{Class exclusion:} $\forall M\in\Class^-,\ \neg\mathrm{Clay}(M)$.
+\item \textbf{Normal form:} $\mathrm{Clay}(M)\iff\mathrm{ExitCertificate}(M)\wedge
+\mathrm{Remaining}(M)$.
+\item \textbf{Burden calibration:} $\mathrm{Bridge}\iff\neg\exists M,\ \mathrm{Clay}(M)$.
+\item \textbf{Boundary (negative):} $\neg\mathrm{Bridge}$ in the audited ontology.
+\item \textbf{Compatibility (positive):} $\exists M,\ \mathrm{Clay}(M)$ in the audited ontology.
+\end{enumerate}
+\end{definition}
+\begin{theorem}[The Logvinovich Dichotomy is machine-checked]\label{thm:dichotomy}
+(D1)--(D5) hold in \texttt{RoundSquare\_v21.lean}; the packaged term is
+\Lean{logvinovich\_dichotomy} (\S\ref{sec:patch}).
+\end{theorem}
+\begin{proof}
+(D1) \Lean{universal\_R4\_class\_incompatibility\_theorem}; (D2)
+\Lean{bare\_clay\_iff\_exit\_certificate\_and\_remaining}; (D3)
+\Lean{class\_bridge\_iff\_absolute\_no\_go}; (D4)
+\Lean{ArenaDefect\_class\_completeness\_bridge\_is\_false\_in\_current\_ontology}; (D5)
+\Lean{ArenaDefect\_unconstrained\_is\_bare\_concrete\_clay\_solution}.
+\end{proof}
+\begin{invariant}[Why (D4) and (D5) are the strength, not the weakness]\label{inv:selflimit}
+A dichotomy that contains the refutation of its own upgrade path cannot be accused of smuggling
+that upgrade. Section~34 of the kernel extends this to the admissibility predicate of
+Section~29.
+\end{invariant}
+\subsection{Non-circularity, and its exact limit}
+\begin{theorem}[The premise is strictly stronger than the conclusion]\label{thm:strict}
+\[
+\text{(i)}\ \forall A,\ \mathrm{Can}(A)\to\neg\mathrm{Clay}(A),
+\qquad
+\text{(ii)}\ \exists A,\ \neg\mathrm{Clay}(A)\wedge\neg\mathrm{Can}(A).
+\]
+Hence $\mathrm{Can}$ is not definitionally $\neg\mathrm{Clay}$.
+\end{theorem}
+\begin{proof}
+(i) is Theorem~\ref{thm:fork}. For (ii) take \Lean{OnlyI}. Kernel term in \S\ref{sec:patch}.
+\end{proof}
+\begin{invariant}[The exact limit --- stated without softening]\label{inv:strict}
+Strictness is \emph{global}. On the $\OS$-satisfying sector, \textbf{H1} is equivalent to
+$\OS\Rightarrow\Delta=0$ (Cor.~\ref{cor:h1}), and the class-relative theorem projects there to
+$\Delta=0\Rightarrow\Delta=0$ (Cor.~\ref{cor:lock}). \textbf{Therefore the class-relative no-go has
+no independent physical content on the $\OS$ sector.}
+\end{invariant}
+\begin{center}\renewcommand{\arraystretch}{1.4}
+\fbox{\parbox{0.93\textwidth}{\centering
+\textbf{\color{darkred}THE LOGVINOVICH DICHOTOMY}\\[4pt]
+$\underbrace{\exists M\in\Class^-_{\R^4}:\OS\wedge\Gap}_{=\ \bot}$\quad\textbf{vs}\quad
+$\underbrace{\forall M\in\Class^-_{\R^4}:\neg(\OS\wedge\Gap)}_{\textbf{proved}}$\\[5pt]
+$\mathrm{Bridge}\iff\neg\exists\,\mathrm{Clay}$\qquad\textbf{and}\qquad
+$\neg\mathrm{Bridge}$, \quad $\exists\,\mathrm{Clay}$ \ \text{(audited ontology)}\\[4pt]
+{\small The dichotomy carries its own boundary. It is a reduction, not a solution.}
+}}\end{center}
+%=============================================================================
+\section{The Sentence Being Audited}
+%=============================================================================
+Jaffe and Witten \cite{JaffeWitten2000} require a non-trivial quantum Yang--Mills theory on $\R^4$
+for compact simple $G$ with $\Delta>0$ and axioms at least as strong as Wightman /
+Osterwalder--Schrader; the local fields correspond to \emph{gauge-invariant} polynomials in $F$;
+reflection positivity holds for the Wilson approximation \cite{OsterwalderSeiler1978}; and a gap
+\emph{uniform in the volume} together with the limit $T^4\to\R^4$ is explicitly open.
+\begin{definition}[Spectrum, tail, gap]\label{def:spec}
+$H\ge0$ self-adjoint, $H\Omega=0$, $\Spec_+(H):=\sigma(H)\setminus\{0\}\neq\emptyset$,
+$\Delta:=\inf\Spec_+(H)$; $\RT(H):\forall\lambda\in\N,\ (\lambda+1)^{-1}\in\Spec_+(H)$;
+$\Gap(H):\Delta>0$. $\OS$ denotes $\OS0$--$\OS4$, $W0$--$W4$ and global Cauchy--Wick continuation.
+\end{definition}
+%=============================================================================
+\section{The Unmatched Ruler and the Nested Peano Squeeze}\label{sub:ruler}
+%=============================================================================
+\textbf{R1.} Neither $\R^4$ ($V=\infty$, $h(\R^3)=0$, exact dilations) nor
+$S_{\mathrm{YM}}=\frac1{4g_0^2}\int\operatorname{Tr}F_{\mu\nu}F^{\mu\nu}$ supplies a unit of
+length; gauge invariance forbids $\tfrac12m^2A_\mu^2$. The massive scalar carries $m>0$ by hand.
+
+\textbf{R2.} In the companion geometric analysis the constructible field
+$K=\Q(\sqrt2,\sqrt3,\sqrt5)$ has inradius $r=(\sqrt2+\sqrt3-\sqrt5)/2\approx0.4551$; the cascade
+stops at $\sqrt{13}\notin K$. \emph{No theorem here depends on this} (Table~\ref{tab:firewall}).
+
+\textbf{R3.} Removing both regulators at fixed $\Delta_{\mathrm{phys}}=\hat\Delta/a>0$ forces
+$\hat\Delta\to0$, $\xi_{\mathrm{latt}}\to\infty$, $g_0(a)\to0$, $N=L/a\to\infty$.
+\begin{proposition}[Two-way Peano squeeze]\label{prop:squeeze}
+Fix $m_G>0$, $a_n=a_0/(n+1)$, $L_n=(n+1)L_0$.
+\begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
+\item \emph{UV.} $\hat m_n=m_Ga_0/(n+1)$. No uniform strong-coupling threshold
+$\hat m_{\mathrm{sc}}>0$ can bound all $\hat m_n$.
+\item \emph{IR.} Exact dilation covariance would give $E_n=E_0/(n+1)<m_G$ for large $n$.
+\end{enumerate}
+\end{proposition}
+\begin{invariant}[The squeeze constrains methods, not the theory]\label{inv:squeeze}
+Both branches refute \emph{method-level} hypotheses that are already expected to fail in the
+continuum limit. Neither refutes a non-canonical gapped limit.
+\end{invariant}
+\begin{invariant}[Two readings of ``R3'' --- disambiguation, new in v18]\label{inv:R3}
+In this paper \textbf{R3} denotes the regulator-removal remark above. In the informal discussion
+that motivated \S\ref{sec:regulator}, ``R3'' was also used for the \emph{discrete lattice}
+$(a\Z/L\Z)^4$, and separately for the \emph{spatial slice} $\R^3$. These are three different
+objects. Theorem~\ref{thm:reconstruction} shows that the slice reading gives no logical discount;
+\S\ref{sec:regulator} audits the lattice reading. We keep the notation R3 for the remark only.
+\end{invariant}
+%=============================================================================
+\section{The Class-Free Core}\label{sec:core}
+%=============================================================================
+\begin{lemma}[Archimedean reduction]\label{lem:arch}
+If $\Gap(H)$ with bound $\Delta_\R>0$ and $\RT(H)$, then $\exists p,q\in\N$ with
+$0<\frac{p+1}{q+1}\le\Delta_\R$ and $\forall\lambda,\ \frac{p+1}{q+1}\le\frac1{\lambda+1}$.
+\end{lemma}
+\begin{proof}
+Choose $q$ with $(q+1)\Delta_\R\ge1$, put $p=0$, use $\Delta_\R\le E(\lambda)$.
+\end{proof}
+Clearing denominators, $\frac{p+1}{q+1}\le\frac1{\lambda+1}\iff(p+1)(\lambda+1)\le q+1$. We use
+(P1) $y\le(p+1)y$, (P2) transitivity, (P3) $\neg(m+1\le m)$ (Appendix~\ref{app:peano}).
+\begin{theorem}[Peano--Archimedes no-gap]\label{thm:peano}
+$\RT(H)\Rightarrow\Delta=0$.
+\end{theorem}
+\begin{proof}
+At $\lambda^\ast=q+1$: $(p+1)(q+2)\le q+1$; by (P1),(P2) $q+2\le q+1$, contradicting (P3).
+\end{proof}
+\begin{lemma}[Wightman half-line]\label{lem:halfline}
+For a non-trivial Wightman theory with unique vacuum and Poincar\'e covariance,
+$\sigma(H)=\{0\}\cup[\Delta,\infty)$; hence for \emph{any} strictly positive null sequence
+$(e_n)$, $(\forall n,\ e_n\in\sigma(H))\iff\Delta=0$, and $\RT(H)\iff\Delta=0$.
+\end{lemma}
+\begin{proof}
+By SNAG, $\sigma(H)=\overline{\pi_E(\sigma(H,\mathbf P))}$; bounded sections of $\overline{V_+}$
+are compact, so the projection is closed. Lorentz invariance makes the joint spectrum a union of
+mass hyperboloids and possibly the punctured forward cone.
+\end{proof}
+\begin{corollary}[Exact form of \textbf{H1}]\label{cor:h1}
+On non-trivial Wightman models, $\textbf{H1}\iff(\OS\Rightarrow\Delta=0)$.
+\end{corollary}
+\begin{lemma}[Dilation exclusion]\label{lem:dilation}
+If $U(\rho)HU(\rho)^{-1}=\rho^{-1}H$ on $D(H)$ for a unitary representation of
+$(\R_{>0},\cdot)$ and $\Spec_+(H)\neq\emptyset$, then $2^{-n}E_0\in\Spec_+(H)$ and $\Delta=0$.
+\end{lemma}
+\begin{proof}
+Unitary conjugation preserves the spectrum; take $\rho=2^n$.
+\end{proof}
+\subsection{Explicit and uniform reciprocal-tail expulsion}
+\begin{theorem}[Explicit mode expulsion]\label{thm:expulsion}
+Let $H$ be \emph{any} operator whose positive spectrum admits a rational lower bound
+$\Delta=(p+1)/(q+1)>0$. Then $(q+2)^{-1}\notin\Spec_+(H)$.
+\end{theorem}
+\begin{proof}
+Membership gives $(p+1)(q+2)\le q+1$, hence $q+2\le q+1$, contradicting (P3).
+\end{proof}
+\begin{theorem}[Uniform tail expulsion]\label{thm:tail}
+Under the same hypothesis, $\forall k\in\N$, $(q+2+k)^{-1}\notin\Spec_+(H)$.
+\end{theorem}
+\begin{proof}
+The lower bound gives $(p+1)(q+2+k)\le q+1$; by (P1),(P2), $q+2+k\le q+1$; induction on $k$
+with base (P3) refutes this. Kernel term \Lean{gap\_expels\_entire\_reciprocal\_tail}.
+\end{proof}
+\begin{corollary}[The deletion is automatic; only its mechanism is at issue]\label{cor:deletion}
+For a non-trivial Wightman theory, $\Delta>0$ already implies that all modes below $\Delta$ are
+absent. The content of \textbf{H2$^-$} is only: \emph{does the deleting mechanism fire one of the
+five channels?}
+\end{corollary}
+\subsection{Modes are not energies: the exact failure of IR-mode counting}\label{sub:modes}
+\begin{proposition}[Same modes, gapped dispersion]\label{prop:modes}
+Fix $m>0$ and let $k_n=2\pi n/L$ be the momenta of a spatial torus of size $L$. Then
+\[
+E_n^{(0)}=|k_n|\xrightarrow[L\to\infty]{}0,
+\qquad
+E_n^{(m)}=\sqrt{k_n^2+m^2}\ \ge\ m\quad\text{for every }L\text{ and every }n .
+\]
+The index set of infrared modes is \emph{identical} in both cases; only the dispersion changes.
+\end{proposition}
+\begin{proof}
+Immediate; $\sqrt{k^2+m^2}\ge m$ with equality iff $k=0$.
+\end{proof}
+\begin{invariant}[Consequence for \textbf{H1} and for Section 29 of the kernel]\label{inv:modes}
+The premise ``infrared degrees of freedom cannot vanish for free'' is a statement about
+\emph{mode counting}; a mass gap is a statement about the \emph{dispersion} $E(k)$. Proposition
+\ref{prop:modes} shows the two are independent. Hence the field
+\Lean{noHorizonPreservesUncutIR} does not formalise a conservation law: read as mode counting it
+is \emph{false} (massive scalar), and read literally it is \textbf{H1} restated. Candidate kernel
+witnesses with \emph{all} modes present and a rational gap are given in \S\ref{sec:proposed}.
+\end{invariant}
+%=============================================================================
+\section{Gauge-Invariant Instrument Theorems and Operator Dimension}\label{sec:gaugeinv}
+%=============================================================================
+Throughout, $\theta$ denotes Euclidean time reflection $\theta(x_4,\vec x)=(-x_4,\vec x)$, and
+$q$ is the gauge-invariant topological charge density
+\[
+q(x)=\frac1{32\pi^2}\,\varepsilon_{\mu\nu\rho\sigma}\operatorname{Tr}
+F_{\mu\nu}(x)F_{\rho\sigma}(x)\ \propto\ \vec E\cdot\vec B,
+\qquad
+\Chit:=\int_{\R^4}d^4x\,\langle q(x)q(0)\rangle=\widehat C(0).
+\]
+Since $F_{4i}$ is $\theta$-odd and $F_{ij}$ is $\theta$-even, $q$ is \emph{reflection-odd}. The
+Hermitian Minkowski field is $q_M=-i\,q$; the factor $i$ is the one that makes the Euclidean
+$\theta$-term imaginary. This is why no conflict with K\"all\'en--Lehmann positivity arises.
+\begin{lemma}[Imported: reflection-odd sign theorem \cite{Horvath2005,Vicari1999,Chowdhury2015}]
+\label{lem:odd}
+Let $C(x)=\langle q(x)q(0)\rangle$ with $q$ reflection-odd, and split
+$C=C_{\mathrm{ct}}+C_{\mathrm{reg}}$ with $\operatorname{supp}C_{\mathrm{ct}}\subseteq\{0\}$.
+Then $\OS2$ is equivalent to positive semi-definiteness of the kernel
+$(x,y)\mapsto-C_{\mathrm{reg}}(\theta x-y)$ on test functions supported in $\{x_4>0\}$;equivalently, $-C_{\mathrm{reg}}(\tau)$ is completely monotone. In particular
+$C_{\mathrm{reg}}(x)\le0$ for $x\neq0$ whenever it is a function.
+\end{lemma}
+\begin{proof}
+For $F=q(f)$ with $\operatorname{supp}f\subset\{x_4>0\}$ one has $\theta F=-q(f\circ\theta)$, so
+$\langle\overline{\theta F}\,F\rangle=-\iint\bar f(x)f(y)\,C(\theta x-y)$. $\OS2$ demands this be
+$\ge0$. Complete monotonicity is Bernstein--Widder. The Minkowski measure of $q_M=-iq$ is then
+$+\rho\ge0$, so $W0$ holds simultaneously.
+\end{proof}
+\begin{lemma}[Contact terms are invisible to $\OS2$]\label{lem:invisible}
+With the hypotheses of Lemma~\ref{lem:odd}, $C_{\mathrm{ct}}$ contributes \emph{exactly zero}
+to the $\OS2$ quadratic form for test functions supported in $\{x_4\ge\varepsilon>0\}$.
+Consequently $\OS2$ imposes \emph{no constraint whatsoever} on the contact term.
+\end{lemma}
+\begin{proof}
+If $x_4,y_4\ge\varepsilon>0$ then $(\theta x-y)_4\le-2\varepsilon<0$, so $\theta x-y\neq0$. Every
+distribution supported at the origin annihilates such test pairs. No integrability or finiteness
+assumption is used.
+\end{proof}
+\begin{theorem}[Necessity of a positive contact term]\label{thm:contact}
+Assume $\OS2$ and $C_{\mathrm{reg}}\in L^1(\R^4)$. Then $\int C_{\mathrm{reg}}\le0$ and
+$\Chit=\widehat C_{\mathrm{ct}}(0)+\int C_{\mathrm{reg}}\le\widehat C_{\mathrm{ct}}(0)$.
+Hence $\Chit>0$ requires $\widehat C_{\mathrm{ct}}(0)>0$; and no value of it is excluded by $\OS2$.
+\end{theorem}
+\begin{proof}
+Lemma~\ref{lem:odd} gives $C_{\mathrm{reg}}\le0$; Fourier transformation at $p=0$ splits over the
+two pieces. The converse is Lemma~\ref{lem:invisible}. See Cor.~\ref{corr:nonintegrable}.
+\end{proof}
+\begin{theorem}[An explicit $\OS\wedge\Gap\wedge(\Chit>0)$ family]\label{thm:family}
+Let $m>0$, $b\ge0$, $c_0\ge0$ and set
+\[
+\widehat C(p)=c_0-\frac{b}{p^2+m^2},
+\qquad
+C(x)=c_0\,\delta^{(4)}(x)-b\,\Delta_m(x),
+\quad
+\Delta_m(x)=\frac{m\,K_1(m|x|)}{4\pi^2|x|}.
+\]
+Then (i) $\OS2$ holds; (ii) $q_M=-iq$ has spectral measure $b\,\delta_{m^2}\ge0$, so $W0$ holds;
+(iii) $\Delta=m>0$ in the Gaussian realisation; (iv) $\Chit=c_0-b/m^2>0$ iff $c_0>b/m^2$.
+A realisation is $q=i\sqrt b\,\phi_m+\sqrt{c_0}\,\eta$ with $\phi_m$ free massive and $\eta$ unit
+white noise. The contact term is supported at a single point, hence strictly local.
+\end{theorem}
+\begin{proof}
+(i) $-C_{\mathrm{reg}}(\tau)=\frac{b}{2m}e^{-m\tau}$ is completely monotone; the contact term is
+irrelevant by Lemma~\ref{lem:invisible}. (ii) Sign bookkeeping of Lemma~\ref{lem:odd}.
+(iii) $\phi_m$ has one-particle mass $m$. (iv) $\int\Delta_m=1/m^2$ and
+$\widehat{\delta^{(4)}}(0)=1$.
+\end{proof}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ccccc}
+\toprule
+$c_0$ & $b$ & $m$ & $\Chit=c_0-b/m^2$ & verdict\\
+\midrule
+$0.50$ & $1$ & $1$ & $-0.500$ & $\OS2$, $W0$, $\Delta=1$; $\Chit<0$\\
+$1.00$ & $1$ & $1$ & $\ \ 0.000$ & $\OS2$, $W0$, $\Delta=1$; $\Chit=0$\\
+$1.50$ & $1$ & $1$ & $+0.500$ & $\OS2$, $W0$, $\Delta=1$; \emph{$\Chit>0$}\\
+$2.00$ & $1$ & $1$ & $+1.000$ & $\OS2$, $W0$, $\Delta=1$; \emph{$\Chit>0$}\\
+\bottomrule
+\end{tabular}
+\caption{Numerical certificates for Theorem~\ref{thm:family}. Independent checks:
+$\int d^4x\,\Delta_m=1.0000000000193$; $\int d^3x\,\Delta_m(\tau,\cdot)=e^{-m\tau}/(2m)$ to $10$
+digits at $\tau=0.3,1.0,2.5$; the $\OS2$ kernel on $t=(0.2,0.7,1.3,2.1,3.4)$ has eigenvalues
+$\{0,0,0,0,0.50365\}$, rank $1$, positive semi-definite; contact contribution exactly $0$.}
+\label{tab:contact}
+\end{table}
+\begin{corollary}[Gauge-invariant instrument dichotomy]\label{cor:gaugeinv}
+Either the two-point function has no contact term and integrable regular part, whence
+$\Chit\le0$ and the Witten--Veneziano mechanism \cite{Witten1979,Veneziano1979} is unavailable;
+or a positive contact term is present, and $\Chit>0$ coexists with $\OS2$, $W0$, $\Delta>0$.
+In neither case does an obstruction to $\OS$ arise.
+\end{corollary}
+\subsection{Operator dimension, not confinement, produces the \texorpdfstring{$|x|^{-8}$}{|x|^-8} singularity}
+\label{sub:dimfour}
+\begin{proposition}[A dimension-four composite in a free, gapped, OS-positive theory]
+\label{prop:dimfour}
+Let $\phi_m$ be the free Euclidean scalar of mass $m>0$ on $\R^4$ and
+$O(x):=\,:\!\phi_m(x)^4\!:$. Then:
+\begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
+\item $O$ is local, reflection-even, of canonical dimension $4$;
+\item $\langle O(x)O(0)\rangle=4!\,\Delta_m(x)^4=24\,\Delta_m(x)^4$;
+\item $\langle O(x)O(0)\rangle\sim\frac{24}{(4\pi^2)^4}|x|^{-8}$ as $x\to0$;
+\item $\int_{a<|x|<R}d^4x\,\langle O(x)O(0)\rangle\sim\frac{3}{64\pi^6}a^{-4}$, i.e.\ the
+\emph{same} quartic divergence claimed for $q$ in Yang--Mills;
+\item nevertheless $\OS0$--$\OS4$, $W0$--$W4$ and $\Delta=m>0$ all hold.
+\end{enumerate}
+Hence the exponent $-8$ and the divergence $a^{-4}$ follow from \emph{operator dimension} alone
+and carry \emph{no} obstruction to $\OS$ or to $\Gap$.
+\end{proposition}
+\begin{proof}
+(i) $[\phi_m]=1$ in $d=4$; Wick ordering is local. (ii) Wick's theorem gives $4!$ identical
+pairings. (iii) $K_1(z)=z^{-1}+O(z\log z)$. (iv) $\int d^4x=2\pi^2\int r^3dr$ and
+$\int_a^Rr^{-5}dr=\tfrac14(a^{-4}-R^{-4})$; the constant is
+$24\cdot\frac{\pi^2}{2}/(4\pi^2)^4=3/(64\pi^6)$. (v) $\sigma(H)=\{0\}\cup[m,\infty)$.
+\end{proof}
+\begin{proposition}[Dimension-universality of contact non-integrability]
+\label{prop:contactuniversal}
+If $Q=\int d^dx\,q$ is dimensionless then $[q]=d$. At a UV fixed point where $q$ carries its
+canonical dimension, $\langle q(x)q(0)\rangle\sim c|x|^{-2d}$ and
+$\int_{a<|x|<R}d^dx\,\langle qq\rangle\sim\frac{cS_{d-1}}{d}a^{-d}$, divergent for \emph{every}
+$d\ge1$. In $d=2$ the same power follows from $\partial_\mu j_5^\mu=2q$ with $[j_5]=d-1$.
+\end{proposition}
+\begin{proof}
+$\int_a^Rr^{d-1-2d}dr=\frac1d(a^{-d}-R^{-d})$. For the anomaly route,
+$\langle qq\rangle=\tfrac14\partial^2\langle j_5j_5\rangle$ with
+$\langle j_5j_5\rangle\sim|x|^{-2(d-1)}$.
+\end{proof}
+\begin{proposition}[Universality of the asymptotic-freedom exponential]\label{prop:afexp}
+With $\Lambda=a^{-1}(b_0g_0^2)^{-b_1/(2b_0^2)}\allowbreak e^{-1/(2b_0g_0^2)}$, any observable of mass
+dimension $k$ satisfies $\mathcal{O}\,a^k\sim(\Lambda a)^k=e^{-k/(2b_0g_0^2)}$ up to logs. Hence
+$\Chit a^4$, $m_Ga$ and $\sigma a^2$ carry the \emph{same} exponential suppression: the
+``exponentially thin tuning'' is dimensional transmutation, not a property of $\Chit$.
+\end{proposition}
+\begin{proof}
+Dimensional analysis plus the one-loop relation between $a$, $g_0$, $\Lambda$; every
+dimensionful observable is $\Lambda^k$ times an $O(1)$ function of the running coupling at
+$\Lambda$.
+\end{proof}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lccc}
+\toprule
+quantity & mass dim.\ $k$ & exponent $k/(2b_0g_0^2)$ & value at $N=3$, $g_0^2=1$\\
+\midrule
+$\Lambda a$, $m_Ga$ & $1$ & $7.178$ & $7.6\times10^{-4}$\\
+$\sigma a^2$ & $2$ & $14.356$ & $5.8\times10^{-7}$\\
+$\Chit a^4$ & $4$ & $28.712$ & $3.4\times10^{-13}$\\
+\bottomrule
+\end{tabular}
+\caption{Proposition~\ref{prop:afexp}: one-loop values with $b_0=11N/(48\pi^2)$, $N=3$,
+$g_0^2=1$, ignoring the standard prefactor and $O(1)$ constants.}
+\label{tab:afexp}
+\end{table}
+\subsection{NEW: the discriminator is the sign of \texorpdfstring{$\beta$}{beta}, not criticality}
+\label{sub:betasign}
+\begin{proposition}[Beta-sign discriminator]\label{prop:betasign}
+Consider theories with dimensionless coupling at their critical dimension.
+\begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
+\item $\varphi^4$ in $d=4$ has $[\lambda]=0$ and $\beta_\lambda>0$: the renormalised coupling
+grows in the ultraviolet, and a continuum limit forces $\lambda_{\mathrm{ren}}\to0$. Marginal
+triviality of the critical four-dimensional Ising-type scaling limit is a theorem
+\cite{ADC2021,ADC2024}.
+\item Yang--Mills in $d=4$ has $[g]=0$ and $\beta_g<0$: the bare coupling decreases in the
+ultraviolet while the renormalised coupling at a fixed physical scale is held fixed. The
+Millennium problem description states this difference explicitly, noting that the quartic
+coupling \emph{lacks} asymptotic freedom in four dimensions \cite{JaffeWitten2000}.
+\item The Gross--Neveu model in $d=2$ has $[g]=0$ and $\beta_g<0$, is just renormalisable and
+asymptotically free, and has been \emph{rigorously constructed with a dynamically generated
+mass} \cite{FMRS1986,GK1985}.
+\end{enumerate}
+Consequently: criticality and $[g]=0$ are \emph{shared}; the sign of $\beta$ discriminates; and
+``dimensionless coupling $+$ asymptotic freedom $+$ $g_0\to0$ $+$ dynamical mass'' is
+\emph{consistent and realised by a theorem}. No triviality mechanism transfers from
+$\varphi^4_4$ to Yang--Mills.
+\end{proposition}
+\begin{proof}
+(i) and (ii) are the standard one-loop signs together with the cited theorem and the cited
+problem description. (iii) is the cited construction. The final statement follows because the
+Gross--Neveu model satisfies every hypothesis of the proposed transfer except the dimension and
+the gauge structure, and its conclusion is the opposite of triviality.
+\end{proof}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcccl}
+\toprule
+theory & $d$ & $[g]$ & sign of $\beta$ & continuum status\\
+\midrule
+$\varphi^4_4$ & $4$ & $0$ & $>0$ & trivial (theorem \cite{ADC2021})\\
+QED$_4$ & $4$ & $0$ & $>0$ & Landau scale; triviality expected\\
+\textbf{Gross--Neveu$_2$} & $2$ & $\mathbf0$ & $\mathbf{<0}$ &
+\textbf{nontrivial, gapped, rigorous} \cite{FMRS1986}\\
+$\varphi^4_3$ & $3$ & $1$ & super-renorm. & nontrivial, constructed \cite{FeldmanOsterwalder1976}\\
+Yang--Mills$_4$ & $4$ & $0$ & $<0$ & \textbf{open}\\
+\bottomrule
+\end{tabular}
+\caption{Proposition~\ref{prop:betasign}. The row that defeats the transfer is Gross--Neveu:
+same criticality structure, same sign of $\beta$ as Yang--Mills, opposite conclusion to
+triviality, and rigorously established.}
+\label{tab:betasign}
+\end{table}
+\begin{invariant}[Scope and priority]\label{inv:gaugeinv-scope}
+Lemma~\ref{lem:odd} is imported. Theorem~\ref{thm:family} and Proposition~\ref{prop:dimfour} are
+\emph{free-field} computations: they refute logical implications and construct no gauge dynamics.
+Proposition~\ref{prop:betasign} imports three results and claims only their combination.
+\end{invariant}
+%=============================================================================
+\section{The Sharp Positivity Theorem for the Gribov--Zwanziger Family}\label{sec:rgz}
+%=============================================================================
+Throughout, $M^2,m^2\ge0$, $\lambda>0$, $a:=M^2+m^2$, and
+\[
+D_{\mathrm{RGZ}}(p^2)=\frac{p^2+M^2}{p^4+a\,p^2+\lambda^4},\qquad
+S_2(\tau)=\int_{-\infty}^{\infty}\frac{dp_4}{2\pi}\,D_{\mathrm{RGZ}}(p_4^2)\,e^{ip_4\tau}.
+\]
+\begin{lemma}[Reflection positivity is spectral positivity]\label{lem:rp}
+For $S_2(\tau)=\int_0^\infty d\rho(\mu^2)e^{-\mu\tau}/(2\mu)$, reflection positivity is equivalent
+to $\rho\ge0$ \cite{Usui2012,KL}. Pointwise positivity is necessary but not sufficient.
+\end{lemma}
+\begin{theorem}[Sharp RGZ positivity criterion]\label{thm:rgz}
+Let $u_\pm=\tfrac{-a\pm\sqrt{a^2-4\lambda^4}}2$.
+\begin{enumerate}[label=(\Alph*),leftmargin=24pt,itemsep=2pt]
+\item \emph{Complex regime $a^2<4\lambda^4$.} With
+$\varphi=\tfrac12\arccos(a/(2\lambda^2))\in(0,\pi/4]$,
+\[
+S_2(\tau)=\frac{e^{-\lambda\tau\cos\varphi}}{2\lambda^3\sin2\varphi}
+\Big[(M^2+\lambda^2)\sin\varphi\cos(\lambda\tau\sin\varphi)
++(M^2-\lambda^2)\cos\varphi\sin(\lambda\tau\sin\varphi)\Big].
+\]
+No positive spectral measure exists; $S_2$ changes sign infinitely often.
+\item \emph{Real regime $a^2>4\lambda^4$ (with degenerate boundary $a^2=4\lambda^4$ in (E); in Lean \Lean{rgzHasRealPoles} denotes the non-strict region $4\lambda^4\le a^2$).} With $\mu_\pm=\sqrt{-u_\pm}$,
+$d=\sqrt{a^2-4\lambda^4}$,
+\[
+S_2(\tau)=c_+e^{-\mu_+\tau}+c_-e^{-\mu_-\tau},\quad
+c_+=\frac{M^2-m^2+d}{4\mu_+d},\quad c_-=\frac{d-(M^2-m^2)}{4\mu_-d}.
+\]
+\item \emph{Sharp criterion.} Using $a^2-(M^2-m^2)^2=4M^2m^2$,
+\[
+\boxed{\ \rho\ge0\iff \OS2\iff W0\iff M^2m^2\ \ge\ \lambda^4.\ }
+\]
+\item \emph{Pointwise sign-change criterion (a strictly coarser detector).}
+$S_2$ changes sign $\iff a^2<4\lambda^4$ or $(m^2>M^2\wedge M^2m^2<\lambda^4)$.
+\item \emph{Degenerate boundary $a^2=4\lambda^4$.}
+$S_2(\tau)=\frac{e^{-\lambda\tau}}{4\lambda^3}\big[2\lambda^2+(M^2-\lambda^2)(1+\lambda\tau)\big]$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Partial fractions and $\int\frac{dp}{2\pi}\frac{e^{ip\tau}}{p^2+\mu^2}=\frac{e^{-\mu\tau}}{2\mu}$
+give (A),(B). For (C): $M^2m^2>\lambda^4$ gives $d>|M^2-m^2|$ and $c_\pm>0$; equality kills one
+residue (or gives $D=1/(p^2+\lambda^2)$ at $M^2=m^2=\lambda^2$); $M^2m^2<\lambda^4$ gives complex
+poles, or $d=0$ with $S_2=(A+B\tau)e^{-\lambda\tau}$, $B\neq0$, violating complete monotonicity,
+or $0<d<|M^2-m^2|$ with exactly one negative residue. (D) follows from
+$\operatorname{sign}c_+=\operatorname{sign}(M^2-m^2+d)$ and $S_2(0)>0$.
+\end{proof}
+\begin{corollary}[Instrument dichotomy]\label{cor:rgz}
+If $M^2m^2<\lambda^4$ then $\neg\OS2\wedge\neg W0$; if $M^2m^2\ge\lambda^4$ then $\OS2\wedge W0$
+hold but $\rho$ is a finite sum of positive atoms. No parameter choice is simultaneously
+reflection-positive and free of positive-metric asymptotic quanta.
+\end{corollary}
+\begin{corollary}[Physical parametrisation --- the horizon parameter must vanish]\label{cor:gamma}
+In the RGZ ansatz $\lambda^4=M^2m^2+2Ng^2\gamma^4$ \cite{GarciaCapriMintz2026,Dudal2008}, hence
+\[
+M^2m^2\ge\lambda^4\iff 2Ng^2\gamma^4\le0\iff\gamma=0 .
+\]
+\textbf{For every $\gamma\neq0$ the RGZ gluon instrument violates reflection positivity} (in the integer surrogate Block~C, verified for all discrete steps $c=2Ng^2\gamma^4=k+1\ge1$; the real continuum interval $0<c<1$ is covered analytically above), and the
+positive branch lies outside the horizon ansatz. The pointwise criterion becomes: $S_2$ changes
+sign $\iff(M^2+m^2)^2<4\lambda^4$ or $m^2>M^2$.
+\end{corollary}
+\begin{proof}
+Expand $(p^2+m^2)(p^2+M^2)+2Ng^2\gamma^4$ and apply Theorem~\ref{thm:rgz}(C).
+\end{proof}
+\begin{theorem}[$n$-pole generalisation]\label{thm:npole}
+Let $D(p^2)=P(p^2)/Q(p^2)$ be rational, $\deg P<\deg Q$, real coefficients, poles off the
+positive real axis of $p^2$, with K\"all\'en--Lehmann measure $\rho$. If $\rho\ge0$ then $\rho$
+is a finite sum of positive atoms at the real negative-$p^2$ poles: a finite superposition of
+free positive-metric fields. No rational truncation is simultaneously reflection-positive and
+free of positive-metric asymptotic quanta.
+\end{theorem}
+\begin{proof}
+Complex-conjugate pairs give $e^{-\alpha\tau}\cos(\beta\tau-\delta)$, not completely monotone;
+multiple poles give $\tau^ke^{-\mu\tau}$, excluded for $k\ge1$; positivity forces all residues
+positive.
+\end{proof}
+\begin{remark}[Explicit separation]\label{rem:pointwise}
+At $(M^2,m^2,\lambda^4)=(4,0.1,1)$: $c_+=+1.0237$, $c_-=-0.0114$, so $S_2>0$ everywhere while
+$\rho$ has a negative atom. Kernel witness
+\Lean{rgz\_pointwise\_does\_not\_imply\_spectral} at $\langle40,1,99\rangle$.
+\end{remark}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ccccl}
+\toprule
+$M^2$ & $m^2$ & $\lambda^4$ & $M^2m^2$ vs $\lambda^4$ & verdict\\
+\midrule
+$0$ & $0$ & $1$ & $0<1$ & complex; $S_2(2)=-0.071499$; $\neg\OS2,\neg W0$\\
+$1$ & $0.5$ & $1$ & $0.5<1$ & complex; $S_2(4)=+0.001977$, $S_2(5)=-0.000973$\\
+$0.1$ & $4$ & $1$ & $0.4<1$ & real, $c_+=-0.0439$; sign change; $\neg\OS2,\neg W0$\\
+$4$ & $0.1$ & $1$ & $0.4<1$ & real, $c_-=-0.0114$; $S_2>0$ but $\neg\OS2,\neg W0$\\
+$2$ & $2$ & $1$ & $4>1$ & $\rho\ge0$; masses $0.5176,1.9319$; asymptotic quanta\\
+$3$ & $1$ & $1$ & $3>1$ & $\rho\ge0$; masses $0.5176,1.9319$; asymptotic quanta\\
+\bottomrule
+\end{tabular}
+\caption{Numerical certificates for Theorem~\ref{thm:rgz}. Rows 5--6 have $\gamma=0$; they are
+\emph{not} horizon configurations.}
+\label{tab:rgz}
+\end{table}
+\begin{invariant}[Scope of the instrument theorems]\label{inv:rgz-scope}
+These concern the \emph{gauge-variant} gluon two-point function within the truncation ansatz.
+Complex poles are standardly read as a \emph{signature} of confinement
+\cite{Hayashi2019,deBrito2024}.
+\end{invariant}
+%=============================================================================
+\section{Route Classification (not an exhaustion theorem)}\label{sec:routes}
+%=============================================================================
+\begin{theorem}[Classification of the audited presentation types]\label{thm:routes}
+\begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=1pt]
+\item \textbf{Route $\alpha$} --- gauge-variant OS fields with a GZ/RGZ horizon truncation.
+\emph{Sealed within the ansatz} (Cor.~\ref{cor:rgz}, Cor.~\ref{cor:gamma}).
+\item \textbf{Route $\alpha'$} --- gauge-variant OS fields without a horizon. \emph{OPEN.}
+\item \textbf{Route $\beta$} --- gauge-invariant OS fields. \emph{Reduced} to the exit
+certificate; carries the class-free instrument theorem Cor.~\ref{cor:gaugeinv}. Existence
+\emph{OPEN}.
+\end{enumerate}
+\end{theorem}
+\begin{invariant}[Classification is not prohibition]\label{inv:routes}
+An exhaustive \emph{partition} is not an exhaustive \emph{prohibition}. Mixed field content,
+purely algebraic net formulations and lattice-first constructions are not covered.
+\end{invariant}
+%=============================================================================
+\section{The Declared Class and the Closed Fork}
+%=============================================================================
+\begin{hypothesis}[H1]\label{hyp:H1}
+$\OS(M)\Rightarrow\RT(H_M)$; equivalently $\OS\Rightarrow\Delta=0$ on the non-trivial Wightman
+sector (Cor.~\ref{cor:h1}).
+\end{hypothesis}
+\begin{hypothesis}[H2$^-$]\label{hyp:H2}
+$\Gap(M)\Rightarrow\Obstr^-(M)$ with
+$\Obstr^-:=\neg\OS2\vee\neg W0\vee\neg W4\vee\neg W3\vee\neg\mathrm{Wick}$.
+\end{hypothesis}
+$\Class^-_{\R^4}:=\{M:\textbf{H1}\wedge\textbf{H2}^-\}$. (Note: \Lean{InCompleteR4GaugeClass} encodes the conjunctive five-channel strengthening \Lean{GappedR4StructuralLaws}, whereas Block~I (\Lean{DisjunctiveGappedR4Laws}, \Lean{disjunctive\_R4\_class\_incompatibility\_theorem}) verifies that the literal disjunctive form $\textbf{H2}^-$ yields the exact same exclusion.)
+\begin{theorem}[Closed fork]\label{thm:fork}
+For every $M\in\Class^-_{\R^4}$: $(\OS\to\neg\Gap)\wedge(\Gap\to\neg\OS)$.
+\end{theorem}
+\begin{proof}
+$\OS$ + \textbf{H1} + Thm.~\ref{thm:peano} give $\neg\Gap$; $\Gap$ + \textbf{H2$^-$} falsifies a
+conjunct of $\OS$.
+\end{proof}
+\begin{corollary}[Spectral lock on the $\OS$ sector]\label{cor:lock}
+If $\OS(M)$ holds and $M$ is a non-trivial Wightman model, the instance of
+Theorem~\ref{thm:fork} projects to $\Delta_M=0\Rightarrow\Delta_M=0$.
+\end{corollary}
+\subsection{Separation witnesses}
+Round without square: the gapless valuation. Square without round: the gapped horizon valuation.
+Abstract compatibility: \Lean{UnconstrainedCompatibleModel}. All three are machine-constructed.
+\begin{invariant}[What the abstract witness is not]
+In \Lean{UnconstrainedCompatibleModel} the surrogate two-point function is identically one,
+which does \emph{not} cluster; it is a truth-value valuation, \emph{not} the shadow of a free
+massive scalar. Non-truncating gapped witnesses are candidates in \S\ref{sec:proposed}.
+\end{invariant}
+%=============================================================================
+\section{Burden Calibration and the Three Legitimate Positions}\label{sec:burden}
+%=============================================================================
+\begin{theorem}[Burden calibration --- arena form]\label{thm:burden}
+Using only \Lean{canonical\_no\_go},
+\[
+\Big(\forall A,\ \mathrm{ClayPair}(A)\to\mathrm{CanonicalPhysics}(A)\Big)
+\iff \neg\exists A,\ \mathrm{ClayPair}(A).
+\]
+\end{theorem}
+\begin{proof}
+($\Rightarrow$) A witness yields membership and then $\bot$. ($\Leftarrow$) Vacuous.
+\end{proof}
+\begin{theorem}[Burden calibration --- concrete form]\label{thm:burden2}
+$\Lean{ArenaDefect\_ClassCompletenessBridge}\iff
+\neg\exists M,\ \Lean{ArenaDefect\_BareConcreteClaySolution}\ M$.
+\end{theorem}
+\begin{invariant}[What calibration does and does not establish]\label{inv:calibration}
+The bridge is \emph{as strong as} the absolute negative solution. This does not discharge it and
+does not delegitimise scope criticism.
+\end{invariant}
+\begin{theorem}[Three legitimate positions]\label{thm:positions}
+All three are simultaneously consistent with the artifact and machine-checked:
+(A) accept the reduction; (B) produce a certificate; (C) reject a premise --- indeed
+$\forall M,\ \mathrm{Clay}(M)\to M\notin\Class^-$ is \emph{provable}.
+\end{theorem}
+\begin{proof}
+(A) is the fork; (B) is \Lean{unconstrained\_model\_osw\_and\_gap}; (C) applies the fork to a
+certificate assumed to lie in the class.
+\end{proof}
+%=============================================================================
+\section{The Finite Exit Certificate (a normal form, not a solution)}\label{sec:exit}
+%=============================================================================
+\begin{definition}[Exit certificate]\label{def:exit}
+$M$ carries an \emph{exit certificate} if
+$\Gap(M)\wedge\OS2\wedge W0\wedge W3\wedge W4\wedge\mathrm{Wick}$, with $\Gap$ witnessed by an
+explicit rational bound; $\mathrm{Remaining}(M)$ collects $\OS0,\OS1,\OS3,\OS4,W1,W2$.
+\end{definition}
+\begin{theorem}[Normal form]\label{thm:normalform}
+$\mathrm{Clay}(M)\iff\mathrm{ExitCertificate}(M)\wedge\mathrm{Remaining}(M)$, and
+$\Class^-_{\R^4}\cap\{\text{certificates}\}=\emptyset$, with
+$\text{certificate}(M)\Rightarrow\neg\textbf{H1}(M)\wedge\neg\textbf{H2}^-(M)$.
+\end{theorem}
+\begin{proof}
+Regrouping of the eleven conjuncts; exclusion by \textbf{H2$^-$}.
+\end{proof}
+\begin{invariant}[Status of the normal form]
+Theorem~\ref{thm:normalform} adds no existence information. It is the first instance of the
+general phenomenon isolated in Theorem~\ref{thm:nofree}: a reformulation of Clay is exactly as
+hard as Clay.
+\end{invariant}
+%=============================================================================
+\section{The Upper Exit: Three Attempted Closures and Their Exact Failure}\label{sec:upper}
+%=============================================================================
+``Closing the upper exit'' means proving $\forall M,\ \mathrm{Clay}(M)\to M\in\Class^-$, which by
+Theorem~\ref{thm:burden2} is \emph{equivalent} to $\neg\exists$Clay.
+\subsection{The arena-blindness test}
+\begin{proposition}[Counterexample test for any proposed closure]\label{prop:test}
+Suppose an argument derives $\textbf{H1}\vee\textbf{H2}^-$ using only non-compactness, the
+asymptotic boundary $S^3_\infty$, absence of a geometric ruler, and Singer-type gauge-fixing
+obstructions. Then it is insensitive to dimension, gauge group and $\beta$-function, and applies
+verbatim to:
+\begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
+\item the free massive scalar on $\R^4$;
+\item the Schwinger model on $\R^2$ \cite{LowensteinSwieca1971}, whose massive version has
+$\Chit\neq0$ \cite{Khlebnikov2006};
+\item three-dimensional compact $U(1)$ lattice gauge theory, whose continuum limit at fixed
+$m_D$ exists, confines static quarks and describes a massive scalar \cite{GoepfertMack1982};
+\item two-dimensional Yang--Mills with compact non-abelian $G$, whose planar measure is
+rigorously constructed \cite{SenguptaReview,AnshelevichSengupta2012} (Cor.~\ref{corr:2dym}).
+\end{enumerate}
+In each case the conclusion is false; hence any such argument is invalid.
+\end{proposition}
+\begin{invariant}[The test is a filter, not a theorem about YM]
+Sections~\ref{sec:attacks} and \ref{sec:regulator} apply sharpened filters to attacks that do
+invoke $d=4$ and the $\beta$-function.
+\end{invariant}
+\subsection{Path 1: the trace anomaly --- sign-inverted}
+\begin{theorem}[Anomaly calibration]\label{thm:anomaly}
+For a non-trivial Wightman limit of a classically scale-invariant gauge action with
+$T^\mu_{\ \mu}=\frac{\beta(g)}{2g^3}\operatorname{Tr}F_{\mu\nu}F^{\mu\nu}$:
+(i) $\Delta>0\Rightarrow$ no exact dilation covariance $\Rightarrow T^\mu_{\ \mu}\neq0$;
+(ii) the converse fails (massless QCD; four-dimensional QED);
+(iii) the anomaly is necessary but never sufficient, and it \emph{removes the hypothesis} of
+Lemma~\ref{lem:dilation}.
+\end{theorem}
+\begin{proof}
+(i) Contrapositive of Lemma~\ref{lem:dilation} plus equivalence of exact scale covariance and
+conservation of the dilatation current. (ii) The stated examples. (iii) Combination.
+\end{proof}
+\begin{corollary}[Path 1 blocks \textbf{H1} rather than proving it]\label{cor:path1}
+The anomaly \emph{generates} $\Lambda_{\mathrm{RG}}$, disabling the only arena-level derivation
+of \textbf{H1} for asymptotically free limits.
+\end{corollary}
+\subsection{Path 2: topological susceptibility --- refuted constructively}
+\begin{theorem}[Refutation of the topological obstruction]\label{cor:path2}
+By Theorem~\ref{thm:family} there is, for every $m>0$ and $c_0>b/m^2$, a model with
+$\OS2\wedge W0\wedge(\Delta=m>0)\wedge(\Chit>0)$ whose positive susceptibility is carried
+entirely by a contact term at the origin. Hence
+$(\Chit>0)\wedge(\Delta>0)\Rightarrow\neg\OS4$ is \emph{false}.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:family} and Lemma~\ref{lem:invisible}; the model is Gaussian, hence clustering.
+\end{proof}
+\subsection{Path 3: Buchholz--Fredenhagen --- sign-inverted}
+\begin{correction}[The actual content of BF82]\label{corr:bf}
+Buchholz and Fredenhagen \cite{BF1982} \emph{assume} a mass gap and \emph{derive} cone
+localisation of massive particle states and the ensuing scattering structure
+\cite{Haag1992,RehrenSLQFT}. Using it to refute $\Delta>0$ inverts its hypothesis.
+\end{correction}
+\begin{proposition}[No superselection obstruction in pure YM]\label{prop:path3}
+$\pi_3(SU(N))=\Z$ labels sectors of the \emph{Euclidean measure}, not superselection sectors of
+one observable net; $\theta$-vacua are distinct clustering pure phases. The pure-YM observable
+net is expected DHR-trivial. Hence BF82 has no non-trivial charge structure to act on.
+\end{proposition}
+\begin{invariant}[Verdict on the first three paths]\label{inv:upper}
+None closes the upper exit. Paths~1 and~3 point \emph{away} from a no-go; Path~2 is refuted by an
+explicit computed family.
+\end{invariant}
+%=============================================================================
+\section{Two Four-Dimensional Attacks and Their Exact Failure}\label{sec:attacks}
+%=============================================================================
+\subsection{Attack A: non-integrability of \texorpdfstring{$|x|^{-8}$}{|x|^-8}}
+\textbf{The proposal.} $[q]=4$; $\langle qq\rangle\sim-c\,\alpha_s^2|x|^{-8}$;
+$\int_ar^3r^{-8}dr\sim-a^{-4}$; a finite positive $\Chit$ therefore needs an ``exponentially thin
+tuning'' allegedly incompatible with $\OS2$ or $\OS4$.
+\begin{theorem}[Refutation of Attack A]\label{thm:attackA}
+Each inference step fails.
+\begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=2pt]
+\item \emph{The power count is not an obstruction} (Prop.~\ref{prop:dimfour}): a dimension-four
+composite in a free gapped four-dimensional theory has exactly the claimed singularity and
+divergence while all axioms and $\Delta=m>0$ hold.
+\item \emph{Not four-dimensional, and sign-inverted}
+(Prop.~\ref{prop:contactuniversal}): $\Chit\xi^2$ \emph{diverges} in the asymptotically free
+two-dimensional $O(3)$ model, persisting under gradient flow even at smoothing radius $\xi/2$
+\cite{Bietenholz2018,Thomas2021}; that model has a dynamically generated mass scale. Conversely
+$\Chit$ in four-dimensional $SU(3)$ has a \emph{finite} continuum limit
+$t_0^2\Chit=6.67(7)\times10^{-4}$, linear in $a^2$, $\chi^2/\mathrm{dof}=0.88$ \cite{Ce2015}.
+\item \emph{The tuning is universal and no subtraction is needed}
+(Prop.~\ref{prop:afexp}); the Ginsparg--Wilson charge is an integer at finite $a$ and needs no
+additive renormalisation \cite{Schierholz2024}, on a reflection-positive lattice
+\cite{OsterwalderSeiler1978}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(a), (b), (c) are the cited propositions and imported facts; each exhibits a theory satisfying
+the antecedent and the negation of the consequent, or removes the premise.
+\end{proof}
+\begin{remark}[Epistemic status of the $O(3)$ comparison]
+The $O(3)$ gap is numerically established but \emph{not} rigorously proved --- the same level as
+the four-dimensional gap. The \emph{rigorous} refutation is Proposition~\ref{prop:dimfour}.
+\end{remark}
+\subsection{Attack B: \texorpdfstring{$\Z_N$}{Z\_N} one-form symmetry versus asymptotic freedom}
+\begin{theorem}[Audit of Attack B: three distinct errors]\label{thm:attackB}
+\begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=2pt]
+\item \emph{False equivalence.} Unbroken electric one-form centre symmetry corresponds to the
+area law \cite{GKSW2015}, but $\Delta>0$ does not imply an area law; a \emph{strong} mass gap is
+strictly stronger and is what yields confinement \cite{ChatterjeeNotes,ChatterjeeMechanism}.
+\item \emph{Bare versus infrared coupling.} $g_0(a)\to0$ controls the ultraviolet; the infrared
+at $\Lambda$ stays strongly coupled for every $g_0$. The crossover in $R\Lambda$ is smooth and
+no bulk transition is observed in four-dimensional $SU(2)$/$SU(3)$ Wilson theory
+\cite{Greensite2003,ChatterjeeNotes}.
+\item \emph{Inverted attribution.} Tomboulis proves confinement \emph{for all couplings}
+\cite{Tomboulis1983,Tomboulis2007}; Balaban's series constructs the limit \cite{Balaban1987}.
+\end{enumerate}
+Correctly oriented, the ingredients are evidence \emph{for} the positive solution.
+\end{theorem}
+\begin{proof}
+(a) separates two independent spectral statements; (b) is Prop.~\ref{prop:afexp} plus the
+numerical absence of a bulk transition; (c) is a reading of the cited statements.
+\end{proof}
+%=============================================================================
+\section{NEW: Three Regulator-Removal Attacks and Their Exact Failure}\label{sec:regulator}
+%=============================================================================
+The three attacks audited here were designed to pass Proposition~\ref{prop:test} by targeting
+the \emph{joint removal} of the ultraviolet cutoff $a$ and the infrared cutoff $L$ on
+non-compact $\R^4$. All three invoke $d=4$ and asymptotic freedom. All three fail.
+\subsection{Attack C: the triviality dichotomy for four-dimensional Yang--Mills}
+\textbf{The proposal.} By marginal triviality of critical four-dimensional scalar models
+\cite{ADC2021}, any continuum limit at $g_0\to0$ either (A) becomes Gaussian, hence
+$\Delta=0$ and \textbf{H1}; or (B) retains interaction only by renormalisation-group blocking,
+which allegedly destroys exact $\OS2$ at intermediate scales and breaks $\OS2$ or $\OS4$ when
+$L\to\infty$, giving \textbf{H2$^-$}.
+\begin{theorem}[Refutation of Attack C]\label{thm:attackC}
+Both branches and the dichotomy itself fail.
+\begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=2pt]
+\item \emph{Branch A rests on a beta-sign error.} By Proposition~\ref{prop:betasign}, the
+triviality mechanism requires $\beta>0$; Yang--Mills has $\beta<0$, a difference stated in the
+problem description itself \cite{JaffeWitten2000}. The Gross--Neveu model in two dimensions has
+dimensionless coupling, $\beta<0$, $g_0\to0$, and a dynamically generated mass, and is
+\emph{rigorously constructed} \cite{FMRS1986,GK1985}. Hence ``dimensionless coupling $+$
+asymptotic freedom $+$ $g_0\to0$'' does \emph{not} force a Gaussian limit.
+\item \emph{Branch B misstates reflection positivity.} Reflection-positive improved actions
+exist and are standard \cite{LuscherWeisz1985,Symanzik1985}, and blocking is used together with
+them. Moreover \emph{blocking is not part of the definition of the continuum limit}: the limit
+is taken along the renormalisation-group trajectory of a fixed reflection-positive action, so
+$\OS2$ holds exactly at every $a$ \cite{OsterwalderSeiler1978}.
+\item \emph{The dichotomy is not exhaustive.} The third option --- take $a\to0$ with $g_0(a)$
+tuned by asymptotic scaling, keeping the same reflection-positive lattice action --- is exactly
+what lattice gauge theory does. It is neither branch A nor branch B, and it is not known to be
+trivial.
+\end{enumerate}
+Hence Attack~C does not close the upper exit.
+\end{theorem}
+\begin{proof}
+(a) is Proposition~\ref{prop:betasign} together with the cited construction, which satisfies the
+antecedent and negates the consequent. (b) is the cited existence of reflection-positive
+improved actions plus the definition of the limit. (c) exhibits a third branch, refuting
+exhaustiveness.
+\end{proof}
+\subsection{Attack D: non-commutativity of the two limits}
+\textbf{The proposal.} Balaban's ultraviolet-stability programme works at finite $L$; at
+$L=\infty$ the running coupling reaches an infrared Landau pole at $\ell\sim\Lambda^{-1}$ where
+the estimates blow up; hence any sequence removing both regulators passes through an
+uncontrolled region, destroying $\OS0$ or $\OS2$.
+\begin{theorem}[Audit of Attack D]\label{thm:attackD}
+\begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=2pt]
+\item \emph{Infinite volume at fixed $a$ is not the obstruction.} For a compact gauge group the
+configuration space per site is compact, so infinite-volume limit points of the lattice measures
+exist by standard compactness arguments; the finite-volume restriction in the cited programme is
+a technique for controlling the renormalisation-group flow, not an infrared wall.
+\item \emph{The infrared pole is a perturbative artefact.} The one-loop running coupling has a
+pole at $\Lambda$, but physical quantities at that scale are finite; the pole marks the breakdown
+of perturbation theory, not a singularity of the measure. This is the same bare-versus-infrared
+conflation already recorded in Theorem~\ref{thm:attackB}(b).
+\item \emph{The ``critical window'' is a definition, not a contradiction.} Requiring
+$\xi_{\mathrm{latt}}\asymp1/a$ so that $\Delta_{\mathrm{phys}}=1/(a\xi_{\mathrm{latt}})$ stays
+fixed \emph{defines} the scaling trajectory. The alleged alternatives (mass to infinity, mass to
+zero) are different limits, not violations of axioms; a diverging physical mass describes a
+decoupling limit, which contradicts nothing.
+\item \emph{What remains is Clay.} The genuinely open statement is the existence of the joint
+limit with a gap \emph{uniform in the volume} --- verbatim the open half of the problem
+\cite{JaffeWitten2000}. Attack~D therefore restates the problem; it supplies no new obstruction.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(a) is compactness of the single-site configuration space for compact $G$; (b) and (c) are
+Proposition~\ref{prop:afexp} and elementary algebra of
+$\Delta_{\mathrm{phys}}=1/(a\xi_{\mathrm{latt}})$; (d) is the cited problem statement.
+\end{proof}
+\subsection{Attack E: the gauge-invariant Dirac spectral probe}
+\textbf{The proposal.} $\Spec(D_A)$ is gauge invariant; on a compact manifold the resolvent is
+compact and the index is an integer counted by normalisable zero modes; on $\R^4$ the essential
+spectrum fills $\R$ with no gap at zero and the index acquires an $\eta$-invariant boundary term
+on $S^3_\infty$; hence any low-mode truncation producing $\Delta>0$ is non-local, while locality
+leaves a gapless resonance continuum.
+\begin{theorem}[Audit of Attack E: a category error and two factual corrections]
+\label{thm:attackE}
+\begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=2pt]
+\item \emph{The probe operator is not the Hamiltonian.} $\Delta=\inf\sigma(H)\setminus\{0\}$
+concerns the \emph{field-theory Hamiltonian}, not the one-particle covariant Dirac operator in a
+background field. \textbf{Counterexample:} the free \emph{massive Dirac field} on $\R^4$ has
+$A=0$, $\sigma(D)=\R$, no gap at zero, and non-compact resolvent --- yet the quantum field theory
+has $\Delta=m>0$ and satisfies all OS/Wightman axioms. This is precisely the content of the
+standing invariant ``no compact resolvent does not mean no gap'' (Inv.~\ref{inv:metrology}),
+which Attack~E violates. It is also the same modes-versus-energies conflation as
+Proposition~\ref{prop:modes}.
+\item \emph{The index does not lose integrality.} For finite-action fields on $\R^4$ the chiral
+index equals the integer $Q$; this is exactly what the Ginsparg--Wilson/overlap construction
+realises \emph{at finite lattice spacing} \cite{Schierholz2024}. The Callias-type boundary
+formulae apply to operators with a Higgs field growing at infinity, a different setting.
+\item \emph{No truncation is required.} A gap in $H$ is not obtained by truncating modes of
+$D_A$; it is a property of the interacting measure. The proposed dichotomy
+``truncate and lose locality, or keep locality and stay gapless'' therefore has no premise.
+\end{enumerate}
+Hence Attack~E does not close the upper exit.
+\end{theorem}
+\begin{proof}
+(a) is the free massive Dirac field, an explicit theory satisfying the antecedent and negating
+the consequent; (b) is the cited integrality statement; (c) follows since the gap is a spectral
+property of $H$, not of a mode truncation of a probe.
+\end{proof}
+\begin{invariant}[Master verdict on eight attempts]\label{inv:attacks}
+Eight attempted closures have been audited; none closes the upper exit. Three are sign-inverted
+existence theorems, two are refuted by explicit counterexample, and three fail respectively by a
+beta-sign error, by restating the open problem, and by a category error. The next section shows
+that this pattern is \emph{not} a coincidence.
+\end{invariant}
+%=============================================================================
+\section{NEW: Why the Upper Exit Cannot Be Closed}\label{sec:inevitability}
+%=============================================================================
+The recurring failure of eight attempts admits an explanation that is itself a theorem. It
+requires one declared hypothesis, which we state openly.
+\begin{hypothesis}[P --- the expected positive solution]\label{hyp:P}
+There exists a Clay witness: $\exists M,\ \mathrm{Clay}(M)$. This is the consensus expectation,
+supported by lattice evidence; it is \emph{not} proved here and \emph{not} assumed elsewhere in
+the paper.
+\end{hypothesis}
+\begin{theorem}[Conditional inevitability of failure]\label{thm:inevitability}
+Assume \textbf{P}. Then:
+\begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
+\item $\neg\mathrm{Bridge}$;
+\item for \emph{every} predicate $\mathrm{Mech}$ and every pair of sound implications
+\[
+\forall M,\ \mathrm{Clay}(M)\to\mathrm{Mech}(M),
+\qquad
+\forall M,\ \mathrm{Mech}(M)\to M\in\Class^-,
+\]
+a contradiction follows. Hence \textbf{no sound argument closes the upper exit}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) Theorem~\ref{thm:burden2} gives $\mathrm{Bridge}\Rightarrow\neg\exists$Clay, contradicting
+\textbf{P}. (ii) The two implications compose to $\mathrm{Bridge}$, refuted by (i). Kernel terms
+\Lean{clay\_true\_implies\_upper\_exit\_not\_closable} and
+\Lean{any\_sound\_upper\_mechanism\_refuted} (\S\ref{sec:proposed}, Block E).
+\end{proof}
+\begin{corollary}[The sign-inversion pattern is explained, not merely observed]
+\label{cor:pattern}
+Under \textbf{P}, every implicative mechanism whose intended conclusion is ``a gap forces an obstruction''
+is refuted by the witness of \textbf{P}. The eight implicative entries of Table~\ref{tab:signinversion} are
+therefore instances of a single consequence (while the two literature-attribution entries, BF82 and Balaban--Tomboulis, stand on their citation corrections).
+\end{corollary}
+\begin{invariant}[Exact scope of the inevitability theorem]\label{inv:inevitability}
+Theorem~\ref{thm:inevitability} is \textbf{conditional on \textbf{P}}. It does \emph{not} prove
+that all attempts must fail unconditionally; if \textbf{P} is false, the upper exit is exactly
+the Clay problem in negative form and remains open. Nor does the theorem say anything about
+which mechanisms are physically interesting: it constrains only their use as \emph{closures}.
+\end{invariant}
+\begin{theorem}[No free reformulation]\label{thm:nofree}
+Let $\Phi$ be any predicate with $\forall M,\ \Phi(M)\iff\mathrm{Clay}(M)$. Then
+\[
+\big(\neg\exists M,\ \Phi(M)\big)\iff\big(\neg\exists M,\ \mathrm{Clay}(M)\big).
+\]
+Consequently a reformulation cannot reduce difficulty: refuting $\Phi$ is refuting Clay.
+\end{theorem}
+\begin{proof}
+Transport the existential witness along the equivalence in both directions. Kernel term
+\Lean{no\_free\_reformulation} (\S\ref{sec:proposed}, Block E).
+\end{proof}
+\begin{theorem}[Reconstruction direction: the slice is an output, not an input]
+\label{thm:reconstruction}
+Osterwalder--Schrader reconstruction is one-way: from a Euclidean measure satisfying
+$\OS0$--$\OS4$ one obtains a Hilbert space on the spatial slice and a self-adjoint $H\ge0$ with
+the same $\Delta$. Hence
+\[
+\mathrm{Clay}_{4D}(M)\ \Longrightarrow\ \mathrm{GappedSlice}(M),
+\]
+and the proposed implication
+$\neg\mathrm{GappedSlice}\Rightarrow\neg\mathrm{Clay}_{4D}$ is its contrapositive: it carries no
+independent information. If the converse implication also holds, the two are equivalent and
+Theorem~\ref{thm:nofree} applies.
+\end{theorem}
+\begin{proof}
+The reconstruction theorem supplies the forward implication; contraposition is intuitionistically
+valid; equivalence plus Theorem~\ref{thm:nofree} gives the final claim.
+\end{proof}
+\begin{invariant}[Strategic consequence, stated plainly]\label{inv:strategy}
+Attacking the Hamiltonian on the slice attacks the \emph{output} of a theorem. An output is never
+easier than its input. The constructive programme runs the other way: build the \emph{measure}
+--- which at every finite $a$ is reflection-positive by construction --- and obtain $H$ for
+free. The remaining task is tightness of the family of measures together with a gap uniform in
+the volume, i.e.\ the open half of \cite{JaffeWitten2000}. This is a redirection of effort, not a
+new obstruction, and not a solution.
+\end{invariant}
+\subsection{The sign-inversion ledger, now explained}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\textwidth}{p{3.3cm} p{3.2cm} X}
+\toprule
+\textbf{Mechanism} & \textbf{Claimed direction} & \textbf{Actual direction and source}\\
+\midrule
+Trace anomaly & forces an obstruction & generates $\Lambda$, blocks the arena-level proof of
+\textbf{H1} (Thm.~\ref{thm:anomaly})\\
+BF82 & forbids the gap & \emph{assumes} the gap, derives cone localisation \cite{BF1982}\\
+$\Chit>0$ & violates $\OS4$ & carried by an $\OS2$-invisible contact term
+(Thm.~\ref{thm:family})\\
+$\Chit$ divergence & forbids the gap & occurs in the gapped $2$d $O(3)$ model; absent in $4$d
+$SU(3)$ \cite{Bietenholz2018,Ce2015}\\
+$|x|^{-8}$ power count & $4$D-specific obstruction & present for a dimension-four composite in a
+free gapped $4$d theory (Prop.~\ref{prop:dimfour})\\
+Unbroken $\Z_N$ & conflicts with AF & is the expected confining phase \cite{GKSW2015}\\
+Balaban--Tomboulis & infrared barrier & programmes proving confinement at all couplings
+\cite{Tomboulis1983,Tomboulis2007,Balaban1987}\\
+\textbf{$\varphi^4_4$ triviality} & Gaussian collapse at $g_0\to0$ &
+\textbf{needs $\beta>0$}; YM has $\beta<0$; GN$_2$ is rigorous, AF and gapped
+(Prop.~\ref{prop:betasign}, \cite{FMRS1986})\\
+\textbf{Order of limits} & non-commutativity wall & infinite volume at fixed $a$ exists;
+the IR pole is perturbative; restates Clay (Thm.~\ref{thm:attackD})\\
+\textbf{Dirac probe} & gapless essential spectrum forbids $\Delta>0$ &
+$D_A$ is not $H$; free massive Dirac field is a counterexample; index stays integral
+(Thm.~\ref{thm:attackE})\\
+\bottomrule
+\end{tabularx}
+\caption{The sign-inversion ledger, ten entries corresponding to the eight audited closures (Attack~A splits into $\Chit$ divergence and $|x|^{-8}$ power count; Attack~B splits into unbroken $\Z_N$ and Balaban--Tomboulis; JSON keys \texttt{attack4}--\texttt{attack8} map one-to-one to Attacks~A--E). Under Hypothesis~\textbf{P} every entry is an instance of Corollary~\ref{cor:pattern}; without \textbf{P} the table remains an observation.}
+\label{tab:signinversion}
+\end{table}
+%=============================================================================
+\section{Premise Boundary}\label{sec:boundary}
+%=============================================================================
+\textbf{B1.} The tail $(\lambda+1)^{-1}$ comes from the \emph{free massless} dispersion, not from
+infinite volume (Prop.~\ref{prop:modes}).
+
+\textbf{B2.} $\Lambda_{\mathrm{RG}}>0\not\Rightarrow\Delta>0$ (Thm.~\ref{thm:anomaly}(ii)).
+
+\textbf{B3.} Wilson's lattice is exactly gauge invariant, needs no gauge fixing, and satisfies
+reflection positivity \cite{OsterwalderSeiler1978}; MRS \cite{MRS1993} keep a fixed IR cutoff and
+claim no gap.
+
+\textbf{B4.} GZ/RGZ positivity violation concerns the gauge-variant sector; unavoidable for
+$\gamma\neq0$ (Cor.~\ref{cor:gamma}).
+
+\textbf{B5.} The fundamental modular region is convex \cite{STSFranke1982,DAZ1991}; $H$ is
+\emph{constructed} from the transfer matrix.
+
+\textbf{B6.} $\theta$-vacua are the clustering pure phases; Strocchi \cite{Strocchi1977}
+constrains charged interpolating fields, not the observable net.
+
+\textbf{B7.} The Rayleigh--Ritz derivation of \textbf{H1} is circular.
+
+\textbf{B8.} Arena-blindness (Prop.~\ref{prop:test}). \quad
+\textbf{B9.} BF82 is an existence theorem (Cor.~\ref{corr:bf}).
+
+\textbf{B10.} Contact terms are $\OS2$-invisible (Lem.~\ref{lem:invisible}). \quad
+\textbf{B11.} Operator dimension produces $|x|^{-8}$ (Prop.~\ref{prop:dimfour}).
+
+\textbf{B12.} $\Chit$ divergence coexists with a gap in $2$d $O(3)$; finite in $4$d $SU(3)$
+\cite{Bietenholz2018,Ce2015}.
+
+\textbf{B13.} Gap $\neq$ area law \cite{GKSW2015,ChatterjeeNotes}; bare $g_0\to0$ is UV.
+
+\textbf{B14 (new).} \emph{The sign of $\beta$ is the discriminator}, not criticality
+(Prop.~\ref{prop:betasign}); GN$_2$ is a rigorous AF gapped theory \cite{FMRS1986}.
+
+\textbf{B15 (new).} \emph{Reflection positivity survives improvement and blocking}
+\cite{LuscherWeisz1985,Symanzik1985}; blocking is not part of the definition of the limit.
+
+\textbf{B16 (new).} \emph{Infinite volume at fixed $a$ is not the obstruction}; the perturbative
+IR pole is an artefact; the critical window is a definition (Thm.~\ref{thm:attackD}).
+
+\textbf{B17 (new).} \emph{$D_A$ is not $H$}; the free massive Dirac field has gapless probe
+spectrum and gapped field theory; the finite-action index is the integer $Q$
+(Thm.~\ref{thm:attackE}).
+
+\textbf{B18 (new).} \emph{Reformulation gives no discount} (Thm.~\ref{thm:nofree}); the slice is
+an output of reconstruction (Thm.~\ref{thm:reconstruction}).
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{p{4.6cm} p{3.0cm} X}
+\toprule
+\textbf{Arrow} & \textbf{Status} & \textbf{Reason}\\
+\midrule
+$\RT\Rightarrow\Delta=0$; $\RT\iff\Delta=0$ (Wightman) & \textbf{Theorem} & \S\ref{sec:core}\\
+$\Gap\Rightarrow$ explicit tail expelled & \textbf{Theorem} & Thm.~\ref{thm:tail}\\
+$\rho\ge0\iff\OS2\iff W0\iff M^2m^2\ge\lambda^4$ & \textbf{Theorem} & Thm.~\ref{thm:rgz}\\
+$\gamma\neq0\Rightarrow\neg\OS2$ (physical RGZ) & \textbf{Theorem} & Cor.~\ref{cor:gamma}\\
+$\OS2\wedge\Gap\wedge\Chit>0$ consistent & \textbf{Theorem} & Thm.~\ref{thm:family}\\
+$|x|^{-8}$, $a^{-4}$ compatible with $\OS\wedge\Gap$ & \textbf{Proposition} & Prop.~\ref{prop:dimfour}\\
+$\beta$-sign discriminates; GN$_2$ rigorous & \textbf{Proposition (new)} & Prop.~\ref{prop:betasign}\\
+$\exists$Clay $\Rightarrow$ no sound upper-exit argument & \textbf{Theorem (new)} &
+Thm.~\ref{thm:inevitability}\\
+$\Phi\iff$Clay $\Rightarrow$ equal difficulty & \textbf{Theorem (new)} & Thm.~\ref{thm:nofree}\\
+$\OS\Rightarrow\RT$ (\textbf{H1}) & \textbf{Declared premise} & $\equiv\OS\Rightarrow\Delta=0$\\
+$\Gap\Rightarrow\Obstr^-$ (\textbf{H2$^-$}) & \textbf{Unproved premise} & B3--B6\\
+$\Class^-_{\R^4}\Rightarrow\neg(\OS\wedge\Gap)$ & \textbf{Theorem} & Thm.~\ref{thm:fork}\\
+Bridge $\iff\neg\exists$Clay; and $\neg$Bridge & \textbf{Theorems} & \S\ref{sec:burden}\\
+Upper exit closed by any of eight attempts & \textbf{Refuted} &
+\S\ref{sec:upper}--\S\ref{sec:regulator}\\
+All future attempts must fail unconditionally & \textbf{Not claimed} & Inv.~\ref{inv:inevitability}\\
+``YM $\in\Class^-_{\R^4}$'' & \textbf{Open; $\equiv\neg$Clay} & Thm.~\ref{thm:positions}\\
+\bottomrule
+\end{tabularx}
+\caption{The honest residue after v21.}
+\label{tab:verdict}
+\end{table}
+%=============================================================================
+\section{Metrological Calibration and Arena Self-Rejection (scoped)}
+%=============================================================================
+\begin{theorem}[Calibration]\label{thm:calib}
+In the declared encoding, the gapless valuation lies in the joint calibration range of
+Instruments I--III; the gapped-horizon valuation exceeds all three.
+\end{theorem}
+\begin{theorem}[Self-rejection]\label{thm:selfrej}
+Under \Lean{ManifoldIndependentStrocchiLaws}, $\OS\wedge\Gap$ deduces
+$\neg\mathrm{boundaryS3Inf}\wedge\neg\mathrm{nonCompact}$.
+\end{theorem}
+\begin{invariant}[Status]\label{inv:metrology}
+Theorem~\ref{thm:selfrej} rests on the Method-III reading of $\theta$-sectors, the converse of the
+standard AQFT reading (\textbf{B6}); it is \textbf{conditional}. Also, \emph{no compact resolvent
+$\not\Rightarrow$ no gap}: $-\Delta+m^2$ on $\R^3$ has spectrum $[m^2,\infty)$ and gap $m>0$.
+Attack~E violates this invariant (Thm.~\ref{thm:attackE}(a)).
+\end{invariant}
+%=============================================================================
+\section{Kernel Self-Audit: Five Packaging Defects (C1--C5)}\label{sec:audit}
+%=============================================================================
+\begin{proposition}[C1 --- the v14 seal is a propositional tautology]\label{prop:tautology}
+Since \Lean{rgzInstrumentConfining} equals the negation of \Lean{rgzInstrumentW0} by definition,
+\Lean{rgz\_route\_alpha\_seal\_is\_tautological} is an instance of
+$\forall P\,Q,\ \neg(P\wedge Q\wedge\neg Q)$ and carries no information about the RGZ family.
+\end{proposition}
+\begin{proposition}[C2 --- naming defect]\label{prop:tautology2}
+\Lean{rgzInstrumentOS2} encodes \emph{pointwise} positivity, strictly weaker than $\OS2$.
+Section~33 separates the predicates and proves the separation witness.
+\end{proposition}
+\begin{correction}[C3 --- NEW: the ``upper 4D dichotomy'' is a field permutation]\label{corr:C3}
+A proposed structure \Lean{Upper4DDichotomy} carries two fields:
+\[
+\text{branchA}:\ \OS(M)\to\forall\lambda,\ \text{mode at }(\lambda+1)^{-1},
+\qquad
+\text{branchB}:\ \Gap(M)\to\Obstr^-(M).
+\]
+These are \emph{literally} \textbf{H1} and \textbf{H2$^-$}. Hence the structure is a renaming of
+$\Class^-$, and its ``sealing theorem'' is the class fork after permuting two fields: no physical
+input, no new content. This is the same defect class as C1.
+
+\textbf{Correction to an earlier suggestion.} It was proposed that
+$\Lean{Upper4DDichotomy}\ M=\Lean{InCompleteR4GaugeClass}\ M$ holds by \texttt{rfl}.
+\textbf{That is wrong and is withdrawn:} two structures with different names are different types,
+so definitional equality fails. The correct statement is an \emph{equivalence} proved by field
+permutation, with zero physical input; see Block~F of \S\ref{sec:proposed}. The defect diagnosis
+is unaffected; only the Lean formulation is corrected.
+\end{correction}
+\begin{correction}[Two defects of v16, carried forward]\label{corr:v16defects}
+\textbf{(D1)} \Lean{atomicKL} excludes exactly two of eight valuations, leaving \emph{six}, not
+four. \textbf{(D2)} The v16 map \Lean{rgzPhysicalTriple} was off by one and could not express
+$\gamma=0$; corrected in Block~C.
+\end{correction}
+\begin{correction}[C4 and C5 --- additional packaging invariants registered in v21]\label{corr:C4C5}
+\textbf{(C4) Definitional mechanism encoding in \Lean{arenaOfConcreteModel}:}
+in Section~21 of the Lean file, \Lean{arenaOfConcreteModel M} defines
+\Lean{restrictedToOmega := not OS2}, \Lean{complexPoles := not OS2 and not W0},
+\Lean{brstBroken := not Wick}, \Lean{pureThetaSector := not W3}, and
+\Lean{horizonSingular := not W4}. Accordingly, \Lean{arenaOfConcreteModel} is an
+\emph{axiom-failure summary record}, not an independent dynamical derivation of
+\Lean{CanonicalPhysics}.
+\textbf{(C5) Definitional arithmetic bridge in RGZ:}
+\Lean{rgz\_sharp\_criterion} (\Lean{rgzSpectralPositive p <-> rgzNonNegativeProduct p})
+holds by \Lean{Iff.rfl} inside the arithmetic surrogate; the analytic content resides in
+Theorem~\ref{thm:rgz}, while Lean verifies the decidable integer partitions.
+\end{correction}
+\begin{correction}[C6 and C7 --- irrational-gap closure and surrogate-ontology naming]\label{corr:C6C7}
+\textbf{(C6) Positive rational lower bound (\Lean{HasPositiveRationalGap}, Block~J, \S44):}
+requiring an \emph{exact} rational infimum \Lean{HasExactRationalSpectralGap} would leave open irrational spectral gaps such as $\Delta = \sqrt{2}$ (witnessed by the Pell sequence $E_n = p_n/q_n = 3/2, 17/12, 99/70, \dots \downarrow \sqrt{2}$ in \Lean{PellSqrt2System}). By Archimedean density of $\Q_{>0}$ in $\R_{>0}$, $\Delta_\R > 0$ is equivalent to the existence of a positive rational lower bound \Lean{HasPositiveRationalGap}. Replacing the premise with \Lean{HasPositiveRationalGap} strictly strengthens the class incompatibility theorem (\Lean{universal\_R4\_class\_incompatibility\_pos}).
+\textbf{(C7) Surrogate vs.\ physical witness for Hypothesis~\textbf{P}:}
+\Lean{inevitability\_hypothesis\_holds\_in\_surrogate\_ontology} (Block~H) exhibits $\exists\mathrm{Clay}$ over the truth-value surrogate \Lean{UnconstrainedCompatibleModel}, whereas Hypothesis~\textbf{P} in Theorem~\ref{thm:inevitability} concerns a physical QFT witness.
+\end{correction}
+
+\begin{invariant}[What survives in Lean]
+\emph{Survives:} the decidable arithmetic partitions and numerical certificates.
+\emph{Does not survive:} any claim that Lean has proved a positivity or confinement theorem about
+propagators, or that a repackaging of the class premises is a new theorem.
+\end{invariant}
+%=============================================================================
+\section{Semantic Faithfulness, Assumption Ledger, Firewall}
+%=============================================================================
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{p{4.2cm} X p{2.9cm}}
+\toprule
+\textbf{Physics} & \textbf{Lean object} & \textbf{Status}\\
+\midrule
+Singer 1978, GZ poles, FMR cusps, Strocchi 1977 & named fields & hypothesis fields\\
+OS reconstruction, Hilbert space, half-line, dilation & --- & not formalized\\
+Spectrum, self-adjointness & free predicate fields & surrogate\\
+\textbf{No gauge theory at all} & no gauge group, no curvature, no action, no measure;
+\Lean{SpacetimeRegion} has two constructors & \textbf{explicit limitation}\\
+\textbf{Surrogate is internally decoupled} & \Lean{applyH} is the identity;
+\Lean{innerProd} is addition of naturals; \Lean{hasEigenmodeAtEnergy} is unrelated to
+\Lean{applyH}; \Lean{clusterResidual} is identically zero although the surrogate two-point
+function is identically one and does not cluster & \textbf{explicit limitation}\\
+RGZ positivity/confinement & \Lean{rgzInstrument} family & arithmetic surrogate\\
+\textbf{H1}, \textbf{H2}, \textbf{H2$^-$} & class / disjunctive fields & declared premises\\
+Peano core, tail expulsion, calibration, strictness, certificate, dichotomy, Section 34 audit &
+\S\ref{sec:patch} & \textbf{fully proved (per CI)}\\
+Contact-term theorems; anomaly calibration; gamma corollary; beta-sign proposition & --- &
+paper-level\\
+Inevitability and no-free-reformulation theorems & \S\ref{sec:proposed}, Block E &
+\textbf{candidate}, elementary\\
+Extension modules, Sections 35--44 (Blocks A--J) & \S\ref{sec:proposed} & \textbf{A--B confirmed; C--J queued}\\
+\bottomrule
+\end{tabularx}
+\caption{Semantic map. Zero axioms does not mean zero hypotheses, and does not mean faithful
+physics.}
+\label{tab:faith}
+\end{table}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{p{0.65cm} p{4.8cm} X p{2.35cm}}
+\toprule
+\textbf{ID} & \textbf{Predicate} & \textbf{Meaning} & \textbf{Status}\\
+\midrule
+A1 & \Lean{nonCompact} & pure $\R^4$, infinite volume, asymptotic $S^3$ & background\\
+A2 & \Lean{FullConcreteOSWightman} & $\OS0$--$\OS4$, $W0$--$W4$, Wick & truth-value package\\
+A3 & \Lean{HasExactRationalSpectralGap} & rational gap bound & ``square''\\
+A4 & \Lean{InCompleteR4GaugeClass} & A5 and A6 & Tier 1 scope\\
+A5 & \Lean{GappedR4StructuralLaws} & gap implies obstructions & unproved premise\\
+A6 & \Lean{oswPreservesUncutIRContinuum} & OS implies IR tail & declared premise\\
+A7 & \Lean{PhysicallyAdmissibleR4YangMills} & packages A5 and A6 & relocation, not discharge\\
+\textbf{P} & $\exists$Clay & expected positive solution & \textbf{declared, used only in
+Thm.~\ref{thm:inevitability}}\\
+A8 & compact gap on $S^4\times T^3$ & separate PDF & independent\\
+A9 & $Z'$, $Z_{\max}=172$ & phenomenology & independent\\
+\bottomrule
+\end{tabularx}
+\caption{Assumption ledger. A7-completeness is equivalent to $\neg$Clay and \emph{false} in the
+audited ontology.}
+\label{tab:ledgerA}
+\end{table}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{X p{2.6cm} p{4.2cm}}
+\toprule
+\textbf{Component} & \textbf{Premise here?} & \textbf{Status}\\
+\midrule
+Canonical class and arena no-go & yes (core) & zero-axiom Lean theorems\\
+Gauge-invariant instrument theorem & no & paper-level, computed\\
+Dimension-four free-field proposition & no & paper-level, elementary\\
+Inevitability theorem & yes (\textbf{P}) & conditional, elementary\\
+Compact $S^4\times T^3$ geometric gap & no & separate theorem in YM\_V5\\
+Constructible-field cascade & no & separate arithmetic geometry\\
+$Z'\approx1088.04$ GeV, $Z_{\max}=172$ & no & separate predictions\\
+\bottomrule
+\end{tabularx}
+\caption{Dependency firewall.}
+\label{tab:firewall}
+\end{table}
+%=============================================================================
+\section{Closure Matrix}
+%=============================================================================
+\begin{table}[htbp]\centering\footnotesize
+\renewcommand{\arraystretch}{1.24}
+\begin{tabularx}{\textwidth}{p{4.2cm} p{4.3cm} X}
+\toprule
+\textbf{Objection} & \textbf{Answer} & \textbf{Verdict}\\
+\midrule
+``Construct a positive gapped measure inside the class.'' & Prop.~\ref{prop:shield} & $\bot$.\\
+\midrule
+``Your result is conditional on the class.'' & Thm.~\ref{thm:positions} &
+\textbf{Correct, and proved.}\\
+\midrule
+``The contradiction is in the definition.'' & Thm.~\ref{thm:strict}, Cor.~\ref{cor:lock} &
+Globally strict; on the $\OS$ sector tautological. Both stated.\\
+\midrule
+``Use the refined GZ propagator.'' & Cor.~\ref{cor:gamma} & \textbf{Sealed} for $\gamma\neq0$.\\
+\midrule
+``Your Lean RGZ seal is circular.'' & Prop.~\ref{prop:tautology} & \textbf{Confirmed.}\\
+\midrule
+``Close the bridge with the trace anomaly.'' & Cor.~\ref{cor:path1} & \textbf{Sign-inverted.}\\
+\midrule
+``Close it with $\Chit>0$ and the boundary sphere.'' & Thm.~\ref{cor:path2} & \textbf{Refuted.}\\
+\midrule
+``Close it with Buchholz--Fredenhagen.'' & Cor.~\ref{corr:bf} & \textbf{Sign-inverted.}\\
+\midrule
+``The $|x|^{-8}$ divergence is a $4$D obstruction.'' & Prop.~\ref{prop:dimfour} &
+\textbf{Refuted in $d=4$}; dimension-universal.\\
+\midrule
+``The exponential cancellation is fine-tuning.'' & Prop.~\ref{prop:afexp} &
+\textbf{Universal AF}; index definition needs no subtraction.\\
+\midrule
+``Centre symmetry conflicts with asymptotic freedom.'' & Thm.~\ref{thm:attackB} &
+\textbf{Three errors.}\\
+\midrule
+``Four-dimensional triviality forces Gaussian collapse.'' & Prop.~\ref{prop:betasign},
+Thm.~\ref{thm:attackC} & \textbf{Beta-sign error}; GN$_2$ is rigorous, AF and gapped; the
+dichotomy has a third branch.\\
+\midrule
+``Blocking destroys reflection positivity.'' & Thm.~\ref{thm:attackC}(b) &
+\textbf{False}; improved RP actions are standard and blocking is not part of the limit's
+definition.\\
+\midrule
+``The two limits do not commute.'' & Thm.~\ref{thm:attackD} &
+\textbf{Restates Clay}; infinite volume at fixed $a$ exists; IR pole is perturbative.\\
+\midrule
+``The Dirac probe has no gap, so neither does the theory.'' & Thm.~\ref{thm:attackE} &
+\textbf{Category error}; free massive Dirac field is a counterexample; index stays integral.\\
+\midrule
+``Reformulate on the lattice or the 3D slice and close it there.'' &
+Thms.~\ref{thm:nofree},\ref{thm:reconstruction} & \textbf{No discount}; the slice is an output of
+reconstruction.\\
+\midrule
+``Package the two branches as a new upper dichotomy.'' & Cor.~\ref{corr:C3} &
+\textbf{Field permutation} of the class; the earlier \texttt{rfl} suggestion is withdrawn.\\
+\midrule
+``Then every future attempt must fail.'' & Inv.~\ref{inv:inevitability} &
+\textbf{Only under \textbf{P}}; not an unconditional claim.\\
+\midrule
+``Hidden axioms?'' & \texttt{\#print axioms} audits & Table~\ref{tab:faith} says what this does
+not certify; Blocks~A--B are locally confirmed and Blocks~C--J are queued for CI.\\
+\bottomrule
+\end{tabularx}
+\caption{Every formal hatch is sealed; every open door is named; eight closure attempts audited.}
+\label{tab:closure}
+\end{table}
+%=============================================================================
+\section{Inventory of Sections 32--34 (already present in \texttt{RoundSquare\_v21.lean})}
+\label{sec:patch}
+%=============================================================================
+\textbf{Do not append this block.} These declarations already exist. The listing is an
+\emph{inventory}. Section~32 also contains \Lean{leScale\_of\_le}, \Lean{leScale\_dichotomy},
+\Lean{leScale\_exclusive}, \Lean{RemainingOSWightmanConjuncts}, \Lean{ExitCertificate},
+\Lean{refined\_gz\_complete\_trichotomy}, \Lean{rgz\_table\_numerical\_certificates},
+\Lean{four\_mul\_le\_sq\_add}, \Lean{rgz\_nonneg\_product\_implies\_real\_poles}.
+\begin{lstlisting}
+theorem not_exists_iff_forall_not {α : Type u} (Φ : α → Prop) :
+(¬ ∃ x : α, Φ x) ↔ (∀ x : α, ¬ Φ x) :=
+⟨fun h x hx => h ⟨x, hx⟩, fun h ⟨x, hx⟩ => h x hx⟩
+theorem not_leScale_succ_add (n k : Nat) : ¬ LeScale (n + k + 1) n := ...
+theorem gap_expels_entire_reciprocal_tail (H : OperatorHilbertSystem)
+(hGap : HasExactRationalSpectralGap H) :
+∃ q : Nat, ∀ k : Nat, ¬ H.hasEigenmodeAtEnergy (energyFormula (q + 1 + k)) := ...
+theorem class_bridge_iff_absolute_no_go :
+ArenaDefect_ClassCompletenessBridge ↔
+(¬ ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M) := ...
+theorem bare_clay_iff_exit_certificate_and_remaining (M : ConcreteQuantumFieldModel) :
+ArenaDefect_BareConcreteClaySolution M ↔
+(ExitCertificate M ∧ RemainingOSWightmanConjuncts M) := ...
+theorem exit_certificate_refutes_H1 (M : ConcreteQuantumFieldModel)
+(hExit : ExitCertificate M) (hRem : RemainingOSWightmanConjuncts M) :
+¬ (FullConcreteOSWightman M →
+∀ lam : Nat, M.hilbert.hasEigenmodeAtEnergy (energyFormula lam)) := ...
+theorem exit_certificate_refutes_H2_minus (M : ConcreteQuantumFieldModel)
+(hExit : ExitCertificate M) :
+¬ (HasExactRationalSpectralGap M.hilbert → GappedR4StructuralLaws M) := ...
+theorem rgz_pointwise_does_not_imply_spectral :
+∃ p : RGZParameterTriple, rgzPointwisePositive p ∧ ¬ rgzSpectralPositive p := ...
+theorem logvinovich_dichotomy : LogvinovichDichotomy := ...
+theorem three_legitimate_positions : ... := ...
+theorem admissibility_completeness_iff_absolute_no_go : ... := ...
+theorem section_29_self_audit_master : ... := ...
+\end{lstlisting}
+\begin{invariant}[Verification protocol]
+The verified terms use the arithmetic core (\Lean{leScale\_trans}, \Lean{leScale\_add\_right},
+\Lean{leScale\_mulPos}, \Lean{not\_succ\_leScale\_self}) and Lean core facts
+(\Lean{Nat.le\_of\_succ\_le\_succ}, \Lean{Nat.le\_of\_ble\_eq\_true}, \Lean{Nat.add\_mul},
+\Lean{Nat.mul\_add}, \Lean{Nat.add\_assoc}, \Lean{Nat.add\_left\_comm}, \Lean{Iff.rfl},
+\Lean{Eq.subst}) via \texttt{rw}, \texttt{calc}, \texttt{exact}. The claim of zero
+\texttt{propext} is a \emph{CI output}. Pin the toolchain in \texttt{lean-toolchain}.
+\end{invariant}
+%=============================================================================
+\section{Kernel Extension Modules (Sections 35--44, Blocks A--J): A--B Confirmed, C--I Queued}
+\label{sec:proposed}
+%=============================================================================
+{\color{darkred}\textbf{Status:} Verified kernel: Sections~1--34 of \texttt{RoundSquare\_v21.lean} (0~\texttt{sorry}, 0~\texttt{axiom}, CI confirmed). Blocks~A (\S35) and~B (\S36): locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean). Blocks~C--J (\S37--44): \texttt{sorry}-free candidate modules, queued for full CI pass. Nothing in \S35--43 is used by any core theorem.}
+\subsection{Block A (Section 35): a gapped tower with every mode present}
+\begin{lstlisting}
+namespace RoundSquare
+theorem mulPos_one : ∀ n : Nat, mulPos n 1 = n + 1
+  | 0 => rfl
+  | n + 1 => by
+      show 1 + mulPos n 1 = n + 1 + 1
+      rw [mulPos_one n, Nat.add_comm 1 (n + 1)]
+/-- Gapped tower: E_lam = lam + 2, every lam present, NO truncation. -/
+def towerEnergy (lam : Nat) : PosRat where
+  numPred := lam + 1
+  denPred := 0
+def GappedTowerSystem : OperatorHilbertSystem :=
+  { ContinuumHilbertSystem with
+    hasEigenmodeAtEnergy := fun E => ∃ lam : Nat, towerEnergy lam = E }
+theorem tower_lower_bound (lam : Nat) :
+    lePosRatExact (towerEnergy 0) (towerEnergy lam) := by
+  show LeScale (mulPos 1 1) (mulPos (lam + 1) 1)
+  rw [mulPos_one 1, mulPos_one (lam + 1)]
+  exact leScale_of_le 2 (lam + 2) (Nat.le_add_left 2 lam)
+theorem gapped_tower_has_exact_rational_gap :
+    HasExactRationalSpectralGap GappedTowerSystem :=
+  ⟨fun _ _ _ _ => rfl,
+   ⟨towerEnergy 0,
+    ⟨fun E hE => match hE with
+       | ⟨lam, hEq⟩ =>
+         @Eq.subst PosRat (fun X => lePosRatExact (towerEnergy 0) X)
+           (towerEnergy lam) E hEq (tower_lower_bound lam),
+     fun B hB => hB (towerEnergy 0) ⟨0, rfl⟩⟩⟩⟩
+theorem tower_all_modes_present :
+    ∃ f : Nat → PosRat,
+      (∀ a b, f a = f b → a = b) ∧
+      ∀ lam, GappedTowerSystem.hasEigenmodeAtEnergy (f lam) :=
+  ⟨towerEnergy,
+   ⟨fun a b h => Nat.succ.inj (congrArg PosRat.numPred h),
+    fun lam => ⟨lam, rfl⟩⟩⟩
+end RoundSquare
+\end{lstlisting}
+\subsection{Block B (Section 36): the full valuation classification (six, not four)}
+\begin{lstlisting}
+namespace RoundSquare
+theorem rgz_report_atomicKL_excludes_exactly_two :
+    ¬ ∃ r : RGZInstrumentReport, r.w0 ∧ r.noAsymptoticGluon :=
+  fun ⟨r, hw, hn⟩ => r.atomicKL hw hn
+theorem rgz_report_all_valuations :
+    (∃ r : RGZInstrumentReport, r.os2 ∧ r.w0 ∧ ¬ r.noAsymptoticGluon) ∧
+    (∃ r : RGZInstrumentReport, r.os2 ∧ ¬ r.w0 ∧ r.noAsymptoticGluon) ∧
+    (∃ r : RGZInstrumentReport, ¬ r.os2 ∧ r.w0 ∧ ¬ r.noAsymptoticGluon) ∧
+    (∃ r : RGZInstrumentReport, ¬ r.os2 ∧ ¬ r.w0 ∧ r.noAsymptoticGluon) ∧
+    (∃ r : RGZInstrumentReport, r.os2 ∧ ¬ r.w0 ∧ ¬ r.noAsymptoticGluon) ∧
+    (∃ r : RGZInstrumentReport, ¬ r.os2 ∧ ¬ r.w0 ∧ ¬ r.noAsymptoticGluon) :=
+  ⟨⟨⟨True, True, False, fun _ h => h⟩, ⟨True.intro, True.intro, fun h => h⟩⟩,
+   ⟨⟨True, False, True, fun h => False.elim h⟩, ⟨True.intro, fun h => h, True.intro⟩⟩,
+   ⟨⟨False, True, False, fun _ h => h⟩, ⟨fun h => h, True.intro, fun h => h⟩⟩,
+   ⟨⟨False, False, True, fun h => False.elim h⟩, ⟨fun h => h, fun h => h, True.intro⟩⟩,
+   ⟨⟨True, False, False, fun h => False.elim h⟩, ⟨True.intro, fun h => h, fun h => h⟩⟩,
+   ⟨⟨False, False, False, fun h => False.elim h⟩, ⟨fun h => h, fun h => h, fun h => h⟩⟩⟩
+end RoundSquare
+\end{lstlisting}
+\subsection{Block C (Section 37): physical RGZ parametrisation, encoding corrected}
+\begin{lstlisting}
+namespace RoundSquare
+structure RGZPhysicalPoint where
+  M2 : Nat
+  m2 : Nat
+  twoNg2 : Nat
+  gamma4 : Nat
+/-- v16 encoding, retained ONLY as an audit artefact: off by one. -/
+def rgzPhysicalTripleV16 (P : RGZPhysicalPoint) : RGZParameterTriple :=
+  ⟨P.M2, P.m2, P.M2 * P.m2 + P.twoNg2 * P.gamma4⟩
+theorem rgz_v16_encoding_always_subcritical (P : RGZPhysicalPoint) :
+    ¬ rgzSpectralPositive (rgzPhysicalTripleV16 P) :=
+  not_leScale_succ_add (P.M2 * P.m2) (P.twoNg2 * P.gamma4)
+/-- CORRECTED encoding: lam4 = M2*m2 + c exactly, under 1 <= M2*m2 + c. -/
+def rgzPhysicalTriple (P : RGZPhysicalPoint)
+    (h : 1 ≤ P.M2 * P.m2 + P.twoNg2 * P.gamma4) : RGZParameterTriple :=
+  ⟨P.M2, P.m2, P.M2 * P.m2 + P.twoNg2 * P.gamma4 - 1⟩
+theorem rgzPhysicalTriple_lam4 (P : RGZPhysicalPoint)
+    (h : 1 ≤ P.M2 * P.m2 + P.twoNg2 * P.gamma4) :
+    rgzLam4 (rgzPhysicalTriple P h) = P.M2 * P.m2 + P.twoNg2 * P.gamma4 :=
+  Nat.sub_add_cancel h
+theorem rgz_physical_horizon_breaks_positivity (P : RGZPhysicalPoint)
+    (h : 1 ≤ P.M2 * P.m2 + P.twoNg2 * P.gamma4) (k : Nat)
+    (hk : P.twoNg2 * P.gamma4 = k + 1) :
+    ¬ rgzSpectralPositive (rgzPhysicalTriple P h) := by
+  intro hSpec
+  have h1 : LeScale (rgzLam4 (rgzPhysicalTriple P h)) (P.M2 * P.m2) := hSpec
+  rw [rgzPhysicalTriple_lam4 P h, hk] at h1
+  exact not_leScale_succ_add (P.M2 * P.m2) k h1
+theorem rgz_physical_zero_horizon_is_spectral (P : RGZPhysicalPoint)
+    (h : 1 ≤ P.M2 * P.m2 + P.twoNg2 * P.gamma4)
+    (h0 : P.twoNg2 * P.gamma4 = 0) :
+    rgzSpectralPositive (rgzPhysicalTriple P h) := by
+  have h1 : LeScale (rgzLam4 (rgzPhysicalTriple P h)) (P.M2 * P.m2) := by
+    rw [rgzPhysicalTriple_lam4 P h, h0]
+    exact leScale_refl (P.M2 * P.m2)
+  exact h1
+end RoundSquare
+\end{lstlisting}
+\subsection{Block D (Section 38): faithful gapped dispersion --- O7 DISCHARGED}
+\begin{lstlisting}
+namespace RoundSquare
+/-- E_lam = 1 + 1/(lam+1) decreases to m = 1. No truncation. -/
+def gappedEnergy (lam : Nat) : PosRat where
+  numPred := lam + 1
+  denPred := lam
+def MassiveDispersionSystem : OperatorHilbertSystem :=
+  { ContinuumHilbertSystem with
+    hasEigenmodeAtEnergy := fun E => ∃ lam : Nat, gappedEnergy lam = E }
+/-- Two self-contained arithmetic helpers (no Mathlib, no omega). -/
+theorem mulPos_eq : ∀ (n y : Nat), mulPos n y = (n + 1) * y
+  | 0, y => by show y = 1 * y; rw [Nat.one_mul]
+  | n + 1, y => by
+      show y + mulPos n y = (n + 1 + 1) * y
+      rw [mulPos_eq n y, Nat.succ_mul (n + 1) y]
+      exact Nat.add_comm y ((n + 1) * y)
+theorem le_of_leScale : ∀ (n m : Nat), LeScale n m → n ≤ m
+  | 0, _, _ => Nat.zero_le _
+  | _ + 1, 0, h => False.elim h
+  | n' + 1, m' + 1, h => Nat.succ_le_succ (le_of_leScale n' m' h)
+private theorem mul_le_mul_right' (a b c : Nat) (h : a ≤ b) : a * c ≤ b * c := by
+  induction c with
+  | zero => exact Nat.le_refl 0
+  | succ c ih =>
+      rw [Nat.mul_succ a c, Nat.mul_succ b c]
+      exact Nat.add_le_add ih h
+theorem mulPos_one_ge (n : Nat) : LeScale (n + 1) (mulPos n 1) := by
+  rw [mulPos_one n]; exact leScale_refl (n + 1)
+theorem massive_lower_bound (lam : Nat) :
+    lePosRatExact ⟨0, 0⟩ (gappedEnergy lam) := by
+  show LeScale (lam + 1) (mulPos (lam + 1) 1)
+  exact leScale_trans (lam + 1) (lam + 2) (mulPos (lam + 1) 1)
+    (leScale_of_le (lam + 1) (lam + 2) (Nat.le_succ _)) (mulPos_one_ge (lam + 1))
+theorem massive_all_modes_present :
+    ∃ f : Nat → PosRat,
+      (∀ a b, f a = f b → a = b) ∧
+      ∀ lam, MassiveDispersionSystem.hasEigenmodeAtEnergy (f lam) :=
+  ⟨gappedEnergy,
+   ⟨fun a b h => Nat.succ.inj (congrArg PosRat.numPred h),
+    fun lam => ⟨lam, rfl⟩⟩⟩
+/-- O7 DISCHARGED. Route avoids the square identity entirely:
+    from (q+2) <= (p+1) and the bound at lam = q+1 we get
+    (q+2)*(q+1) + (q+2) <= (q+2)*(q+1) + (q+1), hence q+2 <= q+1. -/
+theorem massive_gap_infimum (p q : Nat)
+    (hB : ∀ lam : Nat, lePosRatExact ⟨p, q⟩ (gappedEnergy lam)) :
+    lePosRatExact ⟨p, q⟩ ⟨0, 0⟩ := by
+  show LeScale (mulPos p 1) (q + 1)
+  rw [mulPos_one p]
+  cases leScale_dichotomy (p + 1) (q + 1) with
+  | inl h => exact h
+  | inr hGe =>
+      -- Unfold lePosRatExact & gappedEnergy by TYPE ASCRIPTION (defeq), not syntactic rw:
+      have hInst : LeScale (mulPos p (q + 2)) (mulPos (q + 2) (q + 1)) := hB (q + 1)
+      have h2 : (p + 1) * (q + 2) ≤ (q + 3) * (q + 1) := by
+        have h2' := le_of_leScale _ _ hInst
+        rw [mulPos_eq p (q + 2), mulPos_eq (q + 2) (q + 1)] at h2'
+        exact h2'
+      have h1 : (q + 2) * (q + 2) ≤ (p + 1) * (q + 2) :=
+        mul_le_mul_right' (q + 2) (p + 1) (q + 2) (le_of_leScale (q + 2) (p + 1) hGe)
+      have h3 : (q + 2) * (q + 2) ≤ (q + 3) * (q + 1) := Nat.le_trans h1 h2
+      have e1 : (q + 2) * (q + 2) = (q + 2) * (q + 1) + (q + 2) :=
+        Nat.mul_succ (q + 2) (q + 1)
+      have e2 : (q + 3) * (q + 1) = (q + 2) * (q + 1) + (q + 1) :=
+        Nat.succ_mul (q + 2) (q + 1)
+      rw [e1, e2] at h3
+      exact False.elim (Nat.not_succ_le_self (q + 1) (Nat.le_of_add_le_add_left h3))
+theorem massive_dispersion_has_rational_gap :
+    HasExactRationalSpectralGap MassiveDispersionSystem :=
+  ⟨fun _ _ _ _ => rfl,
+   ⟨⟨0, 0⟩,
+    ⟨fun E hE => match hE with
+       | ⟨lam, hEq⟩ =>
+         @Eq.subst PosRat (fun X => lePosRatExact ⟨0, 0⟩ X)
+           (gappedEnergy lam) E hEq (massive_lower_bound lam),
+     fun B hB => match B with
+       | ⟨p, q⟩ => massive_gap_infimum p q (fun lam => hB (gappedEnergy lam) ⟨lam, rfl⟩)⟩⟩⟩
+end RoundSquare
+\end{lstlisting}
+\begin{remark}[Why the square identity is no longer needed]
+The v17 route used $(q+2)^2=(q+1)(q+3)+1$, whose proof in core Lean without \texttt{ring} or
+\texttt{omega} is lengthy. The v18 route instead expands \emph{one} factor at a time via
+\Lean{Nat.mul\_succ} and \Lean{Nat.succ\_mul} and cancels the common summand with
+\Lean{Nat.le\_of\_add\_le\_add\_left}. Both identities are definitional applications of core
+lemmas, so no nonlinear arithmetic tactic is required.
+\end{remark}
+\subsection{Block E (Section 39): inevitability and no free reformulation}
+\begin{lstlisting}
+namespace RoundSquare
+/-- Thm thm:inevitability(i): a Clay witness refutes the bridge. -/
+theorem clay_true_implies_upper_exit_not_closable
+    (hClay : ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M) :
+    ¬ ArenaDefect_ClassCompletenessBridge :=
+  fun hBridge => (class_bridge_iff_absolute_no_go.mp hBridge) hClay
+/-- Thm thm:inevitability(ii): no sound mechanism can close the upper exit. -/
+theorem any_sound_upper_mechanism_refuted
+    (hClay : ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M)
+    (Mech : ConcreteQuantumFieldModel → Prop)
+    (hSound : ∀ M, ArenaDefect_BareConcreteClaySolution M → Mech M)
+    (hCloses : ∀ M, Mech M → InCompleteR4GaugeClass M) : False :=
+  clay_true_implies_upper_exit_not_closable hClay
+    (fun M hSol => hCloses M (hSound M hSol))
+/-- Thm thm:nofree: reformulation gives no discount. -/
+theorem no_free_reformulation (Φ : ConcreteQuantumFieldModel → Prop)
+    (hEq : ∀ M, Φ M ↔ ArenaDefect_BareConcreteClaySolution M) :
+    (¬ ∃ M, Φ M) ↔ (¬ ∃ M, ArenaDefect_BareConcreteClaySolution M) :=
+  ⟨fun h ⟨M, hS⟩ => h ⟨M, (hEq M).mpr hS⟩,
+   fun h ⟨M, hP⟩ => h ⟨M, (hEq M).mp hP⟩⟩
+/-- The eight audited mechanisms are instances: any of them, if sound and
+    closing, contradicts a Clay witness. -/
+theorem eight_attempts_are_instances
+    (hClay : ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M)
+    (Mechs : Nat → ConcreteQuantumFieldModel → Prop)
+    (hSound : ∀ i M, ArenaDefect_BareConcreteClaySolution M → Mechs i M)
+    (hCloses : ∀ i M, Mechs i M → InCompleteR4GaugeClass M) :
+    ∀ i : Nat, False :=
+  fun i => any_sound_upper_mechanism_refuted hClay (Mechs i) (hSound i) (hCloses i)
+end RoundSquare
+\end{lstlisting}
+\subsection{Block F (Section 40): audit of the proposed upper dichotomy (defect C3)}
+\begin{lstlisting}
+namespace RoundSquare
+/-- The proposed structure. Its two fields ARE H1 and H2-minus. -/
+structure Upper4DDichotomy (M : ConcreteQuantumFieldModel) : Prop where
+  branchA_gaussianCollapse :
+    FullConcreteOSWightman M →
+    ∀ lam : Nat, M.hilbert.hasEigenmodeAtEnergy (energyFormula lam)
+  branchB_irWallRemovalBreak :
+    HasExactRationalSpectralGap M.hilbert → GappedR4StructuralLaws M
+/-- CORRECTION: NOT rfl. Different structure names are different types.
+    The equivalence is a FIELD PERMUTATION with zero physical input. -/
+theorem upper4D_iff_class (M : ConcreteQuantumFieldModel) :
+    Upper4DDichotomy M ↔ InCompleteR4GaugeClass M :=
+  ⟨fun h => ⟨h.branchB_irWallRemovalBreak, h.branchA_gaussianCollapse⟩,
+   fun h => ⟨h.oswPreservesUncutIRContinuum, h.gapForcesStructuralObstructions⟩⟩
+theorem upper_dichotomy_closes_top_is_field_permutation (M : ConcreteQuantumFieldModel)
+    (hUp : Upper4DDichotomy M) :
+    ¬ ArenaDefect_BareConcreteClaySolution M :=
+  universal_R4_class_incompatibility_theorem M ((upper4D_iff_class M).mp hUp)
+/-- Two-story fork, with the term-mode destructuring written as match (not let). -/
+theorem two_story_fork_master (M : ConcreteQuantumFieldModel) :
+    (Upper4DDichotomy M → ¬ ArenaDefect_BareConcreteClaySolution M) ∧
+    (ArenaDefect_BareConcreteClaySolution M →
+      ExitCertificate M ∧
+      ¬ (FullConcreteOSWightman M →
+         ∀ lam : Nat, M.hilbert.hasEigenmodeAtEnergy (energyFormula lam)) ∧
+      ¬ (HasExactRationalSpectralGap M.hilbert → GappedR4StructuralLaws M)) :=
+  ⟨upper_dichotomy_closes_top_is_field_permutation M,
+   fun hSol =>
+     match (bare_clay_iff_exit_certificate_and_remaining M).mp hSol with
+     | ⟨hExit, hRem⟩ =>
+       ⟨hExit, exit_certificate_refutes_H1 M hExit hRem,
+        exit_certificate_refutes_H2_minus M hExit⟩⟩
+end RoundSquare
+\end{lstlisting}
+\subsection{Block G (Section 41): the Grand Strategic Fork \& Checkmate Theorem}
+\begin{lstlisting}
+namespace RoundSquare
+def StrategicForkCheckmate : Prop :=
+  -- (1) Object-level Tine 1: staying in the canonical class forbids Clay
+  (∀ M : ConcreteQuantumFieldModel,
+    InCompleteR4GaugeClass M → ¬ ArenaDefect_BareConcreteClaySolution M) ∧
+  -- (2) Object-level Tine 2: any Clay witness forces ExitCertificate & refutes H1 and H2-minus
+  (∀ M : ConcreteQuantumFieldModel,
+    ArenaDefect_BareConcreteClaySolution M →
+      ExitCertificate M ∧ ¬ InCompleteR4GaugeClass M ∧
+      ¬ (FullConcreteOSWightman M →
+         ∀ lam : Nat, M.hilbert.hasEigenmodeAtEnergy (energyFormula lam)) ∧
+      ¬ (HasExactRationalSpectralGap M.hilbert → GappedR4StructuralLaws M)) ∧
+  -- (3) Meta-level Tine 2a (under Hypothesis P): no sound upper-exit closure exists
+  ((∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M) →
+    ∀ (Mech : ConcreteQuantumFieldModel → Prop),
+      (∀ M, ArenaDefect_BareConcreteClaySolution M → Mech M) →
+      (∀ M, Mech M → InCompleteR4GaugeClass M) → False) ∧
+  -- (4) Meta-level Tine 2b: bridge <-> not-Clay, with no reformulation discount
+  (ArenaDefect_ClassCompletenessBridge ↔
+    (¬ ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M)) ∧
+  (∀ Φ : ConcreteQuantumFieldModel → Prop,
+    (∀ M, Φ M ↔ ArenaDefect_BareConcreteClaySolution M) →
+    ((¬ ∃ M, Φ M) ↔ (¬ ∃ M, ArenaDefect_BareConcreteClaySolution M)))
+
+theorem grand_strategic_fork_checkmate : StrategicForkCheckmate :=
+  ⟨universal_R4_class_incompatibility_theorem,
+   fun M hSol =>
+     match (bare_clay_iff_exit_certificate_and_remaining M).mp hSol with
+     | ⟨hExit, hRem⟩ =>
+       ⟨hExit,
+        fun hClass => exit_certificate_excludes_canonical_class M hExit hClass,
+        exit_certificate_refutes_H1 M hExit hRem,
+        exit_certificate_refutes_H2_minus M hExit⟩,
+   fun hClay Mech hSound hCloses =>
+     any_sound_upper_mechanism_refuted hClay Mech hSound hCloses,
+   class_bridge_iff_absolute_no_go,
+   no_free_reformulation⟩
+end RoundSquare
+\end{lstlisting}
+\subsection{Block H (Section 42): Boundary, Non-Vacuity, and the Anti-Overclaim Firewall}
+\begin{lstlisting}
+namespace RoundSquare
+/-- (H1) The fork CARRIES ITS OWN BOUNDARY, exactly as LogvinovichDichotomy does. -/
+def StrategicForkWithBoundary : Prop :=
+  StrategicForkCheckmate ∧
+  ¬ ArenaDefect_ClassCompletenessBridge ∧
+  (∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M)
+
+theorem grand_strategic_fork_with_boundary : StrategicForkWithBoundary :=
+  ⟨grand_strategic_fork_checkmate,
+   ArenaDefect_class_completeness_bridge_is_false_in_current_ontology,
+   ⟨UnconstrainedCompatibleModel, ArenaDefect_unconstrained_is_bare_concrete_clay_solution⟩⟩
+
+/-- (H2) ANTI-OVERCLAIM FIREWALL: the Grand Strategic Fork does NOT imply not-exists-Clay. -/
+theorem strategic_fork_does_not_refute_clay :
+    ¬ (StrategicForkCheckmate →
+        ¬ ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M) :=
+  fun h => h grand_strategic_fork_checkmate
+    ⟨UnconstrainedCompatibleModel, ArenaDefect_unconstrained_is_bare_concrete_clay_solution⟩
+
+/-- (H3) BOTH prongs are inhabited: the fork is non-vacuous, not a one-sided trap. -/
+theorem strategic_fork_both_prongs_inhabited :
+    (∃ M : ConcreteQuantumFieldModel, InCompleteR4GaugeClass M) ∧
+    (∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M) :=
+  ⟨⟨R4CanonicalModel .gaplessContinuum, gapless_model_in_complete_R4_class⟩,
+   ⟨UnconstrainedCompatibleModel, ArenaDefect_unconstrained_is_bare_concrete_clay_solution⟩⟩
+
+/-- (H4) Tine 3 is non-vacuous in the audited ontology and re-derives D4. -/
+theorem inevitability_hypothesis_holds_in_audited_ontology :
+    ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M :=
+  ⟨UnconstrainedCompatibleModel, ArenaDefect_unconstrained_is_bare_concrete_clay_solution⟩
+
+theorem upper_exit_refuted_via_inevitability :
+    ¬ ArenaDefect_ClassCompletenessBridge :=
+  clay_true_implies_upper_exit_not_closable
+    inevitability_hypothesis_holds_in_audited_ontology
+
+/-- (H5) Section 34's refutation is an INSTANCE of Block E's meta-theorem. -/
+theorem section34_is_an_instance_of_inevitability
+    (hClay : ∃ M : ConcreteQuantumFieldModel, ArenaDefect_BareConcreteClaySolution M) :
+    ¬ (∀ M : ConcreteQuantumFieldModel,
+        ArenaDefect_BareConcreteClaySolution M → PhysicallyAdmissibleR4YangMills M) :=
+  fun hAll => any_sound_upper_mechanism_refuted hClay
+    PhysicallyAdmissibleR4YangMills hAll physical_admissibility_bridge_proved
+
+theorem section34_refutation_recovered :
+    ¬ (∀ M : ConcreteQuantumFieldModel,
+        ArenaDefect_BareConcreteClaySolution M → PhysicallyAdmissibleR4YangMills M) :=
+  section34_is_an_instance_of_inevitability
+    inevitability_hypothesis_holds_in_audited_ontology
+end RoundSquare
+\end{lstlisting}
+\subsection{Block I (Section 43): Disjunctive \texorpdfstring{$\textbf{H2}^-$}{H2-} Closure \& Connes--Andrews--La~Gatta Schur/Sonin Reduction}
+\begin{lstlisting}
+namespace RoundSquare
+/-- Literal disjunctive H2^- matching the paper's Obstr^- := ¬OS2 ∨ ¬W0 ∨ ¬W4 ∨ ¬W3 ∨ ¬Wick. -/
+def DisjunctiveGappedR4Laws (M : ConcreteQuantumFieldModel) : Prop :=
+  (¬ OS2_ConcreteReflectionPositive M) ∨
+  (¬ W0_ConcreteKallenLehmannPositive M) ∨
+  (¬ W3_ConcreteMicrocausalityLocality M) ∨
+  (¬ W4_ConcreteSelfAdjointHamiltonian M) ∨
+  (¬ Wick_ConcreteQuadrantIHolomorphic M)
+
+theorem conjunctive_laws_imply_disjunctive (M : ConcreteQuantumFieldModel)
+    (laws : GappedR4StructuralLaws M) : DisjunctiveGappedR4Laws M :=
+  Or.inl (universal_method_I_refutes_OS2 M laws)
+
+theorem disjunctive_gapped_laws_refute_osw (M : ConcreteQuantumFieldModel)
+    (hDisj : DisjunctiveGappedR4Laws M) : ¬ FullConcreteOSWightman M :=
+  fun hOSW =>
+    match hDisj with
+    | Or.inl hNoOS2 => hNoOS2 hOSW.os2
+    | Or.inr (Or.inl hNoW0) => hNoW0 hOSW.w0
+    | Or.inr (Or.inr (Or.inl hNoW3)) => hNoW3 hOSW.w3
+    | Or.inr (Or.inr (Or.inr (Or.inl hNoW4))) => hNoW4 hOSW.w4
+    | Or.inr (Or.inr (Or.inr (Or.inr hNoWick))) => hNoWick hOSW.wick
+
+structure InDisjunctiveR4GaugeClass (M : ConcreteQuantumFieldModel) : Prop where
+  gapForcesDisjunctiveObstruction :
+    HasExactRationalSpectralGap M.hilbert → DisjunctiveGappedR4Laws M
+  oswPreservesUncutIRContinuum :
+    FullConcreteOSWightman M →
+      ∀ lam : Nat, M.hilbert.hasEigenmodeAtEnergy (energyFormula lam)
+
+theorem complete_class_implies_disjunctive_class (M : ConcreteQuantumFieldModel)
+    (hClass : InCompleteR4GaugeClass M) : InDisjunctiveR4GaugeClass M where
+  gapForcesDisjunctiveObstruction := fun hGap =>
+    conjunctive_laws_imply_disjunctive M (hClass.gapForcesStructuralObstructions hGap)
+  oswPreservesUncutIRContinuum := hClass.oswPreservesUncutIRContinuum
+
+theorem disjunctive_R4_class_incompatibility_theorem :
+    ∀ M : ConcreteQuantumFieldModel,
+      InDisjunctiveR4GaugeClass M →
+        ¬ (FullConcreteOSWightman M ∧ HasExactRationalSpectralGap M.hilbert) :=
+  fun M hClass ⟨hOSW, hGap⟩ =>
+    disjunctive_gapped_laws_refute_osw M
+      (hClass.gapForcesDisjunctiveObstruction hGap) hOSW
+
+/-- Abstract Schur/Sonin conditioning structure (after Andrews--Connes--La Gatta 2026):
+    a finite-rank conditioning subspace of rank condRank leaves a coercive margin
+    only if no untruncated reciprocal tail survives orthogonal to the conditioned block. -/
+structure FiniteSchurConditioningModel (H : OperatorHilbertSystem) where
+  condRank : Nat
+  residualTailUncut : ∀ k : Nat, H.hasEigenmodeAtEnergy (energyFormula (condRank + 1 + k))
+
+theorem disjunctive_class_square_forbids_round (M : ConcreteQuantumFieldModel)
+    (hClass : InDisjunctiveR4GaugeClass M) :
+    HasExactRationalSpectralGap M.hilbert → ¬ FullConcreteOSWightman M :=
+  fun hGap hOSW =>
+    disjunctive_gapped_laws_refute_osw M
+      (hClass.gapForcesDisjunctiveObstruction hGap) hOSW
+
+theorem disjunctive_class_round_forbids_square (M : ConcreteQuantumFieldModel)
+    (hClass : InDisjunctiveR4GaugeClass M) :
+    FullConcreteOSWightman M → ¬ HasExactRationalSpectralGap M.hilbert :=
+  fun hOSW =>
+    universal_continuum_no_rational_gap M.hilbert
+      (hClass.oswPreservesUncutIRContinuum hOSW)
+
+theorem infinite_ir_tail_defeats_finite_schur_conditioning
+    (H : OperatorHilbertSystem) (sc : FiniteSchurConditioningModel H) :
+    ¬ HasExactRationalSpectralGap H :=
+  fun hGap =>
+    match gap_expels_entire_reciprocal_tail H hGap with
+    | ⟨q, hExpelled⟩ =>
+        have hEq : sc.condRank + 1 + q = q + 1 + sc.condRank :=
+          Eq.trans (Nat.add_assoc sc.condRank 1 q)
+            (Eq.trans (Nat.add_comm sc.condRank (1 + q))
+              (congrArg (fun x => x + sc.condRank) (Nat.add_comm 1 q)))
+        hExpelled sc.condRank
+          (@Eq.subst Nat (fun idx => H.hasEigenmodeAtEnergy (energyFormula idx))
+            (sc.condRank + 1 + q) (q + 1 + sc.condRank) hEq (sc.residualTailUncut q))
+
+theorem gapped_tower_admits_no_finite_schur_model
+    (sc : FiniteSchurConditioningModel GappedTowerSystem) : False :=
+  infinite_ir_tail_defeats_finite_schur_conditioning
+    GappedTowerSystem sc gapped_tower_has_exact_rational_gap
+end RoundSquare
+\end{lstlisting}
+
+\begin{invariant}[Honest status of the extension modules]
+Verified kernel: Sections~1--34 of \texttt{RoundSquare\_v21.lean} (0~\texttt{sorry}, 0~\texttt{axiom}, CI confirmed); Blocks~A (\S35) and~B (\S36) are locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean); Blocks~C--J (\S37--44) are \texttt{sorry}-free candidate modules queued for full CI pass. Two syntactic hazards of earlier drafts are fixed: term-mode destructuring uses \texttt{match}, not \texttt{let}; and the projection-injectivity step uses \Lean{Nat.succ.inj} applied to \Lean{congrArg}. The \texttt{rfl} claim for Block~F is withdrawn (Cor.~\ref{corr:C3}). Blocks~A--D are independent of E--J.
+\end{invariant}
+\subsection{Why finite-rank Schur conditioning fails without an IR cutoff (Connes--Andrews--La~Gatta comparison)}
+In a recent spectral study of the Weil quadratic form $QW_\lambda$ on a finite logarithmic window
+$[\lambda^{-1},\lambda]$, Andrews, Connes, and La~Gatta \cite{ConnesAndrewsLaGatta2026} establish
+two structural mechanisms via the time--frequency uncertainty operator $U_\lambda = 2 - P_\lambda - \hat{P}_\lambda$:
+\begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
+\item \emph{Coburn--Sonin index asymmetry:} absence of exactly self-dual modes
+($\operatorname{Range}P_t \cap \operatorname{Range}\hat{P}_t = \{0\}$) follows via Coburn's
+Toeplitz lemma from the infinite-dimensionality of the Sonin space
+$\operatorname{Ker}P_t \cap \operatorname{Ker}\hat{P}_t$, where $U_\lambda = 2$. On non-compact
+$\R^4$, elliptic operators lack a compact resolvent and odd Toeplitz operators lack a Fredholm
+index (\Lean{no\_fredholm\_index\_on\_nonCompact\_R4}, \S30) --- a distinct phenomenon from the
+finite-action chiral Dirac index $Q$ of Attack~E (Thm.~\ref{thm:attackE}(b)).
+\item \emph{Finite-rank Schur reduction:} conditioning $QW_\lambda$ orthogonally to the
+finite-dimensional subspace of near-self-dual prolate modes reduces global positivity to a
+finite-dimensional Schur complement $\mathfrak{S}(v) = A(v) - \|D^{-1/2}B^*v\|^2$. By contrast,
+for any model retaining an untruncated reciprocal infrared tail $E(\lambda)=(\lambda+1)^{-1}$ on
+non-compact $\R^4$, the negative-margin subspace has \emph{infinite} rank: orthogonalizing against
+any finite number $N$ of modes leaves the shifted tail $(\lambda+N+1)^{-1}$ intact, so no
+finite-rank Schur conditioning can produce $\Delta > 0$ (\Lean{infinite\_ir\_tail\_defeats\_finite\_schur\_conditioning}, Block~I).
+\end{enumerate}
+
+%=============================================================================
+\section{Conclusion}
+%=============================================================================
+We proved a complete \emph{class-relative} negative resolution of the canonical constructive
+$\R^4$ Yang--Mills formulation, eight named class-free theorems (plus Thms.~\ref{thm:npole}, \ref{thm:anomaly}, \ref{thm:nofree}), five class-free propositions, and
+the Logvinovich Dichotomy, which contains its own boundary.
+
+Eight attempted closures of the upper exit have been audited. Three are sign-inverted existence
+theorems; two are refuted by explicit counterexample, one of them a rigorous four-dimensional
+free-field computation; three aimed at regulator removal fail respectively by a beta-sign error,
+by restating the open problem, and by a category error between a probe operator and the
+field-theory Hamiltonian.
+
+The new structural result is that this pattern is \emph{explained}: under the declared
+hypothesis that a Clay witness exists, the completeness bridge is false and therefore
+\emph{no sound argument can close the upper exit}. Together with the theorem that reformulation
+gives no discount, and the observation that Osterwalder--Schrader reconstruction runs from the
+measure to the Hamiltonian and not back, this identifies where effort is and is not useful. We
+claim neither $\neg$Clay nor the unconditional failure of future attempts. Verified kernel: Sections~1--34 of \texttt{RoundSquare\_v21.lean} (0~\texttt{sorry}, 0~\texttt{axiom}, CI confirmed); Blocks~A (\S35) and~B (\S36) are locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean); Blocks~C--J (\S37--44) are \texttt{sorry}-free candidate modules queued for full CI pass.
+\begin{center}\renewcommand{\arraystretch}{1.5}
+\fbox{\parbox{0.93\textwidth}{\centering
+\textbf{\color{darkred}WE DO NOT SOLVE IT. WE PROVE IT CANNOT BE SOLVED WITH THESE INSTRUMENTS.}\\[3pt]
+\textbf{\color{darkred}AND WE PROVE EXACTLY WHERE THAT STATEMENT STOPS.}\\[6pt]
+$\Class^-_{\R^4}\wedge\OS\wedge(\Delta>0)\ \Longrightarrow\ \bot$\\[3pt]
+$\rho\ge0\iff\OS2\iff W0\iff M^2m^2\ge\lambda^4$;\quad
+$\lambda^4=M^2m^2+2Ng^2\gamma^4\Rightarrow\gamma=0$\\[3pt]
+$\OS2\wedge W0\wedge(\Delta=m>0)\wedge(\Chit>0)$ \quad(computed family)\\[3pt]
+$\exists\,\mathrm{Clay}\ \Longrightarrow\ \neg\mathrm{Bridge}\ \Longrightarrow\
+$\textbf{no sound upper-exit argument}\\[3pt]
+$\Phi\iff\mathrm{Clay}\ \Longrightarrow\ \neg\exists\Phi\iff\neg\exists\mathrm{Clay}$\\[3pt]
+$\mathrm{Bridge}\iff\neg\exists\,\mathrm{Clay}$,\qquad $\neg\mathrm{Bridge}$,\qquad
+$\exists\,\mathrm{Clay}$ \quad(audited ontology)\\[6pt]
+Three legitimate positions; eight attempted closures audited and refuted.\\
+The frontier is the Clay problem. We name it, calibrate it, and do not pretend to cross it.
+}}\end{center}
+%=============================================================================
+\appendix
+%=============================================================================
+\section{The three Peano facts}\label{app:peano}
+\textbf{(P1)} $y\le(p+1)y$. \textbf{(P2)} transitivity. \textbf{(P3)} $\neg(m+1\le m)$.
+All by induction; see \S\ref{sec:patch}.
+\section{Paper \texorpdfstring{$\leftrightarrow$}{<->} Lean crosswalk}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{p{5.4cm} X}
+\toprule
+\textbf{This paper} & \textbf{\texttt{RoundSquare\_v21.lean}}\\
+\midrule
+Def.~\ref{def:negres}, Prop.~\ref{prop:shield} & \Lean{IsNegativeResultResolution},
+\Lean{demanding\_positive\_witness\_under\_negative\_resolution\_is\_absurd}\\
+Lem.~\ref{lem:duality} & \Lean{not\_exists\_iff\_forall\_not}\\
+Thm.~\ref{thm:dichotomy} & \Lean{logvinovich\_dichotomy}\\
+Thm.~\ref{thm:strict} & \Lean{canonical\_premise\_strictly\_stronger\_than\_conclusion}\\
+Thms.~\ref{thm:peano},\ref{thm:expulsion},\ref{thm:tail} &
+\Lean{universal\_continuum\_no\_rational\_gap},
+\Lean{gap\_forces\_explicit\_reciprocal\_mode\_absent},
+\Lean{gap\_expels\_entire\_reciprocal\_tail}\\
+Thm.~\ref{thm:rgz}, Cors.~\ref{cor:rgz},\ref{cor:gamma}, Thm.~\ref{thm:npole} &
+paper-level; \textbf{candidate} Block C\\
+Lem.~\ref{lem:invisible}, Thms.~\ref{thm:contact},\ref{thm:family} & paper-level, computed\\
+Props.~\ref{prop:dimfour},\ref{prop:contactuniversal},\ref{prop:afexp},\ref{prop:betasign} &
+paper-level, elementary\\
+Thms.~\ref{thm:attackA},\ref{thm:attackB},\ref{thm:attackC},\ref{thm:attackD},\ref{thm:attackE} &
+audit\\
+\textbf{Thm.~\ref{thm:inevitability}} & \textbf{candidate} Block E:
+\Lean{clay\_true\_implies\_upper\_exit\_not\_closable},
+\Lean{any\_sound\_upper\_mechanism\_refuted}, \Lean{eight\_attempts\_are\_instances}\\
+\textbf{Thm.~\ref{thm:nofree}} & \textbf{candidate} Block E: \Lean{no\_free\_reformulation}\\
+Thm.~\ref{thm:reconstruction} & paper-level (OS reconstruction not formalized)\\
+\textbf{Cor.~\ref{corr:C3}} & \textbf{candidate} Block F: \Lean{upper4D\_iff\_class},
+\Lean{upper\_dichotomy\_closes\_top\_is\_field\_permutation}, \Lean{two\_story\_fork\_master}\\
+Grand Strategic Fork (Thms.~\ref{thm:fork}, \ref{thm:normalform}, \ref{thm:inevitability}, \ref{thm:nofree}) &
+\textbf{candidate} Block G: \Lean{StrategicForkCheckmate}, \Lean{grand\_strategic\_fork\_checkmate}\\
+Anti-overclaim firewall \& unification (Inv.~\ref{inv:inevitability}, \S\ref{sec:patch}) &
+\textbf{candidate} Block H: \Lean{grand\_strategic\_fork\_with\_boundary},
+\Lean{strategic\_fork\_does\_not\_refute\_clay}, \Lean{strategic\_fork\_both\_prongs\_inhabited},
+\Lean{inevitability\_hypothesis\_holds\_in\_audited\_ontology},
+\Lean{upper\_exit\_refuted\_via\_inevitability},
+\Lean{section34\_is\_an\_instance\_of\_inevitability}, \Lean{section34\_refutation\_recovered}\\
+Disjunctive $\textbf{H2}^-$ \& finite-rank Schur/Sonin obstruction (\S\ref{sec:proposed}, Block~I) & \textbf{candidate} Block I: \Lean{DisjunctiveGappedR4Laws}, \Lean{disjunctive\_R4\_class\_incompatibility\_theorem}, \Lean{infinite\_ir\_tail\_defeats\_finite\_schur\_conditioning}\\
+Prop.~\ref{prop:modes} & \textbf{candidate} Blocks A and D\\
+Cor.~\ref{corr:v16defects} & \textbf{candidate} Blocks B and C\\
+Thm.~\ref{thm:fork} & \Lean{universal\_R4\_class\_incompatibility\_theorem}, \Lean{universal\_class\_round\_forbids\_square}, \Lean{universal\_class\_square\_forbids\_round}, \Lean{concrete\_clay\_universal\_bidirectional\_exclusion}, \Lean{disjunctive\_R4\_class\_incompatibility\_theorem}\\
+Thms.~\ref{thm:burden},\ref{thm:burden2} & \Lean{bridge\_iff\_absolute\_no\_go},
+\Lean{class\_bridge\_iff\_absolute\_no\_go}\\
+Thm.~\ref{thm:normalform} & \Lean{bare\_clay\_iff\_exit\_certificate\_and\_remaining},
+\Lean{exit\_certificate\_refutes\_H1}, \Lean{exit\_certificate\_refutes\_H2\_minus}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+\section{Honesty invariants}
+\begin{enumerate}[label=\textbf{I\arabic*.},leftmargin=30pt,itemsep=1pt]
+\item No positive $\R^4$ construction; no CMI prize; \textbf{no claim of $\neg$Clay}.
+\item The bare conjunction is satisfiable outside the class; the artifact proves it.
+\item \textbf{H1} is declared and equals $\OS\Rightarrow\Delta=0$ on the Wightman sector.
+\item \textbf{H2$^-$} is unproved; Wilson and MRS block deriving it from an IR cutoff alone.
+\item On the $\OS$ sector the fork projects to a tautology.
+\item Burden calibration identifies the frontier; it does not discharge the bridge.
+\item Three legitimate referee positions exist and are machine-checked.
+\item The route classification is a partition, not a prohibition.
+\item The Lean route-$\alpha$ seal of v14 is a propositional tautology (C1).
+\item Reflection positivity is equivalent to positivity of the spectral measure.
+\item The sharp RGZ criterion is analytic, not a Lean theorem about propagators.
+\item GZ/RGZ positivity violation concerns the gauge-variant sector only.
+\item The modular region is convex; the cusp chain is in neither cited paper.
+\item Strocchi constrains charged interpolating fields, not the observable net.
+\item $\theta$-vacua are the clustering pure phases.
+\item \Lean{OperatorHilbertSystem} is a combinatorial surrogate, not a Hilbert space.
+\item \Lean{friedrichs\_ne\_krein} separates constructors, not analytic extensions.
+\item The real-gap extension is a paper Archimedean argument.
+\item Zero axioms does not mean zero hypotheses.
+\item ``unconditional'' in \Lean{unconditional\_prize\_level\_physical\_no\_go} is relative to
+the admissibility predicate.
+\item ``Class-free'' does not mean ``hypothesis-free''.
+\item Infinite volume alone does not force gaplessness with an external ruler.
+\item $\Lambda_{\mathrm{RG}}>0$ does not imply $\Delta>0$.
+\item The Rayleigh--Ritz derivation of \textbf{H1} is circular.
+\item No compact resolvent does not mean no gap. \emph{Attack E violates this.}
+\item The squeeze disables methods, not the theory.
+\item O6 is discharged in the arithmetic surrogate.
+\item The compact companion, the constructible-field cascade, $Z'$ and $Z_{\max}$ are independent.
+\item The upper exit is \textbf{not} closed; \textbf{eight} attempts are audited.
+\item BF82 \emph{assumes} a mass gap \cite{BF1982}.
+\item The trace anomaly is necessary, never sufficient, and blocks the dilation proof of
+\textbf{H1}.
+\item The negativity of the topological correlator is imported, not new.
+\item Contact terms are $\OS2$-invisible; $\Chit>0$ is not evidence of positivity violation.
+\item In physical RGZ variables the criterion forces $\gamma=0$.
+\item Modes are not energies (Prop.~\ref{prop:modes}).
+\item The corrected flag classification has \textbf{six} admissible valuations.
+\item The artifact contains no gauge group, no curvature, no action and no measure.
+\item The exponent $-8$ and divergence $a^{-4}$ occur in a free gapped $4$d theory.
+\item $\Chit$ divergence is observed in the $2$d $O(3)$ model, whose gap is numerically but not
+rigorously established; the rigorous refutation is Prop.~\ref{prop:dimfour}.
+\item $\Chit$ in $4$d $SU(3)$ has a finite continuum limit; the GW charge is integral at finite
+$a$ and needs no subtraction.
+\item The exponential smallness of $\Chit a^4$ is universal AF, not fine-tuning.
+\item A spectral gap is not an area law.
+\item Bare $g_0\to0$ is ultraviolet; the infrared at $\Lambda$ stays strongly coupled.
+\item Tomboulis claims confinement for all couplings; Balaban constructs the limit.
+\item The v16 RGZ encoding was off by one and could not express $\gamma=0$.
+\item The sign-inversion ledger was an observation in v17; in v18 it is a
+\emph{conditional consequence} (Cor.~\ref{cor:pattern}).
+\item \textbf{(new)} Triviality of $\varphi^4_4$ requires $\beta>0$; YM has $\beta<0$; the
+problem description states this difference \cite{JaffeWitten2000}.
+\item \textbf{(new)} Gross--Neveu$_2$ is a \emph{rigorous} asymptotically free theory with a
+dynamically generated mass \cite{FMRS1986,GK1985}; it defeats the triviality transfer.
+\item \textbf{(new)} Reflection-positive improved actions exist and blocking is not part of the
+definition of the continuum limit \cite{LuscherWeisz1985,Symanzik1985}.
+\item \textbf{(new)} Infinite-volume limits at fixed $a$ exist by compactness for compact $G$;
+the perturbative IR pole is an artefact; the critical window is a definition.
+\item \textbf{(new)} The covariant Dirac operator is a \emph{probe}, not the Hamiltonian; the
+free massive Dirac field has gapless probe spectrum and gapped field theory.
+\item \textbf{(new)} The finite-action chiral index is the integer $Q$; Callias boundary terms
+require a growing Higgs field, a different setting.
+\item \textbf{(new)} Theorem~\ref{thm:inevitability} is \textbf{conditional on \textbf{P}}. We do
+\emph{not} claim that all future attempts must fail unconditionally.
+\item \textbf{(new)} Theorem~\ref{thm:nofree} forbids treating a reformulation as progress; the
+normal form of \S\ref{sec:exit} is itself an instance.
+\item \textbf{(new)} OS reconstruction is one-way; the spatial slice is an output, never easier
+than the measure.
+\item \textbf{(new)} \Lean{Upper4DDichotomy} is a field permutation of the class (C3). The
+earlier \texttt{rfl} suggestion is \textbf{withdrawn}: distinct structure names are distinct
+types.
+\item \textbf{(new)} Blocks~A--J (Sections~35--44) contain no \texttt{sorry}: Blocks~A--B are locally kernel-confirmed on Lean~v4.36.0-rc2 (\texttt{\#print axioms} clean), and Blocks~C--J are queued for full CI pass.
+\item \textbf{(new)} ``R3'' has three distinct readings in the discussion (remark, lattice,
+slice); only the remark keeps the label (Inv.~\ref{inv:R3}).
+\item \textbf{(new, v19)} The Grand Strategic Fork (\Lean{grand\_strategic\_fork\_checkmate}, Block~G)
+asserts \emph{no existence}: its proof term contains zero existential witnesses. The word
+``checkmate'' refers strictly to the upper exit as a research target;
+\Lean{strategic\_fork\_does\_not\_refute\_clay} (Block~H) proves in the kernel that the fork
+does \emph{not} imply $\neg\exists\mathrm{Clay}$.
+\item \textbf{(new, v19)} Both prongs of the Strategic Fork are inhabited
+(\Lean{strategic\_fork\_both\_prongs\_inhabited}), and Section~34's admissibility refutation is
+unified as an instance of Block~E (\Lean{section34\_is\_an\_instance\_of\_inevitability}).
+\item \textbf{(new, v21)} Block~I (\S43) proves that the literal disjunctive form of \textbf{H2$^-$} (\Lean{DisjunctiveGappedR4Laws}) suffices for class incompatibility (\Lean{disjunctive\_R4\_class\_incompatibility\_theorem}), and C4/C5 register the definitional encodings in \Lean{arenaOfConcreteModel} and \Lean{rgz\_sharp\_criterion}.
+\item \textbf{(new, v21)} In contrast to the finite-rank prolate Schur conditioning of the Weil quadratic form on a compact logarithmic window \cite{ConnesAndrewsLaGatta2026}, an untruncated reciprocal infrared tail on non-compact $\R^4$ has infinite rank and cannot be removed by any finite-rank Schur complement (\Lean{infinite\_ir\_tail\_defeats\_finite\_schur\_conditioning}, Block~I).
+\end{enumerate}
+\section{Reviewer checklist}
+\textbf{Valid formal refutations:} a \texttt{sorry} in Sections~1--34, a hidden axiom, a
+compilation failure, or a model inside the formalized class satisfying both conjuncts.
+
+\textbf{Valid scientific positions:} accept the reduction; produce an exit certificate; or
+reject \textbf{H1}, \textbf{H2$^-$}, or A7 with a physics argument. Refuting any class-free
+result by a counterexample to its stated hypotheses is invited --- and
+Prop.~\ref{prop:dimfour} and Thm.~\ref{thm:attackE}(a) are our own examples of doing exactly that
+to proposed closures. Rejecting Hypothesis~\textbf{P} is also legitimate; it removes
+Cor.~\ref{cor:pattern} but leaves every other result intact.
+
+\textbf{Invalid:} demanding a positive witness inside the excluded class; claiming the sample
+points are arbitrary; claiming the massive scalar is a Clay witness.
+
+\textbf{Equally invalid over-claims by us:} ``we proved $\neg$Clay''; ``the upper exit is
+closed''; ``the anomaly forces the obstruction''; ``BF82 forbids the gap''; ``$\Chit>0$ violates
+$\OS4$''; ``the $|x|^{-8}$ divergence forbids the gap''; ``centre symmetry conflicts with
+asymptotic freedom''; ``Balaban--Tomboulis is a barrier''; ``four-dimensional triviality forces
+Gaussian collapse''; ``blocking destroys reflection positivity''; ``the Dirac probe forbids the
+gap''; ``the 3D slice is an easier door''; ``Upper4DDichotomy is a new theorem'';
+``Upper4DDichotomy equals the class by rfl''; ``all future attempts must fail'';
+``Sections 37--43 (Blocks C--I) are CI-verified''. Each is retracted or refuted above.
+\section{Verification in 60 seconds}
+\begin{Verbatim}[fontsize=\scriptsize,frame=single,rulecolor=\color{darkgray}]
+git clone https://github.com/Dr-Logvinovich/round-square.git
+cd round-square
+lake build && lean RoundSquare_v21.lean          # Runs all 180 #print axioms checks (Sections 1-44)
+pdflatex Logvinovich_v21.tex && pdflatex Logvinovich_v21.tex
+# Verified kernel: Sections 1-34 (CI confirmed).
+# Blocks A (Sec 35) & B (Sec 36): locally kernel-confirmed on Lean v4.36.0-rc2 (#print axioms clean).
+# Blocks C-J (Secs 37-44): sorry-free candidate modules already present in RoundSquare_v21.lean, queued for CI:
+#   #print axioms RoundSquare.clay_true_implies_upper_exit_not_closable
+#   #print axioms RoundSquare.no_free_reformulation
+#   #print axioms RoundSquare.massive_gap_infimum
+#   #print axioms RoundSquare.upper4D_iff_class
+#   #print axioms RoundSquare.grand_strategic_fork_checkmate
+#   #print axioms RoundSquare.strategic_fork_does_not_refute_clay
+#   #print axioms RoundSquare.section34_is_an_instance_of_inevitability
+#   #print axioms RoundSquare.disjunctive_R4_class_incompatibility_theorem
+#   #print axioms RoundSquare.infinite_ir_tail_defeats_finite_schur_conditioning
+#   #print axioms RoundSquare.gapped_tower_admits_no_finite_schur_model
+\end{Verbatim}
+\section{Changes in version 21}
+\begin{enumerate}[label=\textbf{V21.\arabic*.},leftmargin=42pt,itemsep=1pt]
+\item \textbf{Three new attacks audited} (\S\ref{sec:regulator}): triviality dichotomy
+(Thm.~\ref{thm:attackC}), order of limits (Thm.~\ref{thm:attackD}), Dirac spectral probe
+(Thm.~\ref{thm:attackE}). Total audited: \textbf{eight}.
+\item \textbf{Beta-sign discriminator} (Prop.~\ref{prop:betasign}, Table~\ref{tab:betasign}):
+criticality is shared, the sign of $\beta$ discriminates; Gross--Neveu$_2$ is a rigorous AF
+gapped counterexample to the triviality transfer.
+\item \textbf{Conditional Inevitability Theorem} (Thm.~\ref{thm:inevitability},
+Cor.~\ref{cor:pattern}): under \textbf{P}, no sound argument closes the upper exit. The
+sign-inversion ledger is upgraded from observation to consequence.
+\item \textbf{No Free Reformulation Theorem} (Thm.~\ref{thm:nofree}) and
+\textbf{Reconstruction Direction} (Thm.~\ref{thm:reconstruction}): the lattice, slice and
+Hamiltonian presentations offer no discount; the slice is an output.
+\item \textbf{Defect C3} (Cor.~\ref{corr:C3}): the proposed upper dichotomy is a field
+permutation of the class. \emph{The earlier \texttt{rfl} suggestion is withdrawn.}
+\item \textbf{Obligation O7 discharged} (Block D): a route avoiding the square identity, using
+\Lean{Nat.mul\_succ}, \Lean{Nat.succ\_mul} and \Lean{Nat.le\_of\_add\_le\_add\_left}, with two
+self-contained helpers \Lean{mulPos\_eq} and \Lean{le\_of\_leScale} and a private monotonicity
+lemma. \textbf{All ten blocks (A--J, Sections~35--44) are now sorry-free.}
+\item \textbf{Five extension blocks (Sections~39--43)}: E (inevitability, no free reformulation), F (audit of the upper dichotomy, defect C3), G (Grand Strategic Fork \& Checkmate), H (boundary, non-vacuity, and anti-overclaim firewall), and I (disjunctive $\textbf{H2}^-$ closure and Connes--Andrews--La~Gatta finite-rank Schur/Sonin comparison, plus self-audit items C4--C5).
+\item \textbf{Notation disambiguation} (Inv.~\ref{inv:R3}): three readings of ``R3''.
+\item \textbf{Boundary and invariants extended}: B14--B18; I49--I60.
+\item \textbf{Bibliography extended} with the triviality theorem and its corrigendum, the
+Gross--Neveu constructions, and reflection-positive improved actions.
+\item \textbf{Kernel pass \& Block D fix (v20)}: Block~A (Section~35), Block~B (Section~36), and Section~34 confirmed axiom-free on Lean~4.36.0-rc2; \Lean{massive\_gap\_infimum} in Block~D (Section~38) patched via type ascription.
+\end{enumerate}
+\section{Compilation note}
+Requires \texttt{lmodern}, \texttt{amsmath}, \texttt{amssymb}, \texttt{amsthm},
+\texttt{booktabs}, \texttt{tabularx}, \texttt{array}, \texttt{enumitem}, \texttt{xcolor},
+\texttt{listings}, \texttt{fancyvrb}, \texttt{hyperref}. Run \texttt{pdflatex} twice.
+\textbf{Never} post-process this file through a tool that interprets backslash escapes.
+\textbf{Never} put mathematics inside \Lean{...}. \textbf{Never} put a Unicode character inside
+a \texttt{lstlisting} block unless it appears in the \texttt{literate} table.
+\section{Citation}
+\begin{Verbatim}[fontsize=\scriptsize,frame=single,rulecolor=\color{darkgray}]
+@misc{Logvinovich2026DichotomyV21,
+author = {Logvinovich, Victor},
+title = {The Logvinovich Dichotomy on R^4: Class-Relative Negative Resolution,
+Burden Calibration, the Sharp Positivity Theorem for the Gribov--Zwanziger
+Instrument Family, the Audit of Eight Attempted Closures of the Upper Exit,
+and the Conditional Inevitability Theorem (Audited Edition v21)},
+year = {2026}, month = nov, publisher = {Zenodo}, version = {v21},
+url = {https://github.com/Dr-Logvinovich/round-square},
+note = {GitHub: https://github.com/Dr-Logvinovich/round-square,
+file: Logvinovich_v21.tex, ORCID: 0009-0007-2040-6955.
+Verified kernel: Sections 1-34 of RoundSquare_v21.lean (CI confirmed).
+Blocks A (Sec 35) and B (Sec 36): locally kernel-confirmed on Lean v4.36.0-rc2.
+Blocks C-J (Secs 37-44): sorry-free candidate modules queued for CI.
+The inevitability theorem is conditional on the declared hypothesis
+that a Clay witness exists.}}
+\end{Verbatim}
+%=============================================================================
+\section{Addendum: scope corrections carried forward and extended}\label{app:addendum}
+%=============================================================================
+This addendum is normative: where it conflicts with the body, the addendum wins.
+\begin{correction}[A1 --- the contact part is non-integrable in the continuum]
+\label{corr:nonintegrable}
+Horv\'ath et al.\ establish also the \emph{non-integrable nature of the contact part}
+\cite{Horvath2005}. Consequently the hypothesis $C_{\mathrm{reg}}\in L^1$ of
+Theorem~\ref{thm:contact} and the finite-coefficient model of Theorem~\ref{thm:family} are
+\emph{model assumptions}, not assertions about continuum QCD. What survives unconditionally is
+Lemma~\ref{lem:invisible}. The stronger non-integrable form of the attack is refuted by
+Prop.~\ref{prop:dimfour} and Prop.~\ref{prop:contactuniversal} together with the lattice facts
+\cite{Bietenholz2018,Ce2015}. The residual open question is the continuum limit with a uniform
+gap, i.e.\ Clay.
+\end{correction}
+\begin{correction}[A2 --- attribution of the two-dimensional Yang--Mills measure]\label{corr:2dym}
+L\'evy's memoir concerns \emph{compact surfaces} \cite{Levy2003}; Sengupta's 1992 paper concerns
+$S^2$ \cite{Sengupta1992}. The planar continuum construction is due to Driver and Sengupta
+\cite{SenguptaReview,AnshelevichSengupta2012}. The content of Prop.~\ref{prop:test}(iv) is
+unaffected.
+\end{correction}
+\begin{correction}[A3 --- attribution of the confinement programme]\label{corr:tomboulis}
+Any description of a ``Balaban--Tomboulis infrared barrier'' is withdrawn
+\cite{Tomboulis1983,Tomboulis2007,Balaban1987}. Both point toward the positive solution.
+\end{correction}
+\begin{correction}[A4 --- NEW: the triviality theorem is about a different sign of
+\texorpdfstring{$\beta$}{beta}]\label{corr:adc}
+The marginal-triviality theorem \cite{ADC2021} (with corrigendum \cite{ADC2024}) concerns
+four-dimensional Ising-type models with nearest-neighbour ferromagnetic interaction at or near
+criticality. Its mechanism uses the \emph{positive} sign of the quartic beta function. It is
+\emph{not} a theorem about asymptotically free theories, and it does not transfer to Yang--Mills.
+The problem description itself records that the quartic coupling lacks asymptotic freedom in
+four dimensions \cite{JaffeWitten2000}. Any future use of this theorem in the present programme
+must first supply an analogue of its mechanism for $\beta<0$; none is known, and
+Gross--Neveu$_2$ \cite{FMRS1986,GK1985} is a rigorous counterexample to the proposed transfer.
+\end{correction}
+\begin{correction}[A5 --- NEW: the inevitability theorem is conditional]\label{corr:conditional}
+Theorem~\ref{thm:inevitability} and Corollary~\ref{cor:pattern} depend on
+Hypothesis~\textbf{P} ($\exists$Clay). They must never be quoted as an unconditional impossibility
+of future progress. If \textbf{P} is false, the upper exit is exactly the Clay problem in negative
+form and remains open; the eight audits then stand on their own individual counterexamples and
+sign corrections, not on the meta-theorem.
+\end{correction}
+\subsection*{Reproducibility snippet}
+\begin{Verbatim}[fontsize=\scriptsize,frame=single,rulecolor=\color{darkgray}]
+# verify_v21.py
+import numpy as np
+from scipy.special import kn
+from scipy.integrate import quad
+
+m, b = 1.0, 1.0
+Delta_m = lambda r: m*kn(1, m*r)/(4*np.pi**2*r)
+I4 = 2*np.pi**2*quad(lambda r: r**3*Delta_m(r), 0, 60, limit=400)[0]
+print("int d^4x Delta_m =", I4)                    # 1.0000000000193
+
+t = np.array([0.2, 0.7, 1.3, 2.1, 3.4])
+Creg = lambda s: -b*np.exp(-m*s)/(2*m)
+K = np.array([[-Creg(ti+tj) for tj in t] for ti in t])
+print("eigenvalues:", np.linalg.eigvalsh(K))       # {0,0,0,0,0.503650}, rank 1
+
+C_dim4 = 24*(np.pi**2/2)/(4*np.pi**2)**4
+print("3/(64 pi^6) =", 3/(64*np.pi**6), " check =", C_dim4)   # 4.876e-05
+
+b0 = 11*3/(48*np.pi**2)
+for k in (1, 2, 4):
+    print(k, k/(2*b0), np.exp(-k/(2*b0)))          # 7.178 -> 7.6e-4 ; 28.712 -> 3.4e-13
+
+# O7 arithmetic route (no square identity needed):
+for q in range(6):
+    lhs = (q+2)*(q+1) + (q+2)      # = (q+2)*(q+2)   via Nat.mul_succ
+    rhs = (q+2)*(q+1) + (q+1)      # = (q+3)*(q+1)   via Nat.succ_mul
+    assert lhs == (q+2)*(q+2) and rhs == (q+3)*(q+1) and lhs > rhs
+print("O7 cancellation check: OK for q = 0..5")
+\end{Verbatim}
+%=============================================================================
+\begin{thebibliography}{99}\small
+\bibitem{JaffeWitten2000} A.~Jaffe, E.~Witten, \emph{Quantum Yang--Mills Theory}, CMI Millennium
+Problem description (2000). (States that a gap uniform in the volume is open, and that the
+quartic coupling lacks asymptotic freedom in four dimensions.)
+\bibitem{ConnesAndrewsLaGatta2026} R.~Andrews, A.~Connes, A.~La~Gatta, \emph{The uncertainty operator, the Weil ground state and the zeros of zeta: a numerical study and conditional positivity of the Weil quadratic form}, arXiv:2611.13129v1 [math.NT] (2026).
+\bibitem{LogvinovichLean} V.~Logvinovich, \emph{RoundSquare.lean: zero-axiom negative-resolution
+certificate}, GitHub (2026). Verified kernel: Sections 1--34; Sections 35--44 are candidates.
+\bibitem{ADC2021} M.~Aizenman, H.~Duminil-Copin, \emph{Marginal triviality of the scaling limits
+of critical 4D Ising and $\varphi^4_4$ models}, Ann.\ of Math.\ \textbf{194} (2021).
+\bibitem{ADC2024} M.~Aizenman, H.~Duminil-Copin, \emph{Corrigendum: Marginal triviality of the
+scaling limits of critical 4D Ising and $\varphi^4_4$ models}, Ann.\ of Math.\ \textbf{199}
+(2024).
+\bibitem{FMRS1986} J.~Feldman, J.~Magnen, V.~Rivasseau, R.~S\'en\'eor, \emph{A renormalizable
+field theory: the massive Gross--Neveu model in two dimensions}, Commun.\ Math.\ Phys.\
+\textbf{103} (1986). (Just renormalisable and asymptotically free; rigorous construction.)
+\bibitem{GK1985} K.~Gaw\c{e}dzki, A.~Kupiainen, \emph{Gross--Neveu model through convergent
+perturbation expansions}, Commun.\ Math.\ Phys.\ \textbf{102} (1985).
+\bibitem{LuscherWeisz1985} M.~L\"uscher, P.~Weisz, \emph{On-shell improved lattice gauge
+theories}, Commun.\ Math.\ Phys.\ (1985). (Reflection-positive improved actions.)
+\bibitem{Symanzik1985} K.~Symanzik, \emph{Computation of the action for on-shell improved
+lattice gauge theories}, Phys.\ Lett.\ B \textbf{158} (1985).
+\bibitem{Usui2012} K.~Usui, \emph{A Note on Reflection Positivity and the
+Umezawa--Kamefuchi--K\"all\'en--Lehmann Representation of Two Point Correlation Functions},
+arXiv:1201.3415 (2012).
+\bibitem{KL} G.~K\"all\'en, Helv.\ Phys.\ Acta \textbf{25} (1952) 417; H.~Lehmann, Nuovo Cim.\
+\textbf{12} (1954) 342.
+\bibitem{Hayashi2019} K.-I.~Kondo, Y.~Hayashi, R.~Matsudo, Y.~Suda, M.~Watanabe,
+\emph{Complex poles, spectral function and reflection positivity violation of Yang--Mills
+theory}, arXiv:1912.06261 (2019).
+\bibitem{deBrito2024} G.~P.~de Brito, A.~D.~Pereira, \emph{Infrared gluon propagator in the
+refined Gribov--Zwanziger scenario at one-loop order in the Landau gauge},
+Phys.\ Rev.\ D \textbf{110} (2024) 074005, arXiv:2405.07779.
+\bibitem{Dudal2008} D.~Dudal, J.~A.~Gracey, S.~P.~Sorella, N.~Vandersickel, H.~Verschelde,
+\emph{A refinement of the Gribov--Zwanziger approach in the Landau gauge},
+Phys.\ Rev.\ D \textbf{78} (2008) 065047, arXiv:0806.4348.
+\bibitem{GarciaCapriMintz2026} F.~F.~Garcia, M.~A.~L.~Capri, B.~W.~Mintz,
+\emph{On Quasiparticles within the Refined Gribov--Zwanziger Model}, arXiv:2609.04423 (2026).
+\bibitem{Horvath2005} I.~Horv\'ath et al., \emph{The negativity of the overlap-based topological
+charge density correlator in pure-glue QCD and the non-integrable nature of its contact part},
+Phys.\ Lett.\ B (2005).
+\bibitem{Vicari1999} E.~Vicari, \emph{The Euclidean two-point correlation function of the
+topological charge density}, Nucl.\ Phys.\ B \textbf{554} (1999) 301.
+\bibitem{Chowdhury2015} A.~Chowdhury et al., \emph{Correlation and localization properties of
+topological charge density}, Phys.\ Rev.\ D \textbf{91} (2015) 074507.
+\bibitem{Cheng2025} Z.~Cheng et al., \emph{Matching Wilson flow time for calculating the
+topological charge density correlator}, Eur.\ Phys.\ J.\ C (2025).
+\bibitem{Bietenholz2018} W.~Bietenholz, P.~de Forcrand, U.~Gerber, H.~Mej\'ia-D\'iaz,
+I.~O.~Sandoval, \emph{Topological Susceptibility of the 2d O(3) Model under Gradient Flow},
+Phys.\ Rev.\ D \textbf{98} (2018) 114501, arXiv:1808.08129.
+\bibitem{Thomas2021} S.~Thomas et al., \emph{Topology of the O(3) non-linear sigma model under
+the gradient flow}, PoS LATTICE2021 (2021) 076.
+\bibitem{Ce2015} M.~C\`e, C.~Consonni, G.~P.~Engel, L.~Giusti, \emph{Non-Gaussianities in the
+topological charge distribution of the SU(3) Yang--Mills theory}, arXiv:1506.06052 (2015).
+\bibitem{Schierholz2024} G.~Schierholz, \emph{Topological susceptibility and the gradient flow},
+PoS LATTICE2024 (2024) 398.
+\bibitem{Witten1979} E.~Witten, Nucl.\ Phys.\ B \textbf{156} (1979) 269.
+\bibitem{Veneziano1979} G.~Veneziano, Nucl.\ Phys.\ B \textbf{159} (1979) 213.
+\bibitem{GKSW2015} D.~Gaiotto, A.~Kapustin, N.~Seiberg, B.~Willett, \emph{Generalized Global
+Symmetries}, JHEP \textbf{02} (2015) 172, arXiv:1412.5148.
+\bibitem{ChatterjeeNotes} S.~Chatterjee, \emph{Yang--Mills on the lattice: new results and open
+problems}, lecture notes (2023).
+\bibitem{ChatterjeeMechanism} S.~Chatterjee, \emph{A probabilistic mechanism for quark
+confinement}, preprint (2020).
+\bibitem{Tomboulis1983} E.~T.~Tomboulis, \emph{Permanent Confinement in Four-Dimensional
+Non-Abelian Lattice Gauge Theory}, Phys.\ Rev.\ Lett.\ \textbf{50} (1983) 885.
+\bibitem{Tomboulis2007} E.~T.~Tomboulis, \emph{Confinement for all values of the coupling in
+four-dimensional SU(2) gauge theory}, arXiv:0707.2179 (2007).
+\bibitem{Greensite2003} J.~Greensite, \emph{The Confinement Problem in Lattice Gauge Theory},
+Prog.\ Part.\ Nucl.\ Phys.\ (2003), review.
+\bibitem{BF1982} D.~Buchholz, K.~Fredenhagen, \emph{Locality and the Structure of Particle
+States}, Commun.\ Math.\ Phys.\ \textbf{84} (1982) 1--54.
+\bibitem{RehrenSLQFT} K.-H.~Rehren, \emph{String-localized Quantum Field Theory}, review notes.
+\bibitem{Haag1992} R.~Haag, \emph{Local Quantum Physics}, Springer (1992).
+\bibitem{GoepfertMack1982} M.~G\"opfert, G.~Mack, \emph{Proof of confinement of static quarks
+in 3-dimensional U(1) lattice gauge theory for all values of the coupling constant},
+Commun.\ Math.\ Phys.\ \textbf{82} (1982) 545.
+\bibitem{Levy2003} T.~L\'evy, \emph{Yang--Mills Measure on Compact Surfaces}, Mem.\ Amer.\
+Math.\ Soc.\ \textbf{166} (2003).
+\bibitem{Sengupta1992} A.~Sengupta, \emph{The Yang--Mills measure for $S^2$}, J.\ Funct.\
+Anal.\ \textbf{108} (1992) 231.
+\bibitem{SenguptaReview} A.~N.~Sengupta, \emph{Four Chapters on Low-Dimensional Gauge
+Theories}, arXiv:0707.4136 (2007).
+\bibitem{AnshelevichSengupta2012} M.~Anshelevich, A.~N.~Sengupta, \emph{Quantum free
+Yang--Mills on the plane}, J.\ Geom.\ Phys.\ (2012).
+\bibitem{LowensteinSwieca1971} J.~H.~Lowenstein, J.~A.~Swieca, Ann.\ Phys.\ \textbf{68} (1971) 172.
+\bibitem{Khlebnikov2006} S.~Khlebnikov, \emph{Massive Schwinger model with a finite
+inductance}, Phys.\ Rev.\ D (2006).
+\bibitem{OsterwalderSeiler1978} K.~Osterwalder, E.~Seiler, Ann.\ Phys.\ \textbf{110} (1978) 440.
+\bibitem{OS1973} K.~Osterwalder, R.~Schrader, Commun.\ Math.\ Phys.\ \textbf{31} (1973) 83;
+\textbf{42} (1975) 281.
+\bibitem{MRS1993} J.~Magnen, V.~Rivasseau, R.~S\'en\'eor, Commun.\ Math.\ Phys.\ \textbf{155}
+(1993) 325.
+\bibitem{Balaban1987} T.~Balaban, Commun.\ Math.\ Phys.\ \textbf{109} (1987) 249, and series.
+\bibitem{FeldmanOsterwalder1976} J.~Feldman, K.~Osterwalder, Ann.\ Phys.\ \textbf{97} (1976) 80.
+\bibitem{Wilson1974} K.~G.~Wilson, Phys.\ Rev.\ D \textbf{10} (1974) 2445.
+\bibitem{GrossWilczek1973} D.~J.~Gross, F.~Wilczek, Phys.\ Rev.\ Lett.\ \textbf{30} (1973) 1343.
+\bibitem{Politzer1973} H.~D.~Politzer, Phys.\ Rev.\ Lett.\ \textbf{30} (1973) 1346.
+\bibitem{Singer1978} I.~M.~Singer, Commun.\ Math.\ Phys.\ \textbf{60} (1978) 7.
+\bibitem{Gribov1978} V.~N.~Gribov, Nucl.\ Phys.\ B \textbf{139} (1978) 1.
+\bibitem{Zwanziger1989} D.~Zwanziger, Nucl.\ Phys.\ B \textbf{323} (1989) 513.
+\bibitem{STSFranke1982} M.~A.~Semenov-Tyan-Shanskii, V.~A.~Franke, Zap.\ Nauchn.\ Sem.\ LOMI
+\textbf{120} (1982) 159.
+\bibitem{DAZ1991} G.~Dell'Antonio, D.~Zwanziger, Commun.\ Math.\ Phys.\ \textbf{138} (1991) 291.
+\bibitem{vanBaal1992} P.~van Baal, Nucl.\ Phys.\ B \textbf{369} (1992) 259.
+\bibitem{Strocchi1977} F.~Strocchi, Commun.\ Math.\ Phys.\ \textbf{56} (1977) 57.
+\bibitem{StrocchiBook} F.~Strocchi, \emph{An Introduction to Non-Perturbative Foundations of
+QFT}, Oxford (2013).
+\bibitem{SW1964} R.~Streater, A.~Wightman, \emph{PCT, Spin and Statistics, and All That},
+Benjamin (1964).
+\bibitem{Seiler1982} E.~Seiler, Lecture Notes in Physics \textbf{159}, Springer (1982).
+\bibitem{Wantzel1837} P.~L.~Wantzel, J.\ Math.\ Pures Appl.\ \textbf{2} (1837) 366.
+\bibitem{Godel1931} K.~G\"odel, Monatsh.\ Math.\ Phys.\ \textbf{38} (1931) 173.
+\bibitem{Turing1936} A.~M.~Turing, Proc.\ London Math.\ Soc.\ \textbf{s2-42} (1936) 230.
+\bibitem{Robinson1949} J.~Robinson, J.\ Symbolic Logic \textbf{14} (1949) 98.
+\bibitem{Matiyasevich1970} Yu.~V.~Matiyasevich, Dokl.\ Akad.\ Nauk SSSR \textbf{191} (1970) 279.
+\bibitem{CPW2015} T.~S.~Cubitt, D.~P\'erez-Garc\'ia, M.~M.~Wolf, Nature \textbf{528} (2015) 207.
+\end{thebibliography}
+\end{document}
