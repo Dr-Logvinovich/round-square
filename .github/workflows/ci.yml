@@ -16,30 +16,52 @@ jobs:
 
       - name: Install elan and Lean 4 Toolchain
         run: |
-          curl https://githubusercontent.com -sSf | sh -s -- -y --default-toolchain none
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
       - name: Build Package via Lake
         run: lake build
 
-      - name: Audit Baseline File (RoundSquare.lean)
+      - name: Audit Baseline File (RoundSquare.lean — 114 Checks)
         run: |
-          OUTPUT=$(lean RoundSquare.lean)
+          set +e
+          OUTPUT=$(lake env lean RoundSquare.lean 2>&1)
+          STATUS=$?
+          set -e
           echo "$OUTPUT"
-          if echo "$OUTPUT" | grep -q "sorryAx\|Classical.choice\|propext\|Quot.sound"; then
+          if [ $STATUS -ne 0 ]; then
+            echo "ERROR: Lean compilation failed for RoundSquare.lean (exit code $STATUS)!"
+            exit 1
+          fi
+          if echo "$OUTPUT" | grep -Eq "sorry|sorryAx|Classical\.choice|propext|Quot\.sound|depends on axioms:"; then
             echo "ERROR: Axiom or sorry detected in RoundSquare.lean!"
             exit 1
           fi
-          COUNT=$(echo "$OUTPUT" | grep -c "does not depend on any axioms")
+          COUNT=$(echo "$OUTPUT" | grep -c "does not depend on any axioms" || true)
           echo "Verified $COUNT theorems in RoundSquare.lean with ZERO axioms!"
+          if [ "$COUNT" -ne 114 ]; then
+            echo "ERROR: Expected 114 zero-axiom checks in RoundSquare.lean, got $COUNT!"
+            exit 1
+          fi
 
-      - name: Audit Extended v21/v22 File (RoundSquare_v21.lean)
+      - name: Audit Extended Edition v21/v22 File (RoundSquare_v21.lean — 187 Checks)
         run: |
-          OUTPUT=$(lean RoundSquare_v21.lean)
+          set +e
+          OUTPUT=$(lake env lean RoundSquare_v21.lean 2>&1)
+          STATUS=$?
+          set -e
           echo "$OUTPUT"
-          if echo "$OUTPUT" | grep -q "sorryAx\|Classical.choice\|propext\|Quot.sound"; then
+          if [ $STATUS -ne 0 ]; then
+            echo "ERROR: Lean compilation failed for RoundSquare_v21.lean (exit code $STATUS)!"
+            exit 1
+          fi
+          if echo "$OUTPUT" | grep -Eq "sorry|sorryAx|Classical\.choice|propext|Quot\.sound|depends on axioms:"; then
             echo "ERROR: Axiom or sorry detected in RoundSquare_v21.lean!"
             exit 1
           fi
-          COUNT=$(echo "$OUTPUT" | grep -c "does not depend on any axioms")
+          COUNT=$(echo "$OUTPUT" | grep -c "does not depend on any axioms" || true)
           echo "Verified $COUNT theorems in RoundSquare_v21.lean with ZERO axioms!"
+          if [ "$COUNT" -ne 187 ]; then
+            echo "ERROR: Expected 187 zero-axiom checks in RoundSquare_v21.lean, got $COUNT!"
+            exit 1
+          fi
