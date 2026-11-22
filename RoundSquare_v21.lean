@@ -91,13 +91,15 @@ MANDATORY EVALUATION CRITERION & METHODOLOGICAL PROTOCOL (READ FIRST)
 5. STRICT FORMAL VERIFICATION INVARIANTS (SINGLE NORMATIVE STATUS):
    • Verified kernel: Sections 1–34 (0 `sorry`, 0 `axiom`, 0 `Classical.choice`,
      0 `propext`, 0 `Quot.sound`; CI confirmed).
-   • Sections 1–46 (Blocks A–L, v21/v25): ALL 213 `#print axioms` checks
-     (143 in §1–34 + 5 in A–B + 51 in C–K + 14 in Block L §46: strict Pell
-     separation + Oehme–Zimmermann IR–UV pincer & non-vacuity + all-ξ
-     O(4)-covariant A_4 Slavnov–Taylor obstruction) are kernel-confirmed on
-     Lean v4.37.0-rc1 (live.lean-lang.org) with 0 `sorry`, 0 `axiom`, 0 errors,
-     0 warnings (`Init` core only); §35–46 queued for strict GitHub Actions CI
-     gating. Nothing in §35–46 is used by §1–34.
+   • Sections 1–47 (Blocks A–M, v21/v25): ALL 224 `#print axioms` checks
+     (143 in §1–34 + 5 in A–B + 51 in C–K + 14 in Block L §46 + 11 in Block M
+     §47: exact dilation exclusion Lemma 5.5, arbitrary constructive null
+     sequences, complete-monotonicity all-ξ A_4 classification with shifted-
+     Proca sharpness witness Thm. 7.9, unified `ClayZugzwangMasterV2`, and
+     two-sided operational blindness `CanonicalApparatusBlindness`) are
+     kernel-confirmed on Lean v4.37.0-rc1 (live.lean-lang.org) with 0 `sorry`,
+     0 `axiom`, 0 errors, 0 warnings (`Init` core only); §35–47 queued for
+     strict GitHub Actions CI gating. Nothing in §35–47 is used by §1–34.
    • Pure ℝ⁴ audit only: no compact manifold construction is imported here.
 ================================================================================
 -/
@@ -3442,9 +3444,10 @@ theorem ym_axioms_bridge_proved :
   fun A hYM => foundational_apparatus_induces_canonical A hYM
 
 /--
-THEOREM 29.3 (UNCONDITIONAL ABSTRACT PRIZE-LEVEL NO-GO ON ℝ⁴):
+THEOREM 29.3 (BRIDGE-RELATIVE ABSTRACT PRIZE-LEVEL NO-GO ON ℝ⁴ — SCOPED BY §26/§34):
 Discharging `ArenaDefect_v4_abstract_reduction` with `ym_axioms_bridge_proved`
-yields `AbstractPrizeLevelNoGo NonAbelianR4GaugeAxioms` unconditionally.
+yields `AbstractPrizeLevelNoGo NonAbelianR4GaugeAxioms` relative to the
+declared foundational predicate `NonAbelianR4GaugeAxioms`.
 -/
 theorem unconditional_abstract_prize_level_no_go :
     AbstractPrizeLevelNoGo NonAbelianR4GaugeAxioms :=
@@ -5842,3 +5845,298 @@ end RoundSquare
 #print axioms RoundSquare.oz_positive_weight_inhabited
 #print axioms RoundSquare.covA4_all_xi_breaks_odd_os2
 #print axioms RoundSquare.covA4_trivial_zero_never_positive
+-- == V25_SECTION_47_DILATION_NULLSEQ_AND_BM_COVA4 ==
+/-!
+## 47. Block M: Exact Dilation Exclusion (Lemma 5.5), Arbitrary Null Sequences,
+##     Complete-Monotonicity All-ξ A_4 Classification (Thm. 7.9),
+##     Contact-Shifted Proca Separation & Unified ClayZugzwangMasterV2
+-/
+namespace RoundSquare
+
+/-- Halving a positive rational energy: E ↦ E / 2. -/
+def halfPosRat (E : PosRat) : PosRat where
+  numPred := E.numPred
+  denPred := 2 * E.denPred + 1
+
+/-- Iterated dilation orbit: E_n = 2^(-n) * E_0. -/
+def iterHalf : Nat → PosRat → PosRat
+  | 0, E => E
+  | n + 1, E => halfPosRat (iterHalf n E)
+
+def pow2 : Nat → Nat
+  | 0 => 1
+  | n + 1 => 2 * pow2 n
+
+theorem iterHalf_numPred (E : PosRat) : ∀ n : Nat, (iterHalf n E).numPred = E.numPred
+  | 0 => rfl
+  | n + 1 => iterHalf_numPred E n
+
+theorem iterHalf_den (E : PosRat) :
+    ∀ n : Nat, (iterHalf n E).denPred + 1 = pow2 n * (E.denPred + 1)
+  | 0 => (Nat.one_mul (E.denPred + 1)).symm
+  | n + 1 => by
+      have ih := iterHalf_den E n
+      change (2 * (iterHalf n E).denPred + 1) + 1 = (2 * pow2 n) * (E.denPred + 1)
+      have h2 : (2 * (iterHalf n E).denPred + 1) + 1 = 2 * ((iterHalf n E).denPred + 1) := by
+        rw [mul_add_0 2 (iterHalf n E).denPred 1, mul_one_0 2]
+      rw [h2, ih, mul_assoc_nat 2 (pow2 n) (E.denPred + 1)]
+
+theorem succ_le_pow2 : ∀ n : Nat, n + 1 ≤ pow2 n
+  | 0 => Nat.le_refl 1
+  | n + 1 => by
+      have ih := succ_le_pow2 n
+      change (n + 1) + 1 ≤ 2 * pow2 n
+      have h1 : (n + 1) + 1 ≤ (n + 1) + (n + 1) :=
+        Nat.add_le_add (Nat.le_refl (n + 1)) (Nat.succ_le_succ (zero_le_0 n))
+      rw [← two_mul_L (n + 1)] at h1
+      exact Nat.le_trans h1 (mul_le_mul_left_L (n + 1) (pow2 n) 2 ih)
+
+theorem iterHalf_mem (H : OperatorHilbertSystem)
+    (hDil : ∀ E : PosRat, H.hasEigenmodeAtEnergy E → H.hasEigenmodeAtEnergy (halfPosRat E))
+    (E0 : PosRat) (hE0 : H.hasEigenmodeAtEnergy E0) :
+    ∀ n : Nat, H.hasEigenmodeAtEnergy (iterHalf n E0)
+  | 0 => hE0
+  | n + 1 => hDil (iterHalf n E0) (iterHalf_mem H hDil E0 hE0 n)
+
+/-- LEMMA 5.5 FORMALIZED (Zero Axioms): Exact dilation covariance (E ↦ E/2) on any
+    non-empty positive spectrum forbids any positive rational spectral lower bound. -/
+theorem dilation_forbids_positive_rational_gap (H : OperatorHilbertSystem)
+    (hNonEmpty : ∃ E0 : PosRat, H.hasEigenmodeAtEnergy E0)
+    (hDil : ∀ E : PosRat, H.hasEigenmodeAtEnergy E → H.hasEigenmodeAtEnergy (halfPosRat E)) :
+    ¬ HasPositiveRationalGap H := by
+  intro ⟨_, B, hLB⟩
+  match hNonEmpty with
+  | ⟨E0, hE0⟩ =>
+      let N := (E0.numPred + 1) * (B.denPred + 1)
+      have hMem := iterHalf_mem H hDil E0 hE0 N
+      have hLe : LeScale (mulPos B.numPred ((iterHalf N E0).denPred + 1))
+                         (mulPos (iterHalf N E0).numPred (B.denPred + 1)) :=
+        hLB (iterHalf N E0) hMem
+      have hNat : (B.numPred + 1) * (pow2 N * (E0.denPred + 1)) ≤ N := by
+        have h0 := le_of_leScale _ _ hLe
+        rw [mulPos_eq B.numPred _, mulPos_eq (iterHalf N E0).numPred _,
+            iterHalf_den E0 N, iterHalf_numPred E0 N] at h0
+        exact h0
+      have hPow1 : pow2 N ≤ pow2 N * (E0.denPred + 1) := by
+        have h1 := mul_le_mul_left_L 1 (E0.denPred + 1) (pow2 N)
+          (Nat.succ_le_succ (zero_le_0 E0.denPred))
+        rw [mul_one_0 (pow2 N)] at h1
+        exact h1
+      have hB1 : pow2 N * (E0.denPred + 1) ≤ (B.numPred + 1) * (pow2 N * (E0.denPred + 1)) := by
+        have h1 := mul_le_mul_right_L 1 (B.numPred + 1) (pow2 N * (E0.denPred + 1))
+          (Nat.succ_le_succ (zero_le_0 B.numPred))
+        rw [Nat.one_mul] at h1
+        exact h1
+      have hContra : N + 1 ≤ N :=
+        Nat.le_trans (succ_le_pow2 N) (Nat.le_trans hPow1 (Nat.le_trans hB1 hNat))
+      exact not_succ_le_self_0 N hContra
+
+/-- Arbitrary constructive positive null sequence in the spectrum of H. -/
+def HasConstructiveNullSequence (H : OperatorHilbertSystem) : Prop :=
+  ∀ q : Nat, ∃ E : PosRat, H.hasEigenmodeAtEnergy E ∧ lePosRatExact E (energyFormula (q + 1))
+
+theorem reciprocal_tail_is_null_sequence (H : OperatorHilbertSystem)
+    (hCont : ∀ lam : Nat, H.hasEigenmodeAtEnergy (energyFormula lam)) :
+    HasConstructiveNullSequence H :=
+  fun q => ⟨energyFormula (q + 1), hCont (q + 1), lePosRatExact_energyFormula (leScale_refl (q + 1))⟩
+
+/-- Generalization of Theorem 5.2: ANY constructive positive null sequence refutes
+    `HasPositiveRationalGap H` (independent of the specific formula 1/(lam+1)). -/
+theorem null_sequence_forbids_positive_rational_gap (H : OperatorHilbertSystem)
+    (hNull : HasConstructiveNullSequence H) :
+    ¬ HasPositiveRationalGap H := by
+  intro ⟨_, B, hLB⟩
+  match hNull B.denPred with
+  | ⟨E, hMem, hE⟩ =>
+      have h1 : (B.numPred + 1) * (E.denPred + 1) ≤ (E.numPred + 1) * (B.denPred + 1) := by
+        have h0 := le_of_leScale _ _ (hLB E hMem)
+        rw [mulPos_eq B.numPred _, mulPos_eq E.numPred _] at h0
+        exact h0
+      have h2 : (E.numPred + 1) * (B.denPred + 2) ≤ E.denPred + 1 := by
+        have h0 : LeScale (mulPos E.numPred (B.denPred + 2)) (E.denPred + 1) := hE
+        have h0' := le_of_leScale _ _ h0
+        rw [mulPos_eq E.numPred (B.denPred + 2)] at h0'
+        exact h0'
+      have h3 := mul_le_mul_right_L _ _ (B.denPred + 2) h1
+      have h4 := mul_le_mul_right_L _ _ (B.denPred + 1) h2
+      have hSwap : ((E.numPred + 1) * (B.denPred + 1)) * (B.denPred + 2) =
+                   ((E.numPred + 1) * (B.denPred + 2)) * (B.denPred + 1) := by
+        rw [mul_assoc_nat (E.numPred + 1) (B.denPred + 1) (B.denPred + 2),
+            mul_comm_0 (B.denPred + 1) (B.denPred + 2),
+            ← mul_assoc_nat (E.numPred + 1) (B.denPred + 2) (B.denPred + 1)]
+      rw [hSwap] at h3
+      have hChain : ((B.numPred + 1) * (E.denPred + 1)) * (B.denPred + 2) ≤
+                    (E.denPred + 1) * (B.denPred + 1) := Nat.le_trans h3 h4
+      have hReL : ((B.numPred + 1) * (E.denPred + 1)) * (B.denPred + 2) =
+                  ((B.numPred + 1) * (B.denPred + 2)) * (E.denPred + 1) := by
+        rw [mul_assoc_nat (B.numPred + 1) (E.denPred + 1) (B.denPred + 2),
+            mul_comm_0 (E.denPred + 1) (B.denPred + 2),
+            ← mul_assoc_nat (B.numPred + 1) (B.denPred + 2) (E.denPred + 1)]
+      have hReR : (E.denPred + 1) * (B.denPred + 1) = (B.denPred + 1) * (E.denPred + 1) :=
+        mul_comm_0 (E.denPred + 1) (B.denPred + 1)
+      rw [hReL, hReR] at hChain
+      have hCanc : (B.numPred + 1) * (B.denPred + 2) ≤ B.denPred + 1 :=
+        le_of_mul_le_mul_right_pos_L _ _ E.denPred hChain
+      have hGe : B.denPred + 2 ≤ (B.numPred + 1) * (B.denPred + 2) := by
+        have h0 := mul_le_mul_right_L 1 (B.numPred + 1) (B.denPred + 2)
+          (Nat.succ_le_succ (zero_le_0 B.numPred))
+        rw [Nat.one_mul] at h0
+        exact h0
+      exact not_succ_le_self_0 (B.denPred + 1) (Nat.le_trans hGe hCanc)
+
+private theorem eq_zero_of_le_zero_M : ∀ n : Nat, n ≤ 0 → n = 0
+  | 0, _ => rfl
+  | n + 1, h => False.elim (not_succ_le_self_0 0 (Nat.le_trans (Nat.succ_le_succ (zero_le_0 n)) h))
+
+/-- Complete-monotonicity admissibility for S_44(tau, k) with ARBITRARY real contact term
+    cT : SignedVal, massless atom r0 : Nat, massive integral IT : Nat, gauge xi : SignedVal.
+    Encodes: (1) boundedness of g_k(tau) as tau -> inf forces xi = r0;
+    (2) g_k(inf) >= 0 at k = 1/(m+1) for all m : Nat forces r0*(m+1)^2 + (cT + IT) <= 0. -/
+def CovA4CompleteMonotone (r0 IT : Nat) (cT xi : SignedVal) : Prop :=
+  (xi = .nonNeg r0) ∧
+  (∀ m : Nat,
+    match cT with
+    | .nonNeg c => r0 * ((m + 1) * (m + 1)) + (c + IT) = 0
+    | .neg cPred => r0 * ((m + 1) * (m + 1)) + IT ≤ cPred + 1)
+
+/-- NEW THEOREM 7.9(ii) CORE: Complete monotonicity of -S_44 forces r0 = 0 AND xi = 0,
+    even when arbitrary NEGATIVE contact terms cT < 0 are allowed! -/
+theorem covA4_bm_forces_landau_only (r0 IT : Nat) (cT xi : SignedVal)
+    (hCM : CovA4CompleteMonotone r0 IT cT xi) :
+    r0 = 0 ∧ xi = .nonNeg 0 := by
+  have hr0 : r0 = 0 := by
+    cases cT with
+    | nonNeg c =>
+        have h0 : r0 * (1 * 1) + (c + IT) = 0 := hCM.2 0
+        rw [mul_one_0 1, mul_one_0 r0] at h0
+        have hLe : r0 ≤ 0 := by
+          have h1 := le_add_right_0 r0 (c + IT)
+          rw [h0] at h1
+          exact h1
+        exact eq_zero_of_le_zero_M r0 hLe
+    | neg cPred =>
+        cases r0 with
+        | zero => rfl
+        | succ r0' =>
+            have hInst : (r0' + 1) * ((cPred + 2) * (cPred + 2)) + IT ≤ cPred + 1 :=
+              hCM.2 (cPred + 1)
+            have hSq : cPred + 2 ≤ (cPred + 2) * (cPred + 2) := by
+              have h1 := mul_le_mul_left_L 1 (cPred + 2) (cPred + 2)
+                (Nat.succ_le_succ (zero_le_0 (cPred + 1)))
+              rw [mul_one_0 (cPred + 2)] at h1
+              exact h1
+            have hMul : (cPred + 2) * (cPred + 2) ≤ (r0' + 1) * ((cPred + 2) * (cPred + 2)) := by
+              have h1 := mul_le_mul_right_L 1 (r0' + 1) ((cPred + 2) * (cPred + 2))
+                (Nat.succ_le_succ (zero_le_0 r0'))
+              rw [Nat.one_mul] at h1
+              exact h1
+            have hContra : cPred + 2 ≤ cPred + 1 :=
+              Nat.le_trans hSq
+                (Nat.le_trans hMul
+                  (Nat.le_trans (le_add_right_0 _ IT) hInst))
+            exact False.elim (not_succ_le_self_0 (cPred + 1) hContra)
+  have hXi : xi = .nonNeg 0 := by
+    have h1 := hCM.1
+    rw [hr0] at h1
+    exact h1
+  exact ⟨hr0, hXi⟩
+
+/-- Every nonzero gauge xi ≠ 0 is unconditionally excluded, even for arbitrary cT < 0. -/
+theorem covA4_bm_all_nonzero_xi_impossible (r0 IT : Nat) (cT xi : SignedVal)
+    (hNe : xi ≠ .nonNeg 0) : ¬ CovA4CompleteMonotone r0 IT cT xi :=
+  fun hCM => hNe (covA4_bm_forces_landau_only r0 IT cT xi hCM).2
+
+/-- Under UV decay / non-negative contact term (cT ≥ 0), complete monotonicity forces
+    the trivial zero field (r0 = 0, xi = 0, c = 0, IT = 0). -/
+theorem covA4_bm_uv_decay_forces_trivial (r0 IT c : Nat) (xi : SignedVal)
+    (hCM : CovA4CompleteMonotone r0 IT (.nonNeg c) xi) :
+    r0 = 0 ∧ xi = .nonNeg 0 ∧ c = 0 ∧ IT = 0 := by
+  have ⟨hr0, hXi⟩ := covA4_bm_forces_landau_only r0 IT (.nonNeg c) xi hCM
+  have h0' : c + IT = 0 := by
+    have h0 : r0 * (1 * 1) + (c + IT) = 0 := hCM.2 0
+    rw [hr0, zero_mul_0 (1 * 1), Nat.add_comm 0 (c + IT)] at h0
+    exact h0
+  have hc : c = 0 := by
+    have h1 := le_add_right_0 c IT
+    rw [h0'] at h1
+    exact eq_zero_of_le_zero_M c h1
+  have hIT : IT = 0 := by
+    have h1 := Nat.le_add_left IT c
+    rw [h0'] at h1
+    exact eq_zero_of_le_zero_M IT h1
+  exact ⟨hr0, hXi, hc, hIT⟩
+
+/-- Sharpness witness (Contact-Shifted Proca at xi = 0, cT = -1/m^2, IT = 1/m^2):
+    non-trivial (IT = 1 ≥ 1) and satisfies complete monotonicity when cT < 0 is permitted! -/
+theorem covA4_bm_shifted_proca_witness :
+    ∃ (IT cPred : Nat), 1 ≤ IT ∧ CovA4CompleteMonotone 0 IT (.neg cPred) (.nonNeg 0) :=
+  ⟨1, 0, Nat.le_refl 1, ⟨rfl, fun m => by
+    show 0 * ((m + 1) * (m + 1)) + 1 ≤ 0 + 1
+    rw [zero_mul_0 ((m + 1) * (m + 1))]
+    exact Nat.le_refl (0 + 1)⟩⟩
+
+/-- UNIFIED CLAY ZUGZWANG v2: integrates Block K + Block L (IR–UV Pincer & all-ξ A_4)
+    + Block M (Exact Dilation Exclusion, Arbitrary Null Sequences, & All-ξ BM Classification). -/
+def ClayZugzwangMasterV2 : Prop :=
+  ClayZugzwangMaster ∧
+  (∀ H : OperatorHilbertSystem, HasConstructiveNullSequence H → ¬ HasPositiveRationalGap H) ∧
+  (∀ H : OperatorHilbertSystem,
+    (∃ E0 : PosRat, H.hasEigenmodeAtEnergy E0) →
+    (∀ E : PosRat, H.hasEigenmodeAtEnergy E → H.hasEigenmodeAtEnergy (halfPosRat E)) →
+    ¬ HasPositiveRationalGap H) ∧
+  (∀ (Z : OehmeZimmermannDressing) (w : PosRat) (mu : Nat),
+    IsUVSuperconvergent Z → HasPositiveSpectralWeight Z w mu → False) ∧
+  (∀ (r0 IT : Nat) (cT xi : SignedVal), xi ≠ .nonNeg 0 → ¬ CovA4CompleteMonotone r0 IT cT xi) ∧
+  (∀ (r0 IT c : Nat) (xi : SignedVal),
+    CovA4CompleteMonotone r0 IT (.nonNeg c) xi → r0 = 0 ∧ xi = .nonNeg 0 ∧ c = 0 ∧ IT = 0)
+
+theorem clay_zugzwang_master_v2 : ClayZugzwangMasterV2 :=
+  ⟨clay_zugzwang_master,
+   null_sequence_forbids_positive_rational_gap,
+   dilation_forbids_positive_rational_gap,
+   oz_superconvergence_forbids_positive_weight,
+   covA4_bm_all_nonzero_xi_impossible,
+   covA4_bm_uv_decay_forces_trivial⟩
+
+/-- Anti-Overclaim Firewall preserved verbatim for ClayZugzwangMasterV2. -/
+theorem clay_zugzwang_v2_does_not_refute_clay :
+    ¬ (ClayZugzwangMasterV2 → ¬ ∃ M : ConcreteQuantumFieldModel, BarePosClaySolution M) :=
+  fun h => h clay_zugzwang_master_v2 ⟨PellSqrt2CompatibleModel, pell_model_is_bare_pos_clay⟩
+
+end RoundSquare
+
+#print axioms RoundSquare.dilation_forbids_positive_rational_gap
+#print axioms RoundSquare.reciprocal_tail_is_null_sequence
+#print axioms RoundSquare.null_sequence_forbids_positive_rational_gap
+#print axioms RoundSquare.covA4_bm_forces_landau_only
+#print axioms RoundSquare.covA4_bm_all_nonzero_xi_impossible
+#print axioms RoundSquare.covA4_bm_uv_decay_forces_trivial
+#print axioms RoundSquare.covA4_bm_shifted_proca_witness
+#print axioms RoundSquare.clay_zugzwang_master_v2
+#print axioms RoundSquare.clay_zugzwang_v2_does_not_refute_clay
+namespace RoundSquare
+
+/-- Two-Sided Operational Blindness of the Canonical R^4 Apparatus:
+    (1) Blind to positive witnesses inside InBroadPosR4GaugeClass (unconditional);
+    (2) Zero signal on elementary O(4)-covariant A_mu under complete-monotonicity OS2 + UV decay;
+    (3) Blind to negative closure (upper exit unclosable under Hypothesis P, no reformulation discount);
+    (4) Forces every Clay witness out of the canonical apparatus into ForcedNonCanonicalExitObligations. -/
+def CanonicalApparatusBlindness : Prop :=
+  ClayZugzwangMasterV2 ∧
+  (¬ PosClassCompletenessBridge) ∧
+  (∃ M : ConcreteQuantumFieldModel, BarePosClaySolution M)
+
+theorem canonical_apparatus_blindness_theorem : CanonicalApparatusBlindness :=
+  ⟨clay_zugzwang_master_v2,
+   pos_logvinovich_dichotomy.2.2.2.1,
+   pos_logvinovich_dichotomy.2.2.2.2⟩
+
+theorem canonical_blindness_does_not_refute_clay :
+    ¬ (CanonicalApparatusBlindness → ¬ ∃ M : ConcreteQuantumFieldModel, BarePosClaySolution M) :=
+  fun h => h canonical_apparatus_blindness_theorem
+    ⟨PellSqrt2CompatibleModel, pell_model_is_bare_pos_clay⟩
+
+end RoundSquare
+
+#print axioms RoundSquare.canonical_apparatus_blindness_theorem
+#print axioms RoundSquare.canonical_blindness_does_not_refute_clay

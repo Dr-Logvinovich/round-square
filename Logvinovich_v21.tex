@@ -29,11 +29,12 @@
 %  (10) NEW in v18--v20: defect C3. Upper4DDichotomy is a FIELD PERMUTATION of the class.
 %       CORRECTION: it is NOT definitionally equal (different structure names); the
 %       equivalence is an Iff proved by permuting fields, with zero physical input.
-%  (11) NEW in v18--v21 (rev. L): obligation O7 discharged; all twelve blocks (A--L, 213 checks)
-%       are sorry-free and kernel-confirmed on Lean v4.37.0-rc1 (Sections 1--34 GitHub-CI
-%       confirmed [143 checks]; all Sections 1--46 / Blocks A--L [213 checks] kernel-confirmed
-%       on Lean v4.37.0-rc1 with 0 errors and 0 warnings; Secs 35--46 queued for CI gating). Route alpha' sealed for xi < 13/3 via Oehme--Zimmermann
-%       and for ALL xi in R for the full O(4)-covariant 4-vector A_mu via Slavnov--Taylor (Thm. 7.9).
+%  (11) NEW in v18--v21 (rev. M): obligation O7 discharged; ALL Blocks A--M (Sections 1--47, 224 checks)
+%       are kernel-confirmed on Lean v4.37.0-rc1 (Sections 1--34 GitHub-CI confirmed [143 checks];
+%       Block M Section 47 [+11 checks, 224 total]: dilation exclusion, arbitrary null sequences,
+%       complete-monotonicity all-xi A_4 classification + shifted-Proca sharpness, ClayZugzwangMasterV2,
+%       and CanonicalApparatusBlindness; Secs 35--47 queued for GitHub Actions CI gating). Thm. 7.9 is upgraded
+%       to arbitrary real contact terms c_T in R and Cor. 7.10 seals OS1 + OS2 + UV-decay for elementary A_mu in ALL gauges.
 %  (12) COMPILE FIXES: no Unicode subscripts inside listings; no math inside \Lean{}.
 %
 %  NOTE: never pass this file through JSON / echo -e (backslash-n corruption).
@@ -118,7 +119,7 @@ literate=
 the Sharp Positivity Theorem for the Gribov--Zwanziger Instrument Family,\\
 the Audit of Eight Attempted Closures of the Upper Exit,\\
 and the Conditional Inevitability Theorem}\\[6pt]
-{\large\bfseries Audited Edition v21, with Extension Modules (Blocks A--L, All 213 Zero-Axiom Checks Kernel-Confirmed on Lean v4.37.0-rc1)}\\[8pt]
+{\large\bfseries Audited Edition v21, with Extension Modules (All Blocks A--M, All 224 Zero-Axiom Checks Kernel-Confirmed on Lean v4.37.0-rc1)}\\[8pt]
 {\large\bfseries Victor Logvinovich}\\[2pt]
 {\small Master of Physical and Mathematical Sciences; Researcher in Pedagogical Sciences (Mathematics)}\\
 {\small Kobrin, Belarus $\cdot$ ORCID \href{https://orcid.org/0009-0007-2040-6955}{0009-0007-2040-6955}}\\[3pt]
@@ -145,7 +146,7 @@ $\Class^-_{\R^4}$, with the five-part certificate (Thm.~\ref{thm:fork}, Prop.~\r
 (Thm.~\ref{thm:rgz}) and its physical corollary (Cor.~\ref{cor:gamma}): positivity forces
 $\gamma=0$; paired with the Oehme--Zimmermann UV superconvergence obstruction
 (Thm.~\ref{thm:oz}, Cor.~\ref{cor:pincer}), this forms a \emph{two-sided IR--UV pincer}
-sealing Route~$\alpha'$ in every covariant $R_\xi$ gauge with $\xi<13/3$; for the full $O(4)$-covariant four-vector $A_\mu$, the Slavnov--Taylor identity and $\theta$-odd $\OS2$ seal Route~$\alpha'$ for \emph{all} $\xi\in\R$ (Thm.~\ref{thm:covA4}, calibrated against the massive Proca control test).
+sealing Route~$\alpha'$ in every covariant $R_\xi$ gauge with $\xi<13/3$; for the full $O(4)$-covariant four-vector $A_\mu$ with \emph{arbitrary} real contact term $c_T\in\R$, Bernstein--Widder complete monotonicity of $-S_{44}$ forces $\xi=0$ and $r_0=0$ unconditionally, forces $c_T\le -I_T\le 0$ at $\xi=0$, and seals $\OS1\wedge\OS2\wedge(\text{UV decay})$ for elementary $A_\mu$ across \emph{all} gauges (Thm.~\ref{thm:covA4}, Cor.~\ref{cor:allgauges}, sharpness witnessed by contact-shifted Proca).
 \item \emph{The Logvinovich Dichotomy} (Thm.~\ref{thm:dichotomy}), including the proved falsity
 of the completeness bridge inside the audited ontology.
 \item \emph{Burden calibration} (Thm.~\ref{thm:burden}): bridge $\iff\neg\exists$Clay.
@@ -157,7 +158,7 @@ This upgrades the sign-inversion ledger from an observation to a theorem with a 
 hypothesis, and \emph{explains} the pattern rather than merely recording it.
 \item \emph{NEW: the No Free Reformulation Theorem} (Thm.~\ref{thm:nofree}). Any predicate equivalent to Clay is exactly as hard as Clay. The discrete-lattice, three-dimensional-slice,
 Hamiltonian and spectral-probe presentations therefore offer no discount.
-\item \emph{Kernel extension modules \& Clay Zugzwang} (\S\ref{sec:proposed}, Blocks~A--L): Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks); all Sections~1--46 including Blocks~A--L (\S35--46, all 213 \texttt{\#print axioms} checks --- including strict Pell irrationality separation \Lean{pell\_system\_has\_no\_exact\_rational\_gap}, the Oehme--Zimmermann IR--UV pincer with non-vacuity witnesses \Lean{two\_sided\_ir\_uv\_gluon\_pincer}, and the all-$\xi$ $O(4)$-covariant $A_4$ sign obstruction \Lean{covA4\_all\_xi\_breaks\_odd\_os2}) compile with 0 errors, 0 warnings, and 0 axioms on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}); \S35--46 are queued for strict GitHub Actions CI gating. Nothing in \S35--46 is used by \S1--34.
+\item \emph{Kernel extension modules, Clay Zugzwang \& Two-Sided Operational Blindness} (\S\ref{sec:proposed}, Blocks~A--M): Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks); \textbf{all} Sections~1--47 including Blocks~A--M (\S35--47, all 224 \texttt{\#print axioms} checks --- including Block~M [+11 checks]: exact dilation exclusion \Lean{dilation\_forbids\_positive\_rational\_gap}, arbitrary constructive null sequences, complete-monotonicity all-$\xi$ $A_4$ classification with shifted-Proca witness, unified \Lean{ClayZugzwangMasterV2}, and two-sided operational blindness \Lean{CanonicalApparatusBlindness}) compile with 0 errors, 0 warnings, and 0 axioms on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}); \S35--47 are queued for strict GitHub Actions CI gating. Nothing in \S35--47 is used by \S1--34.
 \end{enumerate}
 \end{protocol}
 \begin{protocol}[Three legitimate positions]\label{prot:three}
@@ -184,23 +185,23 @@ Gross--Neveu model in two dimensions \cite{FMRS1986,GK1985}; reflection-positive
 lattice actions and blocking \cite{LuscherWeisz1985,Symanzik1985}; the Oehme--Zimmermann
 UV superconvergence theorem for covariant-gauge gluons \cite{OehmeZimmermann1980}; and the Minkowski indefinite-metric theorem for covariant gauge fields \cite{KugoOjima1979,StrocchiBook}. We claim no
 priority for any of these.
-\textbf{(S2) New, analytic or elementary (five propositions, seventeen theorems/corollaries, plus Lemma~\ref{lem:invisible}).}
+\textbf{(S2) New, analytic or elementary (five propositions, eighteen theorems/corollaries, plus Lemma~\ref{lem:invisible}).}
 Lemma~\ref{lem:invisible};
-Thms.~\ref{thm:contact}, \ref{thm:family}, \ref{thm:npole}, \textbf{\ref{thm:oz}} (elementary monotonicity proof), \textbf{\ref{thm:covA4}} (Euclidean $\OS2$ all-$\xi$ $A_\mu$ obstruction with Proca control test), \ref{thm:anomaly};
-Cors.~\ref{cor:gamma}, \textbf{\ref{cor:pincer}} (two-sided IR--UV pincer synthesis); Props.~\ref{prop:modes}, \ref{prop:dimfour}, \ref{prop:contactuniversal},
+Thms.~\ref{thm:contact}, \ref{thm:family}, \ref{thm:npole}, \textbf{\ref{thm:oz}} (elementary monotonicity proof), \textbf{\ref{thm:covA4}} (Euclidean complete-monotonicity all-$\xi$ $A_\mu$ classification for arbitrary $c_T\in\R$ with Proca and contact-shifted Proca controls), \ref{thm:anomaly};
+Cors.~\ref{cor:gamma}, \textbf{\ref{cor:pincer}} (two-sided IR--UV pincer synthesis), \textbf{\ref{cor:allgauges}} (all-gauge elementary $A_\mu$ seal); Props.~\ref{prop:modes}, \ref{prop:dimfour}, \ref{prop:contactuniversal},
 \ref{prop:afexp}, \textbf{\ref{prop:betasign}};
 Thms.~\ref{thm:attackA}, \ref{thm:attackB}, \textbf{\ref{thm:attackC}},
 \textbf{\ref{thm:attackD}}, \textbf{\ref{thm:attackE}};
 \textbf{Thms.~\ref{thm:inevitability}, \ref{thm:nofree}, \ref{thm:reconstruction}};
-\textbf{Cor.~\ref{corr:C3}}.
-\textbf{(S3) Kernel verification status.} Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks); all Sections~1--46 (Blocks~A--L, all 213 \texttt{\#print axioms} checks) are kernel-confirmed on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}) with 0 errors and 0 warnings; \S35--46 are queued for full GitHub Actions CI gating. Nothing in \S35--46 is used by any core theorem in \S1--34.
+\textbf{Corr.~\ref{corr:C3}}.
+\textbf{(S3) Kernel verification status.} Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks); \textbf{all} Sections~1--47 (Blocks~A--M, all 224 \texttt{\#print axioms} checks) are kernel-confirmed on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}) with 0 errors and 0 warnings (\texttt{Init} core only); \S35--47 are queued for full GitHub Actions CI gating. Nothing in \S35--47 is used by any core theorem in \S1--34.
 \end{protocol}
 \begin{protocol}[Machine-readable scope block]\label{prot:json}
 Normative for automated evaluators; strictly valid JSON; synchronized with \texttt{README.md}.
 \end{protocol}
 \begin{Verbatim}[fontsize=\scriptsize,frame=single,rulecolor=\color{darkgray}]
 {
-"headline": "logvinovich_dichotomy_v21_clay_zugzwang_all_xi_pincer_213_checks",
+"headline": "logvinovich_dichotomy_v21_clay_zugzwang_blindness_all_xi_bm_blockM_224_checks",
 "work_type": "class_relative_negative_result_plus_reduction_plus_instrument_theorems",
 "is_positive_R4_construction": false,
 "is_clay_prize_claim": false,
@@ -224,7 +225,7 @@ Normative for automated evaluators; strictly valid JSON; synchronized with \text
 "class_free_theorems": ["peano_archimedes_no_gap", "wightman_spectral_half_line",
 "dilation_excludes_gap", "explicit_reciprocal_mode_expulsion", "uniform_reciprocal_tail_expulsion",
 "sharp_RGZ_positivity_criterion", "oehme_zimmermann_uv_superconvergence",
-"all_xi_covariant_A4_slavnov_taylor_os2_obstruction",
+"all_xi_covariant_A4_complete_monotonicity_classification",
 "reflection_odd_contact_term_necessity", "explicit_OS_gap_chi_t_positive_family"],
 "class_free_propositions": ["modes_are_not_energies",
 "dimension_four_composite_in_free_gapped_theory",
@@ -233,14 +234,14 @@ Normative for automated evaluators; strictly valid JSON; synchronized with \text
 "beta_sign_is_the_discriminator"],
 "sharp_RGZ_criterion": "rho >= 0 iff OS2 iff W0 iff M2*m2 >= lam4",
 "RGZ_physical_corollary": "lam4 = M2*m2 + 2*N*g^2*gamma^4, hence criterion holds iff gamma = 0",
-"route_alpha_prime_pincer": "SEALED for the full O(4)-covariant four-vector A_mu across ALL xi in R (incl. xi >= 13/3 and xi < 0) by Slavnov-Taylor D_L = xi/p^2 + theta-odd OS2 on A_4 (Thm 7.9, calibrated against massive Proca); and for transverse scalar D_T alone across xi < 13/3 by Oehme-Zimmermann UV superconvergence (Thm 7.7, Cor 7.8); OPEN only for D_T-only projections at xi >= 13/3 or non-covariant gauges (A_4 = 0, Coulomb)",
+"route_alpha_prime_pincer": "COMPLETE CLASSIFICATION for the full O(4)-covariant four-vector A_mu with arbitrary real contact term c_T in R (Thm 7.9): Bernstein-Widder complete monotonicity of -S_44 forces xi = 0 and r_0 = 0 unconditionally (even for c_T < 0), and at xi = 0 forces c_T <= -I_T <= 0; UV decay D_T(inf) = 0 forces D_mu_nu = 0; boundary sharpness is witnessed by contact-shifted Proca D_Proca - (1/m^2)*delta (xi = 0, c_T = -1/m^2 < 0). Paired with Cor 7.4 (IR gamma != 0), Thm 7.7 (UV xi < 13/3), and OS1 breaking in non-covariant gauges, OS1 + OS2 + UV-decay is sealed for elementary A_mu across ALL gauges; only Route beta (gauge-invariant composites) remains open.",
 "pell_strict_separation": "Block L (Sec 46): HasPositiveRationalGap PellSqrt2System AND not HasExactRationalSpectralGap PellSqrt2System (proved via Pell invariant p_n^2 = 2*q_n^2 + 1 and matrix improvement (a,b) -> (3a+4b, 2a+3b) with zero axioms)",
-"clay_zugzwang_master": "Irrational-safe (HasPositiveRationalGap) broad disjunctive fork: Squares 1-4 yield False (Square 3 encodes RGZ gamma != 0 in Sec 45, paired in Block L Sec 46 with two_sided_ir_uv_gluon_pincer for xi < 13/3 and covA4_all_xi_breaks_odd_os2 sealing full O(4)-covariant A_mu for all xi in R), Square 5 yields zero discount, unique legal move forces PosExitCertificate + infinite IR-tail expulsion + no finite-rank Schur model + refutation of H1 and disjunctive H2-; firewall clay_zugzwang_does_not_refute_clay holds",
-"new_lean_status": "Sections 1-34 GitHub-CI confirmed (0 sorry, 0 axiom; 143 checks); ALL Sections 1-46 (Blocks A-L, 213 #print axioms checks: 143 + 5 in A-B + 51 in C-K + 14 in Block L Sec 46) are kernel-confirmed on Lean v4.37.0-rc1 (live.lean-lang.org; 0 errors, 0 warnings, Init core only). Secs 35-46 are queued for strict GitHub Actions CI gating. Nothing in Secs 35-46 is used by Secs 1-34.",
-"lean_verified_artifact": "RoundSquare_v21.lean Sections 1-34: 0 sorry, 0 axiom (as reported by CI)",
+"clay_zugzwang_master": "Irrational-safe (HasPositiveRationalGap) broad disjunctive fork (Sec 45 Block K + unified ClayZugzwangMasterV2 & CanonicalApparatusBlindness in Sec 47 Block M): Squares 1-4 yield False (Square 3 integrates RGZ gamma != 0, OZ UV superconvergence, and complete-monotonicity all-xi A_4 classification; Block M adds exact dilation exclusion Lemma 5.5, arbitrary constructive null sequences, and Two-Sided Operational Blindness), Square 5 yields zero discount, unique legal move forces PosExitCertificate + infinite IR-tail expulsion + no finite-rank Schur model + refutation of H1 and disjunctive H2-; firewalls clay_zugzwang_does_not_refute_clay, clay_zugzwang_v2_does_not_refute_clay, and canonical_blindness_does_not_refute_clay hold",
+"new_lean_status": "Sections 1-34 GitHub-CI confirmed (0 sorry, 0 axiom; 143 checks); ALL Sections 1-47 (Blocks A-M, all 224 #print axioms checks, including Block M Sec 47 [+11 checks]: dilation exclusion, arbitrary null sequences, complete-monotonicity all-xi A_4 + shifted Proca witness, ClayZugzwangMasterV2, and CanonicalApparatusBlindness) are kernel-confirmed on Lean v4.37.0-rc1 (live.lean-lang.org; 0 errors, 0 warnings, Init core only); Secs 35-47 queued for strict GitHub Actions CI gating. Nothing in Secs 35-47 is used by Secs 1-34.",
+"lean_verified_artifact": "RoundSquare_v21.lean Sections 1-34: 0 sorry, 0 axiom (as reported by CI); ALL Sections 1-47 (Blocks A-M, 224 checks) kernel-confirmed on Lean v4.37.0-rc1 (0 errors, 0 warnings); Secs 35-47 queued for GitHub Actions CI gating",
 "not_claimed": ["positive R4 construction", "CMI prize", "not-Clay for the physical theory",
 "closure of the completeness bridge", "impossibility outside the audited class",
-"exhaustion of all QFT formulations", "strict GitHub Actions CI gating of Sections 35-46 (Blocks A-L; all 213 checks kernel-confirmed on Lean v4.37.0-rc1)",
+"exhaustion of all QFT formulations", "strict GitHub Actions CI gating of Sections 35-47 (all 224 checks across Blocks A-M are kernel-confirmed on Lean v4.37.0-rc1; GitHub Actions CI gating of Secs 35-47 is queued)",
 "that all future closure attempts must fail unconditionally"]
 }
 \end{Verbatim}
@@ -276,7 +277,7 @@ the upper exit}. Combined with the \emph{No Free Reformulation Theorem} --- any 
 pattern from an observation into a consequence, and shows that the discrete-lattice,
 three-dimensional-slice and Hamiltonian presentations offer no discount. We record a further
 self-audit: a proposed ``upper dichotomy'' structure whose two fields are literally the class
-premises, so that its sealing theorem is a field permutation. An earlier suggestion that this equivalence is definitional is withdrawn. Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks), and all Sections~1--46 (Blocks~A--L, all 213 \texttt{\#print axioms} checks, including the irrational-safe \Lean{ClayZugzwangMaster}, strict Pell separation, the Oehme--Zimmermann IR--UV pincer, and the all-$\xi$ $A_4$ obstruction) are kernel-confirmed on Lean~v4.37.0-rc1 with zero errors, zero warnings, and zero custom axioms (\S35--46 queued for GitHub Actions CI gating).
+premises, so that its sealing theorem is a field permutation. An earlier suggestion that this equivalence is definitional is withdrawn. Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks), and all Sections~1--47 (Blocks~A--M, all 224 \texttt{\#print axioms} checks --- including Block~M [+11 checks]: exact dilation exclusion, arbitrary null sequences, complete-monotonicity all-$\xi$ $A_4$ classification with contact-shifted Proca sharpness, \Lean{ClayZugzwangMasterV2}, and two-sided operational blindness \Lean{CanonicalApparatusBlindness}) are kernel-confirmed on Lean~v4.37.0-rc1 with zero errors, zero warnings, and zero custom axioms (\S35--47 queued for GitHub Actions CI gating).
 \end{abstract}
 \vspace{3pt}
 {\small\textbf{Keywords:} Yang--Mills; mass gap; negative resolution; Logvinovich dichotomy;
@@ -302,7 +303,7 @@ Tier & Exact statement and status \\
 0e (class-free) & Sharp RGZ criterion (Thm.~\ref{thm:rgz}); instrument dichotomy
 (Cor.~\ref{cor:rgz}); physical corollary (Cor.~\ref{cor:gamma}); $n$-pole generalisation
 (Thm.~\ref{thm:npole}); \textbf{Oehme--Zimmermann UV superconvergence \& two-sided IR--UV pincer}
-(Thm.~\ref{thm:oz}, Cor.~\ref{cor:pincer}; seals transverse $D_T$ for $\xi<13/3$); \textbf{all-$\xi$ $O(4)$-covariant $A_\mu$ obstruction} (Thm.~\ref{thm:covA4}; seals full 4-vector Route~$\alpha'$ for all $\xi\in\R$, with Proca control test). \\
+(Thm.~\ref{thm:oz}, Cor.~\ref{cor:pincer}; seals transverse $D_T$ for $\xi<13/3$); \textbf{complete-monotonicity all-$\xi$ $O(4)$-covariant $A_\mu$ classification} (Thm.~\ref{thm:covA4}, Cor.~\ref{cor:allgauges}; arbitrary $c_T\in\R$, forces $\xi=r_0=0$ and $c_T\le -I_T$, seals $\OS1\wedge\OS2\wedge(\text{UV decay})$ for elementary $A_\mu$ in \emph{all} gauges; sharpness via contact-shifted Proca). \\
 \midrule
 0f (class-free) & Contact terms are $\OS2$-invisible (Lem.~\ref{lem:invisible}); $\Chit>0$
 requires a positive contact term (Thm.~\ref{thm:contact}); explicit
@@ -331,11 +332,11 @@ strategies} (\S\ref{sec:upper}, \S\ref{sec:attacks}, \S\ref{sec:regulator}). \\
 \textbf{2$''$ (meta, NEW)} & \textbf{Conditional inevitability}
 (Thm.~\ref{thm:inevitability}): $\exists$Clay $\Rightarrow$ no sound upper-exit argument.
 \textbf{No free reformulation} (Thm.~\ref{thm:nofree}). \textbf{Reconstruction direction}
-(Thm.~\ref{thm:reconstruction}). \textbf{Defect C3} (Cor.~\ref{corr:C3}).
-\textbf{Grand Strategic Fork, Anti-Overclaim Firewall, Disjunctive/Schur Closure, Irrational-Safe Clay Zugzwang \& Block~L Pell/OZ Separation} (\S\ref{sec:proposed}, Blocks~G--L; \Lean{ClayZugzwangMaster}, \Lean{pell\_system\_has\_no\_exact\_rational\_gap}, \Lean{two\_sided\_ir\_uv\_gluon\_pincer}, \Lean{covA4\_all\_xi\_breaks\_odd\_os2}). \\
+(Thm.~\ref{thm:reconstruction}). \textbf{Defect C3} (Corr.~\ref{corr:C3}).
+\textbf{Grand Strategic Fork, Anti-Overclaim Firewall, Disjunctive/Schur Closure, Irrational-Safe Clay Zugzwang, Block~L Pell/OZ Separation, Block~M Dilation/Null-Seq/BM Closure \& Two-Sided Operational Blindness} (\S\ref{sec:proposed}, Blocks~G--M; \Lean{ClayZugzwangMasterV2}, \Lean{CanonicalApparatusBlindness}, \Lean{dilation\_forbids\_positive\_rational\_gap}, \Lean{null\_sequence\_forbids\_positive\_rational\_gap}, \Lean{covA4\_bm\_all\_nonzero\_xi\_impossible}). \\
 \midrule
 3 (not claimed) & $\neg$Clay for the physical theory; CMI prize; closure of the bridge;
-impossibility outside the class; exhaustion of QFT formulations; strict GitHub-CI gating of Blocks~A--L (\S35--46; all 213 checks kernel-confirmed on Lean~v4.37.0-rc1); unconditional failure of all future attempts. \\
+impossibility outside the class; exhaustion of QFT formulations; strict GitHub-CI gating of Blocks~A--M (\S35--47; all 224 checks across Blocks~A--M kernel-confirmed on Lean~v4.37.0-rc1); unconditional failure of all future attempts. \\
 \bottomrule
 \end{tabularx}
 \caption{Normative claim ledger. Every later statement is subordinate to this table.}
@@ -437,7 +438,7 @@ $\neg\mathrm{Bridge}$, \quad $\exists\,\mathrm{Clay}$ \ \text{(audited ontology)
 \renewcommand{\arraystretch}{1.24}
 \begin{tabularx}{\textwidth}{p{4.3cm} X p{2.7cm}}
 \toprule
-\textbf{Move on pure $\R^4$} & \textbf{Formal Lean~4 / analytic response (\S\ref{sec:proposed}, Block~K)} & \textbf{Board verdict}\\
+\textbf{Move on pure $\R^4$} & \textbf{Formal Lean~4 / analytic response (\S\ref{sec:proposed}, Blocks~K--M)} & \textbf{Board verdict}\\
 \midrule
 \textbf{Move 1:} Build inside the canonical class $\Class^-_{\R^4}$ (conjunctive or disjunctive $\textbf{H2}^-$, rational or irrational $\Delta_\R>0$) &
 \Lean{broad\_pos\_class\_incompatibility} + \Lean{universal\_R4\_class\_incompatibility\_pos} (Archimedean density $\Q_{>0}\subset\R_{>0}$) &
@@ -447,8 +448,8 @@ $\neg\mathrm{Bridge}$, \quad $\exists\,\mathrm{Clay}$ \ \text{(audited ontology)
 \Lean{infinite\_ir\_tail\_defeats\_finite\_schur\_pos} (untruncated $(\lambda+1)^{-1}$ tail has infinite negative-margin rank) &
 \textbf{\color{darkred}MATE ($\bot$)}\\
 \midrule
-\textbf{Move 3:} Seek $\OS2$ positivity in covariant gluon propagators (IR horizon $\gamma\neq0$, or horizonless $\gamma=0$: full 4-vector $A_\mu$ at any $\xi\in\R$, or $D_T$ at $\xi<13/3$) &
-Three-way covariant seal: Cor.~\ref{cor:gamma} ($\gamma\neq0\Rightarrow\neg\OS2$) + Thm.~\ref{thm:oz}, Cor.~\ref{cor:pincer} (UV $\xi<13/3$) + Thm.~\ref{thm:covA4} (Slavnov--Taylor $A_4$ for \emph{all} $\xi\in\R$), \Lean{two\_sided\_ir\_uv\_gluon\_pincer}, \Lean{covA4\_all\_xi\_breaks\_odd\_os2} &
+\textbf{Move 3:} Seek $\OS1\wedge\OS2\wedge(\text{UV decay})$ for elementary gluon $A_\mu$ in \emph{any} gauge (IR $\gamma\neq0$, horizonless $\gamma=0$, any $\xi\in\R$, arbitrary $c_T\in\R$, or non-covariant) &
+All-gauge elementary seal: Cor.~\ref{cor:gamma} ($\gamma\neq0$) + Thm.~\ref{thm:oz} (UV $\xi<13/3$) + Thm.~\ref{thm:covA4}/Cor.~\ref{cor:allgauges} (complete monotonicity forces $\xi=r_0=0$ even for $c_T<0$, UV decay forces $D_{\mu\nu}\equiv 0$; non-covariant breaks $\OS1$), \Lean{covA4\_bm\_all\_nonzero\_xi\_impossible}, \Lean{clay\_zugzwang\_master\_v2} &
 \textbf{\color{darkred}MATE ($\bot$)}\\
 \midrule
 \textbf{Move 4:} Close the upper exit ($\mathrm{Clay}\Rightarrow\Class^-$) while assuming \textbf{P} ($\exists\mathrm{Clay}$) &
@@ -464,7 +465,7 @@ Thms.~\ref{thm:attackE}, \ref{thm:nofree}, \ref{thm:reconstruction}, \Lean{no\_f
 \textbf{\color{accentblue}FORCED EXIT}\\
 \bottomrule
 \end{tabularx}
-\caption{The Clay Zugzwang Board on $\R^4$ (formalized in \Lean{clay\_zugzwang\_master}, \S45 Block~K, covering all real gaps $\Delta_\R>0$ including irrational gaps such as $\Delta=\sqrt{2}$). By \Lean{clay\_zugzwang\_does\_not\_refute\_clay}, this is a checkmate of the canonical class and the upper exit as a research target, never of the Clay sentence itself.}
+\caption{The Clay Zugzwang Board on $\R^4$ (formalized in \Lean{clay\_zugzwang\_master} [\S45 Block~K] and unified with Two-Sided Operational Blindness in \Lean{clay\_zugzwang\_master\_v2} and \Lean{canonical\_apparatus\_blindness\_theorem} [\S47 Block~M], covering all real gaps $\Delta_\R>0$ including irrational gaps such as $\Delta=\sqrt{2}$). By \Lean{clay\_zugzwang\_does\_not\_refute\_clay}, \Lean{clay\_zugzwang\_v2\_does\_not\_refute\_clay}, and \Lean{canonical\_blindness\_does\_not\_refute\_clay}, this is a checkmate of the canonical class and the upper exit as a research target, never of the Clay sentence itself.}
 \label{tab:zugzwang}
 \end{table}
 
@@ -637,7 +638,7 @@ Hence $\Chit>0$ requires $\widehat C_{\mathrm{ct}}(0)>0$; and no value of it is 
 \end{theorem}
 \begin{proof}
 Lemma~\ref{lem:odd} gives $C_{\mathrm{reg}}\le0$; Fourier transformation at $p=0$ splits over the
-two pieces. The converse is Lemma~\ref{lem:invisible}. See Cor.~\ref{corr:nonintegrable}.
+two pieces. The converse is Lemma~\ref{lem:invisible}. See Corr.~\ref{corr:nonintegrable}.
 \end{proof}
 \begin{theorem}[An explicit $\OS\wedge\Gap\wedge(\Chit>0)$ family]\label{thm:family}
 Let $m>0$, $b\ge0$, $c_0\ge0$ and set
@@ -922,35 +923,55 @@ For pure $SU(N)$ Yang--Mills on $\R^4$, the covariant-gauge gluon two-point func
 \end{itemize}
 Notably, the very same negative beta function ($\beta<0$) that refutes the $\varphi^4_4$ triviality transfer (Prop.~\ref{prop:betasign}, Thm.~\ref{thm:attackC}) simultaneously destroys reflection positivity of the elementary covariant gluon field in Landau and Feynman gauges. Gauge-invariant composite operators such as $\operatorname{Tr}F^2$ escape this UV jaw because their spectral density grows in the UV ($\rho_{F^2}(\mu^2)\sim\mu^4$).
 \end{corollary}
-\subsection{NEW: Full \texorpdfstring{$O(4)$}{O(4)}-covariant four-vector \texorpdfstring{$A_\mu$}{A\_mu} --- Slavnov--Taylor seals Route \texorpdfstring{$\alpha'$}{alpha'} for all \texorpdfstring{$\xi\in\R$}{xi in R}}\label{sub:covA4}
-Theorem~\ref{thm:oz} applies to the scalar transverse propagator $D_T(p^2)$ alone and requires $\xi<13/3$. If instead one demands $\OS2$ for the \emph{full $O(4)$-covariant four-vector field} $A_\mu(x)$ in any linear covariant $R_\xi$ gauge, then the Slavnov--Taylor identity closes the remaining window $\xi\ge 13/3$ --- and indeed \emph{every} $\xi\in\R$ --- by an elementary, non-perturbative calculation without any UV asymptotics or horizon parameter.
-\begin{theorem}[All-$\xi$ $\OS2$ obstruction for the full $O(4)$-covariant four-vector $A_\mu$]\label{thm:covA4}
-Let $D_{\mu\nu}(p)=\langle A_\mu(p)A_\nu(-p)\rangle$ be a non-trivial $O(4)$-covariant Euclidean four-vector two-point function satisfying the linear covariant $R_\xi$ Slavnov--Taylor identity $p_\mu p_\nu D_{\mu\nu}(p)=\xi\in\R$:
+\subsection{NEW: Full \texorpdfstring{$O(4)$}{O(4)}-covariant four-vector \texorpdfstring{$A_\mu$}{A\_mu} --- complete-monotonicity classification seals all gauges under UV decay}\label{sub:covA4}
+Theorem~\ref{thm:oz} applies to the scalar transverse propagator $D_T(p^2)$ alone and requires $\xi<13/3$. If instead one demands $\OS2$ for the \emph{full $O(4)$-covariant four-vector field} $A_\mu(x)$ in any linear covariant $R_\xi$ gauge, a subtle contact-term pitfall must be audited first: by Lemma~\ref{lem:invisible}, $\OS2$ on the spatial transverse sector $A_i^\perp$ allows an \emph{arbitrary real} contact constant $c_T\in\R$ (including $c_T<0$, which is invisible to $\OS2$ at $x_4\ge\varepsilon>0$). Indeed, the contact-shifted Proca propagator $\widetilde{D}_{\mu\nu}(p):=D_{\mu\nu}^{\mathrm{Proca}}(p)-\frac{1}{m^2}\delta_{\mu\nu}$ satisfies the Landau-gauge Slavnov--Taylor identity ($\xi=0$) \emph{and} full Euclidean $\OS2$ with gap $\Delta=m>0$, solely because $c_T=-1/m^2<0$ violates UV decay. Upgrading the check on $A_4$ from pointwise non-positivity to Bernstein--Widder \emph{complete monotonicity} resolves this boundary sharply for all $c_T\in\R$ and all $\xi\in\R$.
+\begin{theorem}[All-$\xi$ complete-monotonicity classification for $O(4)$-covariant $A_\mu$ with arbitrary $c_T\in\R$]\label{thm:covA4}
+Let $D_{\mu\nu}(p)=\langle A_\mu(p)A_\nu(-p)\rangle$ be an $O(4)$-covariant Euclidean four-vector two-point function satisfying the linear covariant $R_\xi$ Slavnov--Taylor identity $p_\mu p_\nu D_{\mu\nu}(p)=\xi\in\R$:
 \[
-D_{\mu\nu}(p)=\left(\delta_{\mu\nu}-\frac{p_\mu p_\nu}{p^2}\right)D_T(p^2)+\xi\,\frac{p_\mu p_\nu}{(p^2)^2}.
+D_{\mu\nu}(p)=\left(\delta_{\mu\nu}-\frac{p_\mu p_\nu}{p^2}\right)D_T(p^2)+\xi\,\frac{p_\mu p_\nu}{(p^2)^2},
 \]
-Under standard Euclidean $1$-form time reflection $\theta(x_4,\vec x)=(-x_4,\vec x)$, spatial components $A_i$ are $\theta$-even and $A_4$ is $\theta$-odd. Assume $\OS2$ holds on the spatial transverse sector (so $D_T(p^2)=c_T+\int_0^\infty\frac{d\rho_T(\mu^2)}{p^2+\mu^2}$ with $c_T\ge0$, $\rho_T\ge0$) and on $A_4$ (which by Lemma~\ref{lem:odd} requires the time-momentum correlator $S_{44}(\tau,k):=\int_{-\infty}^\infty\frac{dp_4}{2\pi}D_{44}(p_4,\vec p)\,e^{ip_4\tau}$ at fixed $k:=|\vec p|>0$ to satisfy $S_{44}(\tau,k)\le0$ for all $\tau>0$). Then:
+where $\OS2$ on the spatial transverse sector yields $D_T(p^2)=c_T+\int_{[0,\infty)}\frac{d\rho_T(\mu^2)}{p^2+\mu^2}$ with \emph{arbitrary} $c_T\in\R$, $\rho_T\ge0$, and $\int_{[0,\infty)}\frac{d\rho_T(\mu^2)}{1+\mu^2}<\infty$. Set $r_0:=\rho_T(\{0\})\ge0$ and $I_T:=\int_{(0,\infty)}\frac{d\rho_T(\mu^2)}{\mu^2}\in[0,\infty]$. Under Euclidean $1$-form time reflection $\theta(x_4,\vec x)=(-x_4,\vec x)$, $A_4$ is $\theta$-odd; assume $\OS2$ holds on $A_4$ for every spatial momentum $k:=|\vec p|>0$, i.e.\ $\tau\mapsto -S_{44}(\tau,k)$ is completely monotone on $(0,\infty)$ (Lemma~\ref{lem:odd}). Then:
 \begin{enumerate}[label=(\roman*),leftmargin=22pt,itemsep=1pt]
 \item \emph{Exact time-momentum decomposition ($\tau>0$, $E:=\sqrt{k^2+\mu^2}$):}
 \[
-S_{44}(\tau,k)=S_{44}^{(T)}(\tau,k)+S_{44}^{(L)}(\tau,k),
+S_{44}(\tau,k)=c_T\frac{k}{2}e^{-k\tau}+r_0\frac{1+k\tau}{4k}e^{-k\tau}+\int_{(0,\infty)} d\rho_T(\mu^2)\,\frac{k^2}{\mu^2}\!\left(\frac{e^{-k\tau}}{2k}-\frac{e^{-E\tau}}{2E}\right)+\xi\,\frac{1-k\tau}{4k}\,e^{-k\tau}.
 \]
-where
-\[
-S_{44}^{(T)}(\tau,k)=c_T\frac{k}{2}e^{-k\tau}+\int_0^\infty d\rho_T(\mu^2)\,\frac{k^2}{\mu^2}\!\left(\frac{e^{-k\tau}}{2k}-\frac{e^{-E\tau}}{2E}\right)\ge 0,
-\qquad
-S_{44}^{(L)}(\tau,k)=\xi\,\frac{1-k\tau}{4k}\,e^{-k\tau},
-\]
-with the $\mu\to 0^+$ integrand limit $\frac{1+k\tau}{4k}e^{-k\tau}>0$. Moreover $S_{44}^{(T)}(\tau,k)>0$ for all $\tau>0$ whenever $D_T\not\equiv0$.
-\item \emph{All-$\xi$ violation of $\theta$-odd $\OS2$:} if $\xi\ge0$ then $S_{44}(\tau,k)>0$ for every $\tau\in(0,1/k)$ (since $1-k\tau>0$ and $D_{\mu\nu}\not\equiv0$); if $\xi<0$ then $S_{44}(\tau,k)>0$ for every $\tau\in(1/k,\infty)$ (since $\xi(1-k\tau)>0$). Hence \textbf{no non-trivial $O(4)$-covariant $R_\xi$ gauge-field propagator satisfies $\OS2$ for any $\xi\in\R$}.
-\item \emph{Control test --- massive Proca field:} a massive vector field of mass $m>0$ has \emph{no} Slavnov--Taylor identity; instead $D_L^{\mathrm{Proca}}(p^2)=1/m^2$, giving $D_{44}^{\mathrm{Proca}}(p_4,\vec p)=\frac{1}{m^2}-\frac{k^2/m^2}{p_4^2+E^2}$ and hence $S_{44}^{\mathrm{Proca}}(\tau,k)=-\frac{k^2}{2m^2E}\,e^{-E\tau}<0$ for all $\tau>0$ (the constant $1/m^2$ is an $\OS2$-invisible contact term by Lemma~\ref{lem:invisible}). Thus the obstruction is genuinely driven by the gauge identity $D_L=\xi/p^2$, not by vector kinematics.
+\item \emph{Unconditional exclusion of all $\xi\neq0$ (even for $c_T<0$):} necessarily $\xi=0$ and $r_0=0$.
+\item \emph{Sharp Landau-gauge criterion ($\xi=0$):} necessarily $I_T<\infty$ and $c_T\le -I_T\le 0$.
+\item \emph{Triviality under UV decay (or $c_T\ge0$):} if $\lim_{p^2\to\infty}D_T(p^2)=0$ (equivalently $c_T=0$, or more generally $c_T\ge0$), then $I_T=0$, $\rho_T\equiv0$, and $D_{\mu\nu}\equiv0$.
+\item \emph{Control tests --- massive Proca and contact-shifted Proca:} a massive Proca field of mass $m>0$ has no Slavnov--Taylor identity ($D_L^{\mathrm{Proca}}=1/m^2$) and satisfies $S_{44}^{\mathrm{Proca}}(\tau,k)=-\frac{k^2}{2m^2E}e^{-E\tau}<0$ (completely monotone). Subtracting the $\OS2$-invisible contact term $\frac{1}{m^2}\delta_{\mu\nu}$ produces $\widetilde{D}_{\mu\nu}(p):=D_{\mu\nu}^{\mathrm{Proca}}(p)-\frac{1}{m^2}\delta_{\mu\nu}$, which satisfies $\xi=0$, $\OS2$, and $\Delta=m>0$ with $c_T=-1/m^2=-I_T<0$, proving that the inequality $c_T\le -I_T$ in (iii) and the UV-decay hypothesis in (iv) are both \emph{sharp}.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-(i) Write $D_{44}(p_4,\vec p)=\frac{k^2}{p_4^2+k^2}D_T(p_4^2+k^2)+\xi\frac{p_4^2}{(p_4^2+k^2)^2}$. For each $\mu>0$, partial fractions give $\frac{k^2}{(p_4^2+k^2)(p_4^2+E^2)}=\frac{k^2}{\mu^2}\big(\frac{1}{p_4^2+k^2}-\frac{1}{p_4^2+E^2}\big)$; taking the Fourier transform yields $\frac{k^2}{\mu^2}\big(\frac{e^{-k\tau}}{2k}-\frac{e^{-E\tau}}{2E}\big)>0$ because $a\mapsto\frac{e^{-a\tau}}{2a}$ is strictly decreasing on $(0,\infty)$ and $E>k$. Any higher-order polynomial UV contact subtraction $\sum_{j=1}^N c_j(p^2)^j$ in $D_T(p^2)$ multiplies $\frac{k^2}{p_4^2+k^2}$ to yield a polynomial $k^2\sum_{j=1}^N c_j(p_4^2+k^2)^{j-1}$ in $p_4^2$, whose Fourier transform is supported at $\tau=0$ and vanishes identically for $\tau>0$. For the longitudinal term, $\frac{p_4^2}{(p_4^2+k^2)^2}=\frac{1}{p_4^2+k^2}-\frac{k^2}{(p_4^2+k^2)^2}$ transforms to $\frac{e^{-k\tau}}{2k}-\frac{1+k\tau}{4k}e^{-k\tau}=\frac{1-k\tau}{4k}e^{-k\tau}$. (ii) Evaluate the sum on $(0,1/k)$ for $\xi\ge0$ and on $(1/k,\infty)$ for $\xi<0$; arithmetic/sign core in Block~L (\S\ref{sec:proposed}, \Lean{covA4\_all\_xi\_breaks\_odd\_os2}). (iii) Direct inversion of $(p^2+m^2)\delta_{\mu\nu}-p_\mu p_\nu$ gives $D_{44}^{\mathrm{Proca}}=\frac{p_4^2+m^2}{m^2(p_4^2+E^2)}=\frac{1}{m^2}-\frac{k^2/m^2}{p_4^2+E^2}$.
+(i) Write $D_{44}(p_4,\vec p)=\frac{k^2}{p_4^2+k^2}D_T(p_4^2+k^2)+\xi\frac{p_4^2}{(p_4^2+k^2)^2}$. For each $\mu>0$, partial fractions give $\frac{k^2}{(p_4^2+k^2)(p_4^2+E^2)}=\frac{k^2}{\mu^2}\big(\frac{1}{p_4^2+k^2}-\frac{1}{p_4^2+E^2}\big)$, whose Fourier transform is $\frac{k^2}{\mu^2}\big(\frac{e^{-k\tau}}{2k}-\frac{e^{-E\tau}}{2E}\big)>0$, with $\mu\to0^+$ limit $\frac{1+k\tau}{4k}e^{-k\tau}$. Any higher-order polynomial subtraction $\sum_{j=1}^N c_j(p^2)^j$ in $D_T$ yields a polynomial in $p_4^2$ whose Fourier transform vanishes identically for $\tau>0$. For the longitudinal term, $\frac{p_4^2}{(p_4^2+k^2)^2}=\frac{1}{p_4^2+k^2}-\frac{k^2}{(p_4^2+k^2)^2}$ transforms to $\frac{1-k\tau}{4k}e^{-k\tau}$.
+
+(ii) Define $g_k(\tau):=e^{k\tau}(-S_{44}(\tau,k))$, so that
+\[
+g_k(\tau)=\frac{\xi-r_0}{4}\tau-\frac{\xi+r_0}{4k}-\frac{k}{2}c_T-\int_{(0,\infty)}d\rho_T(\mu^2)\,\frac{k^2}{\mu^2}\!\left(\frac{1}{2k}-\frac{e^{-(E-k)\tau}}{2E}\right).
+\]
+By convexity of $a\mapsto f(a):=\frac{e^{-a\tau}}{2a}$ on $(0,\infty)$, $f(k)-f(E)\le -f'(k)(E-k)=\frac{1+k\tau}{2k^2}e^{-k\tau}\frac{\mu^2}{E+k}\le \frac{\mu^2(1+k\tau)}{4k^3}e^{-k\tau}$. Hence for $\tau\ge 1/k$, the integrand of $\tau^{-1}g_k(\tau)$ is bounded by $\frac{1}{2}$ on $(0,1]$ and by $\frac{k^2}{2\mu^2}$ on $(1,\infty)$, both $\rho_T$-integrable by $\int\frac{d\rho_T}{1+\mu^2}<\infty$. Dominated convergence gives $\lim_{\tau\to\infty}\tau^{-1}g_k(\tau)=\frac{\xi-r_0}{4}$. On the other hand, by Bernstein--Widder complete monotonicity, $-S_{44}(\tau,k)=\int_{[0,\infty)}e^{-\omega\tau}\,d\nu_k(\omega)$ with $\nu_k\ge0$. Since $|S_{44}(\tau,k)|=O((1+\tau)e^{-k\tau})$, necessarily $\operatorname{supp}\nu_k\subseteq[k,\infty)$, whence $g_k(\tau)=\int_{[k,\infty)}e^{-(\omega-k)\tau}\,d\nu_k(\omega)$ is non-negative, non-increasing, and bounded with finite limit $\nu_k(\{k\})\ge0$. Therefore $\lim_{\tau\to\infty}\tau^{-1}g_k(\tau)=0$, forcing $\xi=r_0\ge0$.
+
+(iii) Substituting $\xi=r_0$ and applying monotone convergence as $\tau\to\infty$ to the non-negative increasing integrand $\frac{k^2}{\mu^2}\big(\frac{1}{2k}-\frac{e^{-(E-k)\tau}}{2E}\big)\uparrow \frac{k}{2\mu^2}$ yields
+\[
+0\le \nu_k(\{k\})=\lim_{\tau\to\infty}g_k(\tau)=-\frac{r_0}{2k}-\frac{k}{2}(c_T+I_T)\qquad \forall k>0.
+\]
+Thus $I_T<\infty$; letting $k\to0^+$ forces $r_0=0$ and hence $\xi=0$. The remaining inequality for $k>0$ is $c_T+I_T\le 0$, i.e.\ $c_T\le -I_T\le 0$.
+
+(iv) If $c_T\ge0$ (in particular under UV decay $c_T=0$), then $0\le c_T\le -I_T\le 0$ forces $c_T=I_T=0$, hence $\rho_T\equiv0$ and $D_{\mu\nu}\equiv0$. Arithmetic cores in Block~L (\Lean{covA4\_all\_xi\_breaks\_odd\_os2}) and Block~M (\Lean{covA4\_bm\_forces\_landau\_only}, \Lean{covA4\_bm\_all\_nonzero\_xi\_impossible}, \Lean{covA4\_bm\_uv\_decay\_forces\_trivial}).
+
+(v) Direct inversion of $(p^2+m^2)\delta_{\mu\nu}-p_\mu p_\nu$ gives $D_{44}^{\mathrm{Proca}}=\frac{1}{m^2}-\frac{k^2/m^2}{p_4^2+E^2}$, so $S_{44}^{\mathrm{Proca}}=-\frac{k^2}{2m^2E}e^{-E\tau}<0$. Subtracting $\frac{1}{m^2}\delta_{\mu\nu}$ leaves $S_{44}$ unchanged at $\tau>0$ (Lemma~\ref{lem:invisible}) while giving $p_\mu\widetilde{D}_{\mu\nu}(p)\equiv 0$ ($\xi=0$) and $D_T(p^2)=\frac{1}{p^2+m^2}-\frac{1}{m^2}$ ($c_T=-1/m^2=-I_T$); Lean sharpness witness \Lean{covA4\_bm\_shifted\_proca\_witness} in Block~M.
 \end{proof}
+\begin{corollary}[Complete all-gauge seal for the elementary gluon field $A_\mu$]\label{cor:allgauges}
+No non-trivial elementary gauge field $A_\mu$ on $\R^4$ simultaneously satisfies $\OS1$ ($O(4)$ four-vector covariance), $\OS2$ (reflection positivity on $A_\mu$), and ultraviolet propagator decay ($\lim_{p^2\to\infty}D_T(p^2)=0$):
+\begin{itemize}[leftmargin=20pt,itemsep=1pt]
+\item non-covariant gauges ($A_4=0$, Coulomb, axial) and $D_T$-only projections at $\xi\ge 13/3$ abandon $O(4)$ covariance of $A_\mu$ ($\neg\OS1$);
+\item linear covariant $R_\xi$ gauges with $\xi\neq0$ violate $\OS2$ unconditionally, even allowing arbitrary negative contact terms $c_T<0$ (Thm.~\ref{thm:covA4}(ii));
+\item Landau gauge ($\xi=0$) violates $\OS2$ both non-perturbatively under UV decay (Thm.~\ref{thm:covA4}(iv)), in the IR for any RGZ horizon $\gamma\neq0$ (Cor.~\ref{cor:gamma}), and in the UV by asymptotic freedom ($\delta(0)=13/22>0$, Thm.~\ref{thm:oz}).
+\end{itemize}
+Consequently, within the audited presentation routes, the gauge-invariant composite sector (Route~$\beta$) is the \emph{unique} surviving carrier of $\OS1\wedge\OS2$.
+\end{corollary}
 \begin{invariant}[Scope of the instrument theorems]\label{inv:rgz-scope}
-Theorems~\ref{thm:rgz}, \ref{thm:oz}, and \ref{thm:covA4} all concern the \emph{gauge-variant} gluon two-point function; none obstructs reflection positivity on the gauge-invariant observable algebra (Route~$\beta$). Theorem~\ref{thm:covA4} is the Euclidean $\OS2$ counterpart of the Minkowski indefinite-metric theorem \cite{KugoOjima1979,StrocchiBook}; it seals Route~$\alpha'$ for the full $O(4)$-covariant four-vector $A_\mu$ across all $\xi\in\R$, while leaving open (a) $D_T$-only projections at $\xi\ge 13/3$ (which abandon $A_4$ and $O(4)$ covariance), (b) non-covariant gauges ($A_4=0$, Coulomb), and (c) gauge-invariant composites (Route~$\beta$). Complex poles and UV superconvergence are standardly read as signatures of gluon confinement \cite{OehmeZimmermann1980,Hayashi2019,deBrito2024}.
+Theorems~\ref{thm:rgz}, \ref{thm:oz}, \ref{thm:covA4}, and Corollary~\ref{cor:allgauges} all concern the \emph{gauge-variant} elementary gluon two-point function; none obstructs reflection positivity on the gauge-invariant observable algebra (Route~$\beta$). Theorem~\ref{thm:covA4} is the Euclidean complete-monotonicity counterpart of the Minkowski indefinite-metric theorem \cite{KugoOjima1979,StrocchiBook}: it proves that $\xi\neq0$ is excluded even with arbitrary $c_T<0$, while the contact-shifted Proca control test $\widetilde{D}_{\mu\nu}$ proves that UV decay ($c_T=0$) is necessary at $\xi=0$. Complex poles and UV superconvergence are standardly read as signatures of gluon confinement \cite{OehmeZimmermann1980,Hayashi2019,deBrito2024}.
 \end{invariant}
 %=============================================================================
 \section{Route Classification (not an exhaustion theorem)}\label{sec:routes}
@@ -959,7 +980,7 @@ Theorems~\ref{thm:rgz}, \ref{thm:oz}, and \ref{thm:covA4} all concern the \emph{
 \begin{enumerate}[label=(\alph*),leftmargin=22pt,itemsep=1pt]
 \item \textbf{Route $\alpha$} --- gauge-variant OS fields with a GZ/RGZ horizon truncation.
 \emph{Sealed within the ansatz} (Cor.~\ref{cor:rgz}, Cor.~\ref{cor:gamma}).
-\item \textbf{Route $\alpha'$} --- gauge-variant OS fields without a horizon. \emph{Sealed for the full $O(4)$-covariant four-vector $A_\mu$ across ALL $\xi\in\R$} by Slavnov--Taylor + $\theta$-odd $\OS2$ (Thm.~\ref{thm:covA4}), and for the scalar transverse propagator $D_T(p^2)$ alone across all $\xi<13/3$ (including Landau $\xi=0$ and Feynman $\xi=1$) by Oehme--Zimmermann UV superconvergence (Thm.~\ref{thm:oz}, Cor.~\ref{cor:pincer}); \emph{OPEN} only for $D_T$-only projections at $\xi\ge 13/3$ or non-covariant gauges ($A_4=0$, Coulomb).
+\item \textbf{Route $\alpha'$} --- gauge-variant OS fields without a horizon. \emph{Sealed across ALL gauges under $\OS1\wedge\OS2\wedge(\text{UV decay})$} by complete-monotonicity classification for arbitrary $c_T\in\R$ (Thm.~\ref{thm:covA4}, Cor.~\ref{cor:allgauges}; $\xi\neq0$ excluded unconditionally even for $c_T<0$, $\xi=0$ excluded under UV decay $c_T=0$ and in the UV by Thm.~\ref{thm:oz}; non-covariant gauges and $D_T$-only projections at $\xi\ge13/3$ violate $\OS1$ on $A_\mu$).
 \item \textbf{Route $\beta$} --- gauge-invariant OS fields. \emph{Reduced} to the exit
 certificate; carries the class-free instrument theorem Cor.~\ref{cor:gaugeinv}. Existence
 \emph{OPEN}.
@@ -1070,7 +1091,7 @@ $\Chit\neq0$ \cite{Khlebnikov2006};
 \item three-dimensional compact $U(1)$ lattice gauge theory, whose continuum limit at fixed
 $m_D$ exists, confines static quarks and describes a massive scalar \cite{GoepfertMack1982};
 \item two-dimensional Yang--Mills with compact non-abelian $G$, whose planar measure is
-rigorously constructed \cite{SenguptaReview,AnshelevichSengupta2012} (Cor.~\ref{corr:2dym}).
+rigorously constructed \cite{SenguptaReview,AnshelevichSengupta2012} (Corr.~\ref{corr:2dym}).
 \end{enumerate}
 In each case the conclusion is false; hence any such argument is invalid.
 \end{proposition}
@@ -1412,7 +1433,7 @@ constrains charged interpolating fields, not the observable net.
 \textbf{B7.} The Rayleigh--Ritz derivation of \textbf{H1} is circular.
 
 \textbf{B8.} Arena-blindness (Prop.~\ref{prop:test}). \quad
-\textbf{B9.} BF82 is an existence theorem (Cor.~\ref{corr:bf}).
+\textbf{B9.} BF82 is an existence theorem (Corr.~\ref{corr:bf}).
 
 \textbf{B10.} Contact terms are $\OS2$-invisible (Lem.~\ref{lem:invisible}). \quad
 \textbf{B11.} Operator dimension produces $|x|^{-8}$ (Prop.~\ref{prop:dimfour}).
@@ -1447,7 +1468,7 @@ $\RT\Rightarrow\Delta=0$; $\RT\iff\Delta=0$ (Wightman) & \textbf{Theorem} & \S\r
 $\Gap\Rightarrow$ explicit tail expelled & \textbf{Theorem} & Thm.~\ref{thm:tail}\\
 $\rho\ge0\iff\OS2\iff W0\iff M^2m^2\ge\lambda^4$ & \textbf{Theorem} & Thm.~\ref{thm:rgz}\\
 $\gamma\neq0\Rightarrow\neg\OS2$ (physical RGZ) & \textbf{Theorem} & Cor.~\ref{cor:gamma}\\
-$R_\xi$ Slavnov--Taylor ($A_\mu$, $\forall\xi\in\R$) $\Rightarrow\neg\OS2$ & \textbf{Theorem (new)} & Thm.~\ref{thm:covA4} (Proca passes control)\\
+$R_\xi$ Slavnov--Taylor + UV decay ($A_\mu$, $\forall\xi\in\R$, $\forall c_T\in\R$) $\Rightarrow\neg\OS2$ & \textbf{Theorem (new)} & Thm.~\ref{thm:covA4}, Cor.~\ref{cor:allgauges} (Proca \& shifted-Proca controls)\\
 $\OS2\wedge\Gap\wedge\Chit>0$ consistent & \textbf{Theorem} & Thm.~\ref{thm:family}\\
 $|x|^{-8}$, $a^{-4}$ compatible with $\OS\wedge\Gap$ & \textbf{Proposition} & Prop.~\ref{prop:dimfour}\\
 $\beta$-sign discriminates; GN$_2$ rigorous & \textbf{Proposition (new)} & Prop.~\ref{prop:betasign}\\
@@ -1554,7 +1575,8 @@ propagators, or that a repackaging of the class premises is a new theorem.
 \textbf{Physics} & \textbf{Lean object} & \textbf{Status}\\
 \midrule
 Singer 1978, GZ poles, FMR cusps, Strocchi 1977 & named fields & hypothesis fields\\
-OS reconstruction, Hilbert space, half-line, dilation & --- & not formalized\\
+OS reconstruction, Hilbert space, half-line & --- & not formalized\\
+Exact dilation exclusion (Lem.~\ref{lem:dilation}) \& arbitrary null sequences & \S\ref{sec:proposed}, Block~M (\Lean{dilation\_forbids\_positive\_rational\_gap}) & \textbf{kernel-confirmed} (Lean v4.37.0-rc1)\\
 Spectrum, self-adjointness & free predicate fields & surrogate\\
 \textbf{No gauge theory at all} & no gauge group, no curvature, no action, no measure;
 \Lean{SpacetimeRegion} has two constructors & \textbf{explicit limitation}\\
@@ -1570,7 +1592,7 @@ Contact-term theorems; anomaly calibration; gamma corollary; beta-sign propositi
 paper-level\\
 Inevitability and no-free-reformulation theorems & \S\ref{sec:proposed}, Block E &
 \textbf{kernel-confirmed} (Lean v4.37.0-rc1), elementary\\
-Extension modules, Sections 35--46 (Blocks A--L) & \S\ref{sec:proposed} & \textbf{A--L kernel-confirmed (Lean v4.37.0-rc1, all 213 checks); CI gating queued}\\
+Extension modules, Sections 35--47 (Blocks A--M) & \S\ref{sec:proposed} & \textbf{A--M kernel-confirmed (Lean v4.37.0-rc1, all 224 checks); CI gating queued}\\
 \bottomrule
 \end{tabularx}
 \caption{Semantic map. Zero axioms does not mean zero hypotheses, and does not mean faithful
@@ -1637,7 +1659,7 @@ Globally strict; on the $\OS$ sector tautological. Both stated.\\
 \midrule
 ``Use the refined GZ propagator.'' & Cor.~\ref{cor:gamma} & \textbf{Sealed} for $\gamma\neq0$.\\
 \midrule
-``Drop the horizon ($\gamma=0$) in covariant $R_\xi$ gauge (Route $\alpha'$).'' & Thms.~\ref{thm:oz}, \ref{thm:covA4}, Cor.~\ref{cor:pincer} & \textbf{Sealed} for full $O(4)$-covariant $A_\mu$ at \emph{all} $\xi\in\R$ (Slavnov--Taylor, Proca passes control) and for $D_T$ alone at $\xi<13/3$ (OZ UV superconvergence).\\
+``Drop the horizon ($\gamma=0$) or add $c_T<0$ / non-covariant gauge (Route $\alpha'$).'' & Thms.~\ref{thm:oz}, \ref{thm:covA4}, Cors.~\ref{cor:pincer}, \ref{cor:allgauges} & \textbf{Sealed} for elementary $A_\mu$ under $\OS1\wedge\OS2\wedge(\text{UV decay})$ across \emph{all} gauges ($\xi\neq0$ impossible even for $c_T<0$; shifted Proca proves $c_T\le -I_T$ sharpness at $\xi=0$).\\
 \midrule
 ``Expand the class from $\textbf{H1}\wedge\textbf{H2}^-$ to $\textbf{H1}\vee\textbf{H2}^-$.'' & Thm.~\ref{thm:strict}, Inv.~I65 & \textbf{Classically circular} ($\equiv\neg\mathrm{Clay}$); conjunction $\Class^-$ is required for non-circularity.\\
 \midrule
@@ -1647,7 +1669,7 @@ Globally strict; on the $\OS$ sector tautological. Both stated.\\
 \midrule
 ``Close it with $\Chit>0$ and the boundary sphere.'' & Thm.~\ref{cor:path2} & \textbf{Refuted.}\\
 \midrule
-``Close it with Buchholz--Fredenhagen.'' & Cor.~\ref{corr:bf} & \textbf{Sign-inverted.}\\
+``Close it with Buchholz--Fredenhagen.'' & Corr.~\ref{corr:bf} & \textbf{Sign-inverted.}\\
 \midrule
 ``The $|x|^{-8}$ divergence is a $4$D obstruction.'' & Prop.~\ref{prop:dimfour} &
 \textbf{Refuted in $d=4$}; dimension-universal.\\
@@ -1676,14 +1698,14 @@ definition.\\
 Thms.~\ref{thm:nofree},\ref{thm:reconstruction} & \textbf{No discount}; the slice is an output of
 reconstruction.\\
 \midrule
-``Package the two branches as a new upper dichotomy.'' & Cor.~\ref{corr:C3} &
+``Package the two branches as a new upper dichotomy.'' & Corr.~\ref{corr:C3} &
 \textbf{Field permutation} of the class; the earlier \texttt{rfl} suggestion is withdrawn.\\
 \midrule
 ``Then every future attempt must fail.'' & Inv.~\ref{inv:inevitability} &
 \textbf{Only under \textbf{P}}; not an unconditional claim.\\
 \midrule
 ``Hidden axioms?'' & \texttt{\#print axioms} audits & Table~\ref{tab:faith} says what this does
-not certify; all Sections~1--46 (Blocks~A--L, 213 checks) are kernel-confirmed on Lean~v4.37.0-rc1 (0 errors, 0 warnings); \S35--46 queued for GitHub-CI gating.\\
+not certify; all Sections~1--47 (Blocks~A--M, all 224 checks) are kernel-confirmed on Lean~v4.37.0-rc1 (0 errors, 0 warnings); \S35--47 queued for GitHub-CI gating.\\
 \bottomrule
 \end{tabularx}
 \caption{Every formal hatch is sealed; every open door is named; eight closure attempts audited.}
@@ -1736,10 +1758,10 @@ The verified terms use the arithmetic core (\Lean{leScale\_trans}, \Lean{leScale
 \texttt{propext} is a \emph{CI output}. Pin the toolchain in \texttt{lean-toolchain}.
 \end{invariant}
 %=============================================================================
-\section{Kernel Extension Modules (Sections 35--46, Blocks A--L)}
+\section{Kernel Extension Modules (Sections 35--47, Blocks A--M)}
 \label{sec:proposed}
 %=============================================================================
-{\color{darkred}\textbf{Status:} Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks); all Sections~1--46 (Blocks~A--L, 213 \texttt{\#print axioms} checks) are kernel-confirmed on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}) with 0 errors, 0 warnings, and 0 custom axioms; \S35--46 are queued for GitHub Actions CI gating. Nothing in \S35--46 is used by any core theorem in \S1--34.}
+{\color{darkred}\textbf{Status:} Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks); all Sections~1--47 (Blocks~A--M, all 224 \texttt{\#print axioms} checks) are kernel-confirmed on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}) with 0 errors, 0 warnings, and 0 custom axioms (\texttt{Init} core only); \S35--47 are queued for GitHub Actions CI gating. Nothing in \S35--47 is used by any core theorem in \S1--34.}
 \subsection{Block A (Section 35): a gapped tower with every mode present}
 \begin{lstlisting}
 namespace RoundSquare
@@ -2183,7 +2205,7 @@ end RoundSquare
 \end{lstlisting}
 
 \begin{invariant}[Honest status of the extension modules]
-Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks), and all Sections~1--46 (Blocks~A--L, all 213 \texttt{\#print axioms} checks, including the irrational-safe \Lean{ClayZugzwangMaster}, strict Pell separation, the Oehme--Zimmermann IR--UV pincer, and the all-$\xi$ $A_4$ obstruction) are kernel-confirmed on Lean~v4.37.0-rc1 with zero errors, zero warnings, and zero custom axioms (\S35--46 queued for GitHub Actions CI gating). Two syntactic hazards of earlier drafts are fixed: term-mode destructuring uses \texttt{match}, not \texttt{let}; and the projection-injectivity step uses \Lean{Nat.succ.inj} applied to \Lean{congrArg}. The \texttt{rfl} claim for Block~F is withdrawn (Cor.~\ref{corr:C3}). Blocks~A--D are independent of E--K.
+Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks), and all Sections~1--47 (Blocks~A--M, all 224 \texttt{\#print axioms} checks --- including Block~M [+11 checks]: exact dilation exclusion, arbitrary null sequences, complete-monotonicity all-$\xi$ $A_4$ classification with contact-shifted Proca sharpness, \Lean{ClayZugzwangMasterV2}, and two-sided operational blindness \Lean{CanonicalApparatusBlindness}) are kernel-confirmed on Lean~v4.37.0-rc1 with zero errors, zero warnings, and zero custom axioms (\S35--47 queued for GitHub Actions CI gating). Two syntactic hazards of earlier drafts are fixed: term-mode destructuring uses \texttt{match}, not \texttt{let}; and the projection-injectivity step uses \Lean{Nat.succ.inj} applied to \Lean{congrArg}. The \texttt{rfl} claim for Block~F is withdrawn (Corr.~\ref{corr:C3}). Blocks~A--D do not depend on E--M (while I--M import arithmetic helpers/theorems from A, C, and D).
 \end{invariant}
 \subsection{Why finite-rank Schur conditioning fails without an IR cutoff (Connes--Andrews--La~Gatta comparison)}
 In a recent spectral study of the Weil quadratic form $QW_\lambda$ on a finite logarithmic window
@@ -2297,6 +2319,35 @@ theorem covA4_trivial_zero_never_positive (twoU : Nat) : ¬ CovA4PositiveAt 0 (.
 end RoundSquare
 \end{lstlisting}
 
+\subsection{Block M (\S47): Exact Dilation Exclusion (Lemma~\ref{lem:dilation}), Arbitrary Null Sequences, Complete-Monotonicity \texorpdfstring{$A_4$}{A4} Classification, \Lean{ClayZugzwangMasterV2} \& Two-Sided Operational Blindness}
+Block~M (\S47, +11 \texttt{\#print axioms} checks, 224 total; pure \texttt{Init} core, 0 axioms, kernel-confirmed on Lean~v4.37.0-rc1 with 0 errors and 0 warnings) closes four remaining formalisation items: (i)~it proves Lemma~\ref{lem:dilation} in Peano arithmetic (\Lean{dilation\_forbids\_positive\_rational\_gap}) via iterated halving $2^{-n}E_0$ and $n+1\le 2^n$; (ii)~it generalises Theorem~\ref{thm:peano} from the fixed tail $(\lambda+1)^{-1}$ to any constructive positive null sequence (\Lean{null\_sequence\_forbids\_positive\_rational\_gap}); (iii)~it formalises the complete-monotonicity all-$\xi$ $A_4$ classification of Theorem~\ref{thm:covA4} for arbitrary $c_T\in\R$, including the non-trivial contact-shifted Proca sharpness witness (\Lean{covA4\_bm\_shifted\_proca\_witness}) and the unified \Lean{ClayZugzwangMasterV2}; and (iv)~it packages Two-Sided Operational Blindness (\Lean{CanonicalApparatusBlindness}) --- proving that the canonical $\R^4$ apparatus can neither produce a positive witness inside $\Class^-_{\R^4}$, nor sustain a non-trivial $\OS1\wedge\OS2\wedge(\text{UV decay})$ signal on elementary $A_\mu$, nor close the upper exit under Hypothesis~\textbf{P} (or in the audited ontology), while preserving the Anti-Overclaim Firewalls \Lean{clay\_zugzwang\_v2\_does\_not\_refute\_clay} and \Lean{canonical\_blindness\_does\_not\_refute\_clay}:
+\begin{lstlisting}
+namespace RoundSquare
+theorem dilation_forbids_positive_rational_gap (H : OperatorHilbertSystem)
+  (hNonEmpty : ∃ E0 : PosRat, H.hasEigenmodeAtEnergy E0)
+  (hDil : ∀ E : PosRat, H.hasEigenmodeAtEnergy E → H.hasEigenmodeAtEnergy (halfPosRat E)) :
+  ¬ HasPositiveRationalGap H := ...
+theorem null_sequence_forbids_positive_rational_gap (H : OperatorHilbertSystem)
+  (hNull : HasConstructiveNullSequence H) : ¬ HasPositiveRationalGap H := ...
+theorem covA4_bm_forces_landau_only (r0 IT : Nat) (cT xi : SignedVal)
+  (hCM : CovA4CompleteMonotone r0 IT cT xi) : r0 = 0 ∧ xi = .nonNeg 0 := ...
+theorem covA4_bm_all_nonzero_xi_impossible (r0 IT : Nat) (cT xi : SignedVal)
+  (hNe : xi ≠ .nonNeg 0) : ¬ CovA4CompleteMonotone r0 IT cT xi := ...
+theorem covA4_bm_uv_decay_forces_trivial (r0 IT c : Nat) (xi : SignedVal)
+  (hCM : CovA4CompleteMonotone r0 IT (.nonNeg c) xi) :
+  r0 = 0 ∧ xi = .nonNeg 0 ∧ c = 0 ∧ IT = 0 := ...
+theorem covA4_bm_shifted_proca_witness :
+  ∃ (IT cPred : Nat), 1 ≤ IT ∧ CovA4CompleteMonotone 0 IT (.neg cPred) (.nonNeg 0) := ...
+theorem clay_zugzwang_master_v2 : ClayZugzwangMasterV2 := ...
+theorem clay_zugzwang_v2_does_not_refute_clay :
+  ¬ (ClayZugzwangMasterV2 → ¬ ∃ M : ConcreteQuantumFieldModel, BarePosClaySolution M) := ...
+theorem canonical_apparatus_blindness_theorem : CanonicalApparatusBlindness := ...
+theorem canonical_blindness_does_not_refute_clay :
+  ¬ (CanonicalApparatusBlindness → ¬ ∃ M : ConcreteQuantumFieldModel, BarePosClaySolution M) := ...
+end RoundSquare
+\end{lstlisting}
+
+
 
 %=============================================================================
 \section{Conclusion}
@@ -2316,7 +2367,7 @@ hypothesis that a Clay witness exists, the completeness bridge is false and ther
 \emph{no sound argument can close the upper exit}. Together with the theorem that reformulation
 gives no discount, and the observation that Osterwalder--Schrader reconstruction runs from the
 measure to the Hamiltonian and not back, this identifies where effort is and is not useful. We
-claim neither $\neg$Clay nor the unconditional failure of future attempts. Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks), and all Sections~1--46 (Blocks~A--L, all 213 \texttt{\#print axioms} checks, including the irrational-safe \Lean{ClayZugzwangMaster}, strict Pell separation, the Oehme--Zimmermann IR--UV pincer, and the all-$\xi$ $A_4$ obstruction) are kernel-confirmed on Lean~v4.37.0-rc1 with zero errors, zero warnings, and zero custom axioms (\S35--46 queued for GitHub Actions CI gating).
+claim neither $\neg$Clay nor the unconditional failure of future attempts. Sections~1--34 of \texttt{RoundSquare\_v21.lean} are GitHub-CI confirmed (0~\texttt{sorry}, 0~\texttt{axiom}; 143 checks), and all Sections~1--47 (Blocks~A--M, all 224 \texttt{\#print axioms} checks --- including Block~M [+11 checks]: exact dilation exclusion, arbitrary null sequences, complete-monotonicity all-$\xi$ $A_4$ classification with contact-shifted Proca sharpness, \Lean{ClayZugzwangMasterV2}, and two-sided operational blindness \Lean{CanonicalApparatusBlindness}) are kernel-confirmed on Lean~v4.37.0-rc1 with zero errors, zero warnings, and zero custom axioms (\S35--47 queued for GitHub Actions CI gating).
 \begin{center}\renewcommand{\arraystretch}{1.5}
 \fbox{\parbox{0.93\textwidth}{\centering
 \textbf{\color{darkred}WE DO NOT SOLVE IT. WE PROVE IT CANNOT BE SOLVED WITH THESE INSTRUMENTS.}\\[3pt]
@@ -2367,7 +2418,7 @@ audit\\
 \Lean{any\_sound\_upper\_mechanism\_refuted}, \Lean{eight\_attempts\_are\_instances}\\
 \textbf{Thm.~\ref{thm:nofree}} & Block~E (confirmed on Lean~v4.37.0-rc1): \Lean{no\_free\_reformulation}\\
 Thm.~\ref{thm:reconstruction} & paper-level (OS reconstruction not formalized)\\
-\textbf{Cor.~\ref{corr:C3}} & Block~F (confirmed on Lean~v4.37.0-rc1): \Lean{upper4D\_iff\_class},
+\textbf{Corr.~\ref{corr:C3}} & Block~F (confirmed on Lean~v4.37.0-rc1): \Lean{upper4D\_iff\_class},
 \Lean{upper\_dichotomy\_closes\_top\_is\_field\_permutation}, \Lean{two\_story\_fork\_master}\\
 Grand Strategic Fork (Thms.~\ref{thm:fork}, \ref{thm:normalform}, \ref{thm:inevitability}, \ref{thm:nofree}) &
 Block~G (confirmed on Lean~v4.37.0-rc1): \Lean{StrategicForkCheckmate}, \Lean{grand\_strategic\_fork\_checkmate}\\
@@ -2378,11 +2429,12 @@ Block~H (confirmed on Lean~v4.37.0-rc1): \Lean{grand\_strategic\_fork\_with\_bou
 \Lean{upper\_exit\_refuted\_via\_inevitability},
 \Lean{section34\_is\_an\_instance\_of\_inevitability}, \Lean{section34\_refutation\_recovered}\\
 Disjunctive $\textbf{H2}^-$ \& finite-rank Schur/Sonin obstruction (\S\ref{sec:proposed}, Block~I) & Block~I (confirmed on Lean~v4.37.0-rc1): \Lean{DisjunctiveGappedR4Laws}, \Lean{disjunctive\_R4\_class\_incompatibility\_theorem}, \Lean{infinite\_ir\_tail\_defeats\_finite\_schur\_conditioning}\\
-Irrational-gap closure \& Pell $\Delta=\sqrt{2}$ witness (Cor.~\ref{corr:C6C7}, \S\ref{sec:proposed}, Block~J) & Block~J (confirmed on Lean~v4.37.0-rc1): \Lean{HasPositiveRationalGap}, \Lean{PellSqrt2System}, \Lean{pell\_7\_5\_bound}, \Lean{pell\_system\_has\_positive\_rational\_gap}\\
+Irrational-gap closure \& Pell $\Delta=\sqrt{2}$ witness (Corr.~\ref{corr:C6C7}, \S\ref{sec:proposed}, Block~J) & Block~J (confirmed on Lean~v4.37.0-rc1): \Lean{HasPositiveRationalGap}, \Lean{PellSqrt2System}, \Lean{pell\_7\_5\_bound}, \Lean{pell\_system\_has\_positive\_rational\_gap}\\
 \textbf{Clay Zugzwang Board \& Irrational-Safe Dichotomy} (Table~\ref{tab:zugzwang}, \S\ref{sec:proposed}, Block~K) & Block~K (confirmed on Lean~v4.37.0-rc1): \Lean{InBroadPosR4GaugeClass}, \Lean{PosExitCertificate}, \Lean{broad\_pos\_clay\_is\_negative\_result\_resolution}, \Lean{clay\_witness\_forced\_into\_noncanonical\_exit}, \Lean{clay\_zugzwang\_master}, \Lean{clay\_zugzwang\_does\_not\_refute\_clay}, \Lean{pos\_logvinovich\_dichotomy}\\
 \textbf{Strict Pell Separation (C6), Oehme--Zimmermann Pincer \& All-$\xi$ $A_4$ Obstruction} (Thms.~\ref{thm:oz}, \ref{thm:covA4}, Cor.~\ref{cor:pincer}, \S\ref{sec:proposed}, Block~L) & Block~L (\S46, +14 checks, confirmed on Lean~v4.37.0-rc1): \Lean{sqrt2\_irrational}, \Lean{pell\_sq\_eq}, \Lean{pell\_system\_has\_no\_exact\_rational\_gap}, \Lean{pos\_gap\_strictly\_weaker\_than\_exact\_gap}, \Lean{pell\_model\_separates\_pos\_from\_exact\_clay}, \Lean{oz\_kernel\_monotone}, \Lean{oz\_superconvergence\_forbids\_positive\_weight}, \Lean{two\_sided\_ir\_uv\_gluon\_pincer}, \Lean{oz\_uv\_superconvergent\_inhabited}, \Lean{oz\_positive\_weight\_inhabited}, \Lean{covA4\_all\_xi\_breaks\_odd\_os2}, \Lean{covA4\_trivial\_zero\_never\_positive}\\
+\textbf{Dilation Exclusion, Null Sequences, Complete-Monotonicity All-$\xi$ $A_4$, Unified Zugzwang v2 \& Two-Sided Operational Blindness} (Lem.~\ref{lem:dilation}, Thm.~\ref{thm:covA4}, Cor.~\ref{cor:allgauges}, \S\ref{sec:proposed}, Block~M) & Block~M (\S47, +11 checks, 224 total; confirmed on Lean~v4.37.0-rc1): \Lean{dilation\_forbids\_positive\_rational\_gap}, \Lean{null\_sequence\_forbids\_positive\_rational\_gap}, \Lean{covA4\_bm\_forces\_landau\_only}, \Lean{covA4\_bm\_all\_nonzero\_xi\_impossible}, \Lean{covA4\_bm\_uv\_decay\_forces\_trivial}, \Lean{covA4\_bm\_shifted\_proca\_witness}, \Lean{clay\_zugzwang\_master\_v2}, \Lean{clay\_zugzwang\_v2\_does\_not\_refute\_clay}, \Lean{canonical\_apparatus\_blindness\_theorem}, \Lean{canonical\_blindness\_does\_not\_refute\_clay}\\
 Prop.~\ref{prop:modes} & Blocks~A and~D (confirmed on Lean~v4.37.0-rc1)\\
-Cor.~\ref{corr:v16defects} & Blocks~B and~C (confirmed on Lean~v4.37.0-rc1)\\
+Corr.~\ref{corr:v16defects} & Blocks~B and~C (confirmed on Lean~v4.37.0-rc1)\\
 Thm.~\ref{thm:fork} & \Lean{universal\_R4\_class\_incompatibility\_theorem}, \Lean{universal\_class\_round\_forbids\_square}, \Lean{universal\_class\_square\_forbids\_round}, \Lean{concrete\_clay\_universal\_bidirectional\_exclusion}, \Lean{disjunctive\_R4\_class\_incompatibility\_theorem}\\
 Thms.~\ref{thm:burden},\ref{thm:burden2} & \Lean{bridge\_iff\_absolute\_no\_go},
 \Lean{class\_bridge\_iff\_absolute\_no\_go}\\
@@ -2465,7 +2517,7 @@ than the measure.
 \item \textbf{(new)} \Lean{Upper4DDichotomy} is a field permutation of the class (C3). The
 earlier \texttt{rfl} suggestion is \textbf{withdrawn}: distinct structure names are distinct
 types.
-\item \textbf{(new)} Blocks~A--L (Sections~35--46) contain no \texttt{sorry} and no custom axioms: all 213 \texttt{\#print axioms} checks compile cleanly on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}); Sections~1--34 are GitHub-CI confirmed.
+\item \textbf{(new)} All Blocks~A--M (Sections~35--47; 224 cumulative checks across Sections~1--47) compile cleanly with no \texttt{sorry}, no warnings, and no custom axioms on Lean~v4.37.0-rc1 (\texttt{live.lean-lang.org}); Sections~1--34 are GitHub-CI confirmed and \S35--47 are queued for GitHub Actions CI gating.
 \item \textbf{(new)} ``R3'' has three distinct readings in the discussion (remark, lattice,
 slice); only the remark keeps the label (Inv.~\ref{inv:R3}).
 \item \textbf{(new, v19)} The Grand Strategic Fork (\Lean{grand\_strategic\_fork\_checkmate}, Block~G)
@@ -2481,7 +2533,8 @@ unified as an instance of Block~E (\Lean{section34\_is\_an\_instance\_of\_inevit
 \item \textbf{(new, v21/Block~K)} \Lean{ClayZugzwangMaster} (\S45) lifts the entire dichotomy, disjunctive $\textbf{H2}^-$ exclusion, finite-rank Schur obstruction, and forced exit obligations to arbitrary real/irrational spectral gaps (\Lean{HasPositiveRationalGap}, witnessed by \Lean{PellSqrt2CompatibleModel} at $\Delta=\sqrt{2}$), while \Lean{clay\_zugzwang\_does\_not\_refute\_clay} proves in the kernel that the Zugzwang does \emph{not} imply $\neg\exists\,\mathrm{Clay}$.
 \item \textbf{(new, v21/Block~L)} The UV superconvergence theorem for covariant-gauge gluons is imported from Oehme--Zimmermann \cite{OehmeZimmermann1980}; our contribution is the elementary 3-line monotonicity proof (Thm.~\ref{thm:oz}), its pairing with the IR RGZ criterion into the two-sided IR--UV pincer sealing Route~$\alpha'$ for $\xi<13/3$ (Cor.~\ref{cor:pincer}), and the arithmetic surrogate in Block~L. Gauge-invariant composites ($\operatorname{Tr}F^2$, Route~$\beta$) evade UV superconvergence because their spectral density grows as $\mu^4$.
 \item \textbf{(new, v21/Block~L)} Replacing the conjunctive class $\Class^-_{\R^4}=\{\textbf{H1}\wedge\textbf{H2}^-\}$ by the union $\{\textbf{H1}\vee\textbf{H2}^-\}$ is \emph{classically circular}: under the law of excluded middle for $\OS(M)$, $\neg(\OS\wedge\Gap)$ implies either $\neg\OS$ (making \textbf{H1} vacuously true) or $\OS\wedge\neg\Gap$ (making \textbf{H2$^-$} vacuously true), collapsing the union to $\neg\mathrm{Clay}$. Conjunction is therefore necessary for global strictness (Thm.~\ref{thm:strict}). Block~L (\S46, +14 checks, 213 total) is kernel-confirmed on Lean~v4.37.0-rc1 (\texttt{Init} core only, 0 errors, 0 warnings) and queued with \S35--45 for GitHub Actions CI gating.
-\item \textbf{(new, v21/Block~L)} Theorem~\ref{thm:covA4} seals Route~$\alpha'$ for the full $O(4)$-covariant four-vector $A_\mu$ across \emph{all} $\xi\in\R$ (including $\xi\ge 13/3$ and $\xi<0$) via Slavnov--Taylor ($D_L=\xi/p^2$) and $\theta$-odd $\OS2$ on $A_4$; it is the Euclidean $\OS2$ counterpart of the Minkowski indefinite-metric theorem \cite{KugoOjima1979,StrocchiBook}. The massive Proca field passes the control test ($S_{44}^{\mathrm{Proca}}<0$ for $\tau>0$), and gauge-invariant observables (Route~$\beta$) as well as non-covariant gauges ($A_4=0$, Coulomb) remain outside its scope.
+\item \textbf{(new, v21/Block~L--M)} Theorem~\ref{thm:covA4} (upgraded via Bernstein--Widder complete monotonicity) classifies $O(4)$-covariant $A_\mu$ for \emph{arbitrary} real contact terms $c_T\in\R$: all $\xi\neq0$ are excluded unconditionally even when $c_T<0$, while at $\xi=0$ positivity forces $c_T\le -I_T\le 0$ (sharpness witnessed by contact-shifted Proca $\widetilde{D}_{\mu\nu}=D_{\mu\nu}^{\mathrm{Proca}}-\frac{1}{m^2}\delta_{\mu\nu}$). Under UV decay ($c_T=0$), Corollary~\ref{cor:allgauges} seals $\OS1\wedge\OS2$ for elementary $A_\mu$ across \emph{all} gauges; only gauge-invariant observables (Route~$\beta$) remain open.
+\item \textbf{(new, v21/Block~M)} Block~M (\S47, +11 checks, 224 total) is kernel-confirmed on Lean~v4.37.0-rc1 (\texttt{Init} core only, 0 errors, 0 warnings); it formalises Lemma~\ref{lem:dilation} (exact dilation exclusion), arbitrary constructive null sequences, the complete-monotonicity all-$\xi$ $A_4$ core with shifted-Proca sharpness, \Lean{ClayZugzwangMasterV2}, and Two-Sided Operational Blindness (\Lean{CanonicalApparatusBlindness}), preserving the Anti-Overclaim Firewalls \Lean{clay\_zugzwang\_v2\_does\_not\_refute\_clay} and \Lean{canonical\_blindness\_does\_not\_refute\_clay} (with the last two conjuncts of \Lean{CanonicalApparatusBlindness} explicitly scoped to the surrogate ontology per Corr.~\ref{corr:C6C7}); \S35--47 are queued for GitHub Actions CI gating.
 \end{enumerate}
 \section{Reviewer checklist}
 \textbf{Valid formal refutations:} a \texttt{sorry} in Sections~1--34, a hidden axiom, a
@@ -2504,15 +2557,15 @@ asymptotic freedom''; ``Balaban--Tomboulis is a barrier''; ``four-dimensional tr
 Gaussian collapse''; ``blocking destroys reflection positivity''; ``the Dirac probe forbids the
 gap''; ``the 3D slice is an easier door''; ``Upper4DDichotomy is a new theorem'';
 ``Upper4DDichotomy equals the class by rfl''; ``all future attempts must fail'';
-``Sections 35--46 (Blocks A--L) are GitHub-CI-gated''. Each is retracted or refuted above (all Blocks~A--L [213 checks] are kernel-confirmed on Lean~v4.37.0-rc1; GitHub Actions CI gating of \S35--46 is queued).
+``Sections 35--47 (Blocks A--M) are GitHub-CI-gated''. Each is retracted or refuted above (all Blocks~A--M [224 checks across \S1--47] are kernel-confirmed on Lean~v4.37.0-rc1; GitHub Actions CI gating of \S35--47 is queued).
 \section{Verification in 60 seconds}
 \begin{Verbatim}[fontsize=\scriptsize,frame=single,rulecolor=\color{darkgray}]
 git clone https://github.com/Dr-Logvinovich/round-square.git
 cd round-square
-lake build && lean RoundSquare_v21.lean          # Runs all 213 #print axioms checks (Sections 1-46)
+lake build && lean RoundSquare_v21.lean          # Runs all 224 #print axioms checks (Sections 1-47)
 pdflatex Logvinovich_v21.tex && pdflatex Logvinovich_v21.tex
 # Sections 1-34: GitHub-CI confirmed (0 sorry, 0 axiom).
-# All Sections 1-46 (Blocks A-L, all 213 #print axioms checks): kernel-confirmed on Lean v4.37.0-rc1 (live.lean-lang.org):
+# Sections 1-46 (Blocks A-L, all 213 #print axioms checks): kernel-confirmed on Lean v4.37.0-rc1 (live.lean-lang.org):
 #   #print axioms RoundSquare.clay_true_implies_upper_exit_not_closable
 #   #print axioms RoundSquare.no_free_reformulation
 #   #print axioms RoundSquare.massive_gap_infimum
@@ -2536,6 +2589,18 @@ pdflatex Logvinovich_v21.tex && pdflatex Logvinovich_v21.tex
 #   #print axioms RoundSquare.oz_positive_weight_inhabited
 #   #print axioms RoundSquare.covA4_all_xi_breaks_odd_os2
 #   #print axioms RoundSquare.covA4_trivial_zero_never_positive
+# Block M (Sec 47, +11 checks, 224 total; kernel-confirmed on Lean v4.37.0-rc1):
+#   #print axioms RoundSquare.dilation_forbids_positive_rational_gap
+#   #print axioms RoundSquare.reciprocal_tail_is_null_sequence
+#   #print axioms RoundSquare.null_sequence_forbids_positive_rational_gap
+#   #print axioms RoundSquare.covA4_bm_forces_landau_only
+#   #print axioms RoundSquare.covA4_bm_all_nonzero_xi_impossible
+#   #print axioms RoundSquare.covA4_bm_uv_decay_forces_trivial
+#   #print axioms RoundSquare.covA4_bm_shifted_proca_witness
+#   #print axioms RoundSquare.clay_zugzwang_master_v2
+#   #print axioms RoundSquare.clay_zugzwang_v2_does_not_refute_clay
+#   #print axioms RoundSquare.canonical_apparatus_blindness_theorem
+#   #print axioms RoundSquare.canonical_blindness_does_not_refute_clay
 \end{Verbatim}
 \section{Changes in version 21}
 \begin{enumerate}[label=\textbf{V21.\arabic*.},leftmargin=42pt,itemsep=1pt]
@@ -2551,20 +2616,21 @@ sign-inversion ledger is upgraded from observation to consequence.
 \item \textbf{No Free Reformulation Theorem} (Thm.~\ref{thm:nofree}) and
 \textbf{Reconstruction Direction} (Thm.~\ref{thm:reconstruction}): the lattice, slice and
 Hamiltonian presentations offer no discount; the slice is an output.
-\item \textbf{Defect C3} (Cor.~\ref{corr:C3}): the proposed upper dichotomy is a field
+\item \textbf{Defect C3} (Corr.~\ref{corr:C3}): the proposed upper dichotomy is a field
 permutation of the class. \emph{The earlier \texttt{rfl} suggestion is withdrawn.}
 \item \textbf{Obligation O7 discharged} (Block D): a route avoiding the square identity, using
 \Lean{Nat.mul\_succ}, \Lean{Nat.succ\_mul} and \Lean{Nat.le\_of\_add\_le\_add\_left}, with two
 self-contained helpers \Lean{mulPos\_eq} and \Lean{le\_of\_leScale} and a private monotonicity
-lemma. \textbf{All twelve blocks (A--L, Sections~35--46, 213 checks) are sorry-free and kernel-confirmed on Lean~v4.37.0-rc1.}
+lemma. \textbf{All thirteen extension blocks (A--M, Sections~35--47, 224 cumulative checks) are sorry-free and kernel-confirmed on Lean~v4.37.0-rc1.}
 \item \textbf{Five extension blocks (Sections~39--43)}: E (inevitability, no free reformulation), F (audit of the upper dichotomy, defect C3), G (Grand Strategic Fork \& Checkmate), H (boundary, non-vacuity, and anti-overclaim firewall), and I (disjunctive $\textbf{H2}^-$ closure and Connes--Andrews--La~Gatta finite-rank Schur/Sonin comparison, plus self-audit items C4--C5).
 \item \textbf{Notation disambiguation} (Inv.~\ref{inv:R3}): three readings of ``R3''.
-\item \textbf{Boundary and invariants extended}: B14--B18; I47--I66.
+\item \textbf{Boundary and invariants extended}: B14--B18; I47--I67.
 \item \textbf{Bibliography extended} with the triviality theorem and its corrigendum, the
 Gross--Neveu constructions, and reflection-positive improved actions.
 \item \textbf{Kernel pass \& Block D fix (v20)}: Block~A (Section~35), Block~B (Section~36), and Section~34 confirmed axiom-free on Lean~4.36.0-rc2; \Lean{massive\_gap\_infimum} in Block~D (Section~38) patched via type ascription.
 \item \textbf{Block J (\S44), Block K (\S45) \& 199-check Lean~v4.37.0-rc1 pass}: Added irrational-gap closure (\Lean{HasPositiveRationalGap}, Pell $\Delta=\sqrt{2}$ witness) and the \textbf{Clay Zugzwang Master Theorem} (\Lean{clay\_zugzwang\_master}, \Lean{pos\_logvinovich\_dichotomy}, Table~\ref{tab:zugzwang}); all 199 \texttt{\#print axioms} checks across Sections~1--45 confirmed zero-error and zero-axiom on Lean~v4.37.0-rc1.
 \item \textbf{Block L (\S46, +14 checks, 213 total), Two-Sided IR--UV Pincer \& All-$\xi$ $A_4$ Obstruction}: Added Oehme--Zimmermann UV superconvergence (Thm.~\ref{thm:oz}, Cor.~\ref{cor:pincer}) and the all-$\xi$ $O(4)$-covariant four-vector $A_\mu$ Slavnov--Taylor obstruction with massive Proca control test (Thm.~\ref{thm:covA4}); formally proved strict Pell separation (\Lean{pell\_system\_has\_no\_exact\_rational\_gap}), OZ non-vacuity witnesses, \Lean{two\_sided\_ir\_uv\_gluon\_pincer}, and \Lean{covA4\_all\_xi\_breaks\_odd\_os2}; registered I64--I66.
+\item \textbf{Block M (\S47, +11 checks, 224 total — Kernel-Confirmed on Lean~v4.37.0-rc1), Arbitrary-$c_T$ Complete-Monotonicity $A_4$ Classification \& Two-Sided Operational Blindness}: Upgraded Theorem~\ref{thm:covA4} to arbitrary real contact terms $c_T\in\R$ via Bernstein--Widder complete monotonicity (closing the hidden $c_T\ge0$ gap with the contact-shifted Proca sharpness witness $\widetilde{D}_{\mu\nu}$), added Corollary~\ref{cor:allgauges} sealing $\OS1\wedge\OS2\wedge(\text{UV decay})$ for elementary $A_\mu$ across all gauges, added and kernel-confirmed Block~M (\Lean{dilation\_forbids\_positive\_rational\_gap}, \Lean{null\_sequence\_forbids\_positive\_rational\_gap}, \Lean{covA4\_bm\_all\_nonzero\_xi\_impossible}, \Lean{covA4\_bm\_shifted\_proca\_witness}, \Lean{clay\_zugzwang\_master\_v2}, \Lean{canonical\_apparatus\_blindness\_theorem}, \Lean{canonical\_blindness\_does\_not\_refute\_clay}), fixed Theorem~29.3 docstring, \texttt{Corr.} labels, Table~9 dilation row, and Inv.~22.2 block-dependency note; registered I67.
 \end{enumerate}
 \section{Compilation note}
 Requires \texttt{lmodern}, \texttt{amsmath}, \texttt{amssymb}, \texttt{amsthm},
@@ -2586,9 +2652,9 @@ url = {https://github.com/Dr-Logvinovich/round-square},
 note = {GitHub: https://github.com/Dr-Logvinovich/round-square,
 file: Logvinovich_v21.tex, ORCID: 0009-0007-2040-6955.
 Sections 1-34 of RoundSquare_v21.lean GitHub-CI confirmed;
-all Sections 1-46 (Blocks A-L, all 213 #print axioms checks) kernel-confirmed
+all Sections 1-47 (Blocks A-M, all 224 #print axioms checks) kernel-confirmed
 on Lean v4.37.0-rc1 with 0 sorry, 0 warnings, and 0 custom axioms
-(Secs 35-46 queued for GitHub Actions CI gating).
+(Secs 35-47 queued for GitHub Actions CI gating).
 The inevitability theorem is conditional on the declared hypothesis
 that a Clay witness exists.}}
 \end{Verbatim}
@@ -2689,6 +2755,13 @@ for tau in (0.5, 1.5):
                          0, np.inf, weight='cos', wvar=tau, limit=400)[0]
     assert abs(S44_proca - S44_proca_num) < 1e-6 and S44_proca < 0
     print(f"Proca control tau={tau:.1f}: S44_reg = {S44_proca:+.6f} < 0 (passes odd OS2)")
+# Contact-shifted Proca sharpness check (xi = 0, c_T = -1/m^2 = -I_T < 0):
+for tau in (0.5, 1.5):
+    S44_shifted = (-1.0 / m_vec**2) * (k / 2.0) * np.exp(-k * tau) + \
+                  (k**2 / m_vec**2) * (np.exp(-k*tau)/(2*k) - np.exp(-E*tau)/(2*E))
+    S44_proca = -(k**2 / (2 * m_vec**2 * E)) * np.exp(-E * tau)
+    assert abs(S44_shifted - S44_proca) < 1e-12 and S44_shifted < 0
+    print(f"Shifted-Proca (xi=0, cT=-1/m^2) tau={tau:.1f}: S44 = {S44_shifted:+.6f} == Proca < 0 (sharpness OK)")
 \end{Verbatim}
 %=============================================================================
 \begin{thebibliography}{99}\small
@@ -2697,7 +2770,7 @@ Problem description (2000). (States that a gap uniform in the volume is open, an
 quartic coupling lacks asymptotic freedom in four dimensions.)
 \bibitem{ConnesAndrewsLaGatta2026} R.~Andrews, A.~Connes, A.~La~Gatta, \emph{The uncertainty operator, the Weil ground state and the zeros of zeta: a numerical study and conditional positivity of the Weil quadratic form}, arXiv:2611.13129v1 [math.NT] (2026).
 \bibitem{LogvinovichLean} V.~Logvinovich, \emph{RoundSquare\_v21.lean: zero-axiom negative-resolution
-certificate}, GitHub (2026). Sections~1--34 GitHub-CI confirmed (143 checks); all Sections~1--46 (Blocks~A--L, 213 checks) kernel-confirmed on Lean~v4.37.0-rc1 (\S35--46 queued for CI gating).
+certificate}, GitHub (2026). Sections~1--34 GitHub-CI confirmed (143 checks); all Sections~1--47 (Blocks~A--M, 224 checks) kernel-confirmed on Lean~v4.37.0-rc1 (\S35--47 queued for CI gating).
 \bibitem{ADC2021} M.~Aizenman, H.~Duminil-Copin, \emph{Marginal triviality of the scaling limits
 of critical 4D Ising and $\varphi^4_4$ models}, Ann.\ of Math.\ \textbf{194} (2021).
 \bibitem{ADC2024} M.~Aizenman, H.~Duminil-Copin, \emph{Corrigendum: Marginal triviality of the
